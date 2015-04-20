@@ -1,4 +1,4 @@
-#Teamwork Project Assignment for the JavaScript Applications Course @ SoftUni
+#Teamwork Project Assignment for the JavaScript Applications Course @ SoftUni \n
 
 #Design and implement a Blog / Forum / Photo Album / Audio Album using JavaScript, jQuery, AJAX, REST. Your project must meet all the requirements listed below.
 
