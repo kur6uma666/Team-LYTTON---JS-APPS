@@ -7,7 +7,7 @@ var app = app || {};
         var selector = '#wrapper';
 
         this.get('#/', function () {
-            $(selector).html('main');
+            controller.getHomePage(selector);
         });
 
         this.get('#/login', function () {
@@ -15,7 +15,7 @@ var app = app || {};
         });
 
         this.get('#/register', function () {
-            $(selector).html('reg');
+            controller.getRegisterPage(selector);
         });
 
         this.get('#/blog', function () {
@@ -25,6 +25,3 @@ var app = app || {};
     });
     app.router.run('#/');
 })();
-
-
-
