@@ -1,20 +1,20 @@
 var app = app || {};
 
 app.registerView = (function(){
-    function RegisterView(selector, data) {
-        var deffer = Q.defer();
+    function RegisterView(selector) {
+        var defer = Q.defer();
 
         $.get('templates/register.html', function(template) {
             var output = Mustache.render(template);
             $(selector).html(output);
 
         }).success(function(data) {
-            deffer.resolve(data);
+            defer.resolve(data);
         }).error(function (error) {
-            deffer.reject(error);
+            defer.reject(error);
         });
 
-        return deffer.promise;
+        return defer.promise;
     }
 
     return {

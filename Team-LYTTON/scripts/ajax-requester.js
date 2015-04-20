@@ -12,11 +12,25 @@ app.requester = (function () {
         return makeRequest('GET', headers, url);
     };
 
-    Requester.prototype.post = function (serviceUrl,data) {
+    Requester.prototype.post = function (serviceUrl, data) {
         var headers = getHeaders();
         var url = this._baseUrl + serviceUrl;
 
         return makeRequest('POST', headers, url, data);
+    };
+
+    Requester.prototype.delete = function (serviceUrl, id) {
+        var headers = getHeaders();
+        var url = this._baseUrl + serviceUrl + id;
+
+        return makeRequest('DELETE', headers, url);
+    };
+
+    Requester.prototype.put = function (serviceUrl, id) {
+        var headers = getHeaders();
+        var url = this._baseUrl + serviceUrl + id;
+
+        return makeRequest('PUT', headers, url);
     };
 
     function makeRequest(method, headers, url, data) {
