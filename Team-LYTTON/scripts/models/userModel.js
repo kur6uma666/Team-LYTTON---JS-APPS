@@ -13,14 +13,13 @@ app.userModel = (function () {
         var _this = this;
         this.users['users'].length = 0;
 
-        this._requester.get('classes/User/')
+        this._requester.get('users')
             .then(function (data) {
                 data['results'].forEach(function(dataUser) {
                     var user = {
                         'objectId': dataUser.objectId,
                         'username': dataUser.username,
                         'password': dataUser.password,
-                        'emailVerified': dataUser.emailVerified,
                         'email': dataUser.email
                     };
                     _this.users['users'].push(user);

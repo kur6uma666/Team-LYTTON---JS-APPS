@@ -1,28 +1,27 @@
 var app = app || {};
 (function () {
+    var model = app.userModel.get('https://api.parse.com/1/');
+    var controller = app.controller.get(model);
 
     app.router = Sammy(function () {
         var selector = '#wrapper';
 
         this.get('#/', function () {
-            $(selector).html('main');
+            controller.getHomePage(selector);
         });
 
         this.get('#/login', function () {
-            $(selector).html('login');
+            controller.getLoginPage(selector);
         });
 
         this.get('#/register', function () {
-            $(selector).html('reg');
+            controller.getRegisterPage(selector);
         });
 
         this.get('#/blog', function () {
-            $(selector).html('blog');
+            controller.getBlogPage(selector);
         });
 
     });
     app.router.run('#/');
 })();
-
-
-
