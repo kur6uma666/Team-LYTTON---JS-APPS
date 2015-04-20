@@ -7,21 +7,21 @@
   -	Front-end: use HTML5, CSS3 to create the content and to style your Web application
   -	Back-end: use REST API from Parse.com / other BaaS provider / your own back-end REST service
   -	Focus on the front-end, which should be written in JavaScript
-2.Work in team – all team members should contribute
+2. Work in team – all team members should contribute
   -	Use GitHub or other source control system as project collaboration platform
   -	Each team member should have commits in 5 different days
-3.Publish your project live in Internet – your project should be public in Internet
+3. Publish your project live in Internet – your project should be public in Internet
   -	You may share your project to get external feedback
   -	Most shared and commented projects will get additional bonus score
-4.Valid and high-quality JavaScript, jQuery, AJAX, HTML and CSS
+4. Valid and high-quality JavaScript, jQuery, AJAX, HTML and CSS
   -	Follow the best practices for JavaScript Application development. Structure your code well
   -	Validate (when possible) your HTML (http://validator.w3.org) and CSS code (http://css-validator.org)
   -	Follow the best practices for high-quality JavaScript, jQuery, HTML and CSS
-5.Usability, UX and browser support
+5. Usability, UX and browser support
   -	Your web application should be easy-to-use, with intuitive UI, with good usability
   -	Ensure your Web application works correctly in the latest HTML5-compatible browsers: Chrome, Firefox, IE, Opera, Safari    (latest versions, desktop and mobile versions)
   -	You do not need to support old browsers like IE9
-6.Write unit tests
+6. Write unit tests
   -	You web application should be well tested
   -	You can use Mocha and Chai testing frameworks
 
