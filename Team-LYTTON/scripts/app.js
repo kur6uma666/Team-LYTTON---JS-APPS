@@ -11,10 +11,7 @@ var app = app || {};
         });
 
         this.get('#/login', function () {
-            controller.getLoginPage(selector)
-                .then(function () {
-                    controller.attachLoginEvents('#loginButton');
-                });
+            controller.getLoginPage(selector);
         });
 
         this.get('#/register', function () {

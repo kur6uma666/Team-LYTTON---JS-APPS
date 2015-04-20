@@ -7,7 +7,11 @@ app.controller = (function () {
     }
 
     Controller.prototype.getLoginPage = function(selector) {
-        return app.loginView.load(selector);
+        var _this = this;
+        app.loginView.load(selector)
+            .then(function () {
+                _this.attachLoginEvents('#loginButton');
+            })
     };
 
     Controller.prototype.attachLoginEvents = function(selector) {
@@ -23,7 +27,6 @@ app.controller = (function () {
                 function (errorData) {
                     console.log(errorData);
                 });
-            console.log('dsadsadas');
         });
     };
 
