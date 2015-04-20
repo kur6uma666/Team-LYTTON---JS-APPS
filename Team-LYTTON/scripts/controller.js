@@ -2,8 +2,8 @@ var app = app || {};
 
 app.controller = (function () {
 
-    function Controller(model) {
-        this.model = model;
+    function Controller(models) {
+        this.models = models;
     }
 
     Controller.prototype.loadMenu = function(selector) {
@@ -24,10 +24,10 @@ app.controller = (function () {
 
     Controller.prototype.attachLoginEvents = function(selector) {
         var _this = this;
-        $(selector).click(function(event) {
+        $(selector).click(function() {
             var username = ($("input[id=username]").val());
             var password =  ($("input[id=password]").val());
-            _this.model.logIn(username, password)
+            _this.models.users.logIn(username, password)
                 .then(function (loginData) {
                     sessionStorage['logged-in'] = loginData.sessionToken;
                     window.location.replace('#/');
@@ -46,7 +46,7 @@ app.controller = (function () {
                 password:  $("input[id=password]").val(),
                 email: $("input[id=email]").val()
             };
-            _this.model.register(data)
+            _this.models.users.register(data)
                .then(function(registerData) {
                     sessionStorage['logged-in'] = registerData.sessionToken;
                     window.location.replace('#/');
@@ -71,7 +71,7 @@ app.controller = (function () {
     };
 
     Controller.prototype.getBlogPage = function (selector) {
-        this.model.getUsers()
+        this.models.users.getUsers()
             .then(function (data) {
                 app.blogView.load(selector, data);
             }, function (error) {

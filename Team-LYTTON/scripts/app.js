@@ -1,7 +1,9 @@
 var app = app || {};
 (function () {
-    var model = app.userModel.get('https://api.parse.com/1/');
-    var controller = app.controller.get(model);
+    var baseURL = 'https://api.parse.com/1/';
+    var ajaxRequester = app.requester.get(baseURL);
+    var models = app.dataModel.get(baseURL, ajaxRequester);
+    var controller = app.controller.get(models);
 
     app.router = Sammy(function () {
         var selector = '#wrapper';
