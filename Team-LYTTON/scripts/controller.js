@@ -7,7 +7,24 @@ app.controller = (function () {
     }
 
     Controller.prototype.getLoginPage = function(selector) {
-        app.loginView.load(selector);
+        return app.loginView.load(selector);
+    };
+
+    Controller.prototype.attachLoginEvents = function(selector) {
+        var _this = this;
+        $(selector).click(function(event) {
+            var username = ($("input[id=username]").val());
+            var password =  ($("input[id=password]").val());
+            _this.model.logIn(username, password)
+                .then(function (loginData) {
+                    sessionStorage['logged-in'] = loginData.sessionToken;
+                    window.location.replace('#/');
+                },
+                function (errorData) {
+                    console.log(errorData);
+                });
+            console.log('dsadsadas');
+        });
     };
 
     Controller.prototype.getRegisterPage = function(selector) {

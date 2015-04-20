@@ -6,7 +6,10 @@ app.blogView = (function(){
             var output = Mustache.render(template);
             console.log(data);
             $(selector).html(output);
+
         })
+
+
     }
 
     return {

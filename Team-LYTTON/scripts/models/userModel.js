@@ -8,6 +8,18 @@ app.userModel = (function () {
         };
     }
 
+    UserModel.prototype.logIn = function(username, password) {
+        var defer = Q.defer();
+        var _this = this;
+        this._requester.get('login?username=' + username + '&password=' + password)
+                       .then(function(data) {
+                            defer.resolve(data);
+                        }, function(error) {
+                            defer.reject(error);
+                        });
+        return defer.promise;
+    };
+
     UserModel.prototype.getUsers = function () {
         var defer = Q.defer();
         var _this = this;
