@@ -8,11 +8,13 @@ app.requester = (function(){
         this.delete = deleteRequest;
     }
     function makeRequest(method, url, data, success, error) {
+        var PARSE_APP_ID = 'gBxtJ8j1z5sRZhOgtAstvprePygEIvYTxY4VNQOY';
+        var PARSE_REST_API_KEY = 'CLU5dIerpE1k9zX06HiR3RxJQA3Vob2NgJarCl4z';
         $.ajax({
             method: method,
             headers: {
-                'X-Parse-Application-Id' : 'gBxtJ8j1z5sRZhOgtAstvprePygEIvYTxY4VNQOY',
-                'X-Parse-REST-API-Key' : 'CLU5dIerpE1k9zX06HiR3RxJQA3Vob2NgJarCl4z'
+                'X-Parse-Application-Id' : PARSE_APP_ID,
+                'X-Parse-REST-API-Key' : PARSE_REST_API_KEY
             },
             url : url,
             contentType: 'application/json',
