@@ -12,6 +12,13 @@ app.requester = (function () {
         return makeRequest('GET', headers, url);
     };
 
+    Requester.prototype.post = function (serviceUrl,data) {
+        var headers = getHeaders();
+        var url = this._baseUrl + serviceUrl;
+
+        return makeRequest('POST', headers, url, data);
+    };
+
     function makeRequest(method, headers, url, data) {
         var defer = Q.defer();
 
