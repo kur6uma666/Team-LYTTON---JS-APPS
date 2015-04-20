@@ -6,6 +6,14 @@ app.controller = (function () {
         this.model = model;
     }
 
+    Controller.prototype.loadMenu = function(selector) {
+        if(sessionStorage['logged-in']) {
+            $(selector).load('templates/user-menu.html');
+        } else {
+            $(selector).load('templates/menu.html');
+        }
+    };
+
     Controller.prototype.getLoginPage = function(selector) {
         var _this = this;
         app.loginView.load(selector)
