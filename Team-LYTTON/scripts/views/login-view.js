@@ -14,4 +14,4 @@ app.loginView = (function(){
             return LoginView(selector, data);
         }
     }
-});
+}());
