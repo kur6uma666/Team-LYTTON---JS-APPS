@@ -30,8 +30,32 @@ app.controller = (function () {
         });
     };
 
+    Controller.prototype.attachRegisterEvents = function(selector) {
+        var _this = this;
+        $(selector).click(function(event) {
+            var data = {
+                username:  $("input[id=username]").val(),
+                password:  $("input[id=password]").val(),
+                email: $("input[id=email]").val()
+            };
+            _this.model.register(data)
+               .then(function(registerData) {
+                    sessionStorage['logged-in'] = registerData.sessionToken;
+                    window.location.replace('#/');
+                }, function(error) {
+                    console.log(error.responseText);
+                })
+        });
+    };
+
     Controller.prototype.getRegisterPage = function(selector) {
-        app.registerView.load(selector);
+        var _this = this;
+        app.registerView.load(selector)
+            .then(function(data) {
+                _this.attachRegisterEvents('#registerButton')
+            }, function(error) {
+                console.log(error.responseText);
+            })
     };
 
     Controller.prototype.getHomePage = function(selector) {
