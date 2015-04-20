@@ -1,6 +1,8 @@
 var app = app || {};
 (function () {
 
+    var controller = app.controller.get();
+
     app.router = Sammy(function () {
         var selector = '#wrapper';
 
@@ -9,7 +11,7 @@ var app = app || {};
         });
 
         this.get('#/login', function () {
-            $(selector).html('login');
+            controller.getLoginPage(selector);
         });
 
         this.get('#/register', function () {
