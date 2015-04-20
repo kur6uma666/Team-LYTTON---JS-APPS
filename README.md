@@ -1,8 +1,8 @@
 #Teamwork Project Assignment for the JavaScript Applications Course @ SoftUni \n
 
-#Design and implement a Blog / Forum / Photo Album / Audio Album using JavaScript, jQuery, AJAX, REST. Your project must meet all the requirements listed below.
+##Design and implement a Blog / Forum / Photo Album / Audio Album using JavaScript, jQuery, AJAX, REST. Your project must meet all the requirements listed below.
 
-#Requirements
+##Requirements
 •	Use JavaScript, jQuery and AJAX – the major part of your work should be JavaScript written by your team
   o	Front-end: use HTML5, CSS3 to create the content and to style your Web application
   o	Back-end: use REST API from Parse.com / other BaaS provider / your own back-end REST service
@@ -25,7 +25,7 @@
   o	You web application should be well tested
   o	You can use Mocha and Chai testing frameworks
 
-#Forbidden Techniques and Tools
+##Forbidden Techniques and Tools
 You should write your application from scratch. You are not allowed to use:
   •	Existing projects and frameworks like CMS systems, forum systems, photo album systems, etc.
   •	Single Page Apps frameworks like AngularJS, Backbone, Ember, etc.
