@@ -3,10 +3,10 @@
 ##Design and implement a Blog / Forum / Photo Album / Audio Album using JavaScript, jQuery, AJAX, REST. Your project must meet all the requirements listed below.
 
 ##Requirements
-•	Use JavaScript, jQuery and AJAX – the major part of your work should be JavaScript written by your team
-  o	Front-end: use HTML5, CSS3 to create the content and to style your Web application
-  o	Back-end: use REST API from Parse.com / other BaaS provider / your own back-end REST service
-  o	Focus on the front-end, which should be written in JavaScript
+1. Use JavaScript, jQuery and AJAX – the major part of your work should be JavaScript written by your team
+  -	Front-end: use HTML5, CSS3 to create the content and to style your Web application
+  -	Back-end: use REST API from Parse.com / other BaaS provider / your own back-end REST service
+  -	Focus on the front-end, which should be written in JavaScript
 •	Work in team – all team members should contribute
   o	Use GitHub or other source control system as project collaboration platform
   o	Each team member should have commits in 5 different days
