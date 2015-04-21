@@ -36,6 +36,17 @@ app.dataModel = (function(){
            return defer.promise;
        };
 
+       UserModel.prototype.updateUser = function(data) {
+           var defer = Q.defer();
+           this._requester.put('users', data)
+               .then(function(data) {
+                    defer.resolve(data);
+                }, function(error) {
+                    defer.reject(error);
+                });
+           return defer.promise;
+       };
+
        UserModel.prototype.getUsers = function () {
            var defer = Q.defer();
            var _this = this;

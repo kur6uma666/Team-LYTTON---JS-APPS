@@ -26,16 +26,15 @@ app.requester = (function () {
         return makeRequest('DELETE', headers, url);
     };
 
-    Requester.prototype.put = function (serviceUrl, id) {
+    Requester.prototype.put = function (serviceUrl, id, data) {
         var headers = getHeaders();
         var url = this._baseUrl + serviceUrl + id;
 
-        return makeRequest('PUT', headers, url);
+        return makeRequest('PUT', headers, url, data);
     };
 
     function makeRequest(method, headers, url, data) {
         var defer = Q.defer();
-
         $.ajax({
             method: method,
             headers: headers,
@@ -60,7 +59,8 @@ app.requester = (function () {
         var headers = {
             'X-Parse-Application-Id': PARSE_APP_ID,
             'X-Parse-REST-API-Key': PARSE_REST_API_KEY,
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+
         };
 
         if (sessionStorage['logged-in']) {

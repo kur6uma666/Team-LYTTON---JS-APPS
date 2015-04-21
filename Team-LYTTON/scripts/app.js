@@ -29,6 +29,11 @@ var app = app || {};
             controller.getBlogPage(selector);
         });
 
+        this.get('#/userProfile', function () {
+            controller.loadMenu(menuSelector);
+            controller.getProfilePage(selector);
+        });
+
     });
     app.router.run('#/');
 })();
