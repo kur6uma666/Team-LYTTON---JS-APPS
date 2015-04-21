@@ -7,11 +7,39 @@ app.controller = (function () {
     }
 
     Controller.prototype.loadMenu = function(selector) {
+        var _this = this;
         if(sessionStorage['logged-in']) {
-            $(selector).load('templates/user-menu.html');
+            app.userMenuView.load(selector)
+                .then(function() {
+                    _this.attachLogoutEvents('#logoutButton');
+                });
         } else {
-            $(selector).load('templates/menu.html');
+            app.menuView.load(selector);
         }
+    };
+
+    Controller.prototype.attachLogoutEvents = function(selector) {
+        var _this = this;
+        $(selector).click(function() {
+            var token = sessionStorage['logged-in'];
+            $.ajax({
+               method: 'POST',
+               headers: {
+                   'X-Parse-Application-Id': 'gBxtJ8j1z5sRZhOgtAstvprePygEIvYTxY4VNQOY',
+                   'X-Parse-REST-API-Key': 'CLU5dIerpE1k9zX06HiR3RxJQA3Vob2NgJarCl4z',
+                   'X-Parse-Session-Token': token
+               },
+               url: 'https://api.parse.com/1/logout'
+
+            }).done(function() {
+                sessionStorage.clear();
+                window.location.replace('#/');
+                _this.loadMenu('#menu');
+            }).fail(function(error) {
+                console.log(error.responseText);
+            });
+
+        });
     };
 
     Controller.prototype.getLoginPage = function(selector) {
@@ -21,6 +49,7 @@ app.controller = (function () {
                 _this.attachLoginEvents('#loginButton');
             })
     };
+
 
     Controller.prototype.attachLoginEvents = function(selector) {
         var _this = this;
@@ -33,7 +62,7 @@ app.controller = (function () {
                     window.location.replace('#/');
                 },
                 function (errorData) {
-                    console.log(errorData);
+                    console.log(errorData.responseText);
                 });
         });
     };
