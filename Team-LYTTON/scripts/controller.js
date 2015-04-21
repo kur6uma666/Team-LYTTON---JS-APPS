@@ -143,7 +143,12 @@ app.controller = (function () {
     Controller.prototype.getBlogPage = function (selector) {
         this.models.users.getUsers()
             .then(function (data) {
-                app.blogView.load(selector, data);
+                if(sessionStorage['logged-in']){
+                    app.blogView.load(selector, data);
+                }
+                else{
+                    //TODO
+                }
             }, function (error) {
                 console.log(error.responseText);
             })
