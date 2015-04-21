@@ -79,10 +79,11 @@ app.controller = (function () {
             };
             _this.models.users.register(data)
                .then(function(registerData) {
+                    Noty.success('Registration Successful');
                     sessionStorage['logged-in'] = registerData.sessionToken;
                     window.location.replace('#/');
                 }, function(error) {
-                    console.log(error.responseText);
+                    Noty.error(JSON.parse(error.responseText).error);
                 })
         });
     };
