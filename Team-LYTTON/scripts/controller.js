@@ -37,7 +37,7 @@ app.controller = (function () {
                 _this.loadMenu('#menu');
                 Noty.success('Goodbye!');
             }).fail(function(error) {
-                console.log(error.responseText);
+                Noty.error(JSON.parse(error.responseText).error);
             });
 
         });
@@ -64,7 +64,7 @@ app.controller = (function () {
                     Noty.success('Welcome!');
                 },
                 function (errorData) {
-                    Noty.error('Login Failed!');
+                    Noty.error(JSON.parse(errorData.responseText).error);
                 });
         });
     };
