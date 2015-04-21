@@ -35,6 +35,7 @@ app.controller = (function () {
                 sessionStorage.clear();
                 window.location.replace('#/');
                 _this.loadMenu('#menu');
+                Noty.success('Goodbye!');
             }).fail(function(error) {
                 console.log(error.responseText);
             });
@@ -60,9 +61,10 @@ app.controller = (function () {
                 .then(function (loginData) {
                     sessionStorage['logged-in'] = loginData.sessionToken;
                     window.location.replace('#/');
+                    Noty.success('Welcome!');
                 },
                 function (errorData) {
-                    console.log(errorData.responseText);
+                    Noty.error('Login Failed!');
                 });
         });
     };

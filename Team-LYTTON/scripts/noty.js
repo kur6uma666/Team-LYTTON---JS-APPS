@@ -5,7 +5,7 @@ var Noty = (function() {
             text: text,
             type: type,
             dismissQueue: true,
-            layout: 'bottomCenter',
+            layout: 'topCenter',
             theme: 'defaultTheme',
             maxVisible: 10,
             timeout: time
