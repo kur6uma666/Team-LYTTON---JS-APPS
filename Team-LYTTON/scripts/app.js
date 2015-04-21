@@ -7,7 +7,7 @@ var app = app || {};
 
     app.router = Sammy(function () {
         var selector = '#wrapper';
-        var menuSelector = '#menu';
+        var menuSelector = 'nav';
 
         this.get('#/', function () {
             controller.loadMenu(menuSelector);

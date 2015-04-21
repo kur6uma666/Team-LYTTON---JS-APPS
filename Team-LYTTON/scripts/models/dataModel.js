@@ -25,6 +25,17 @@ app.dataModel = (function(){
            return defer.promise;
        };
 
+       UserModel.prototype.logOut = function(){
+           var defer = Q.defer();
+           this._requester.post('logout')
+               .then(function(data) {
+                   defer.resolve(data);
+               }, function(error) {
+                   defer.reject(error);
+               });
+           return defer.promise;
+       };
+
        UserModel.prototype.register = function(data) {
            var defer = Q.defer();
            this._requester.post('users', data)

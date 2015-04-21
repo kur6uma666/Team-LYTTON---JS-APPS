@@ -6,11 +6,11 @@ app.controller = (function () {
         this.models = models;
     }
 
-    Controller.prototype.loadMenu = function(selector) {
+    Controller.prototype.loadMenu = function (selector) {
         var _this = this;
-        if(sessionStorage['logged-in']) {
+        if (sessionStorage['logged-in']) {
             app.userMenuView.load(selector)
-                .then(function() {
+                .then(function () {
                     _this.attachLogoutEvents('#logoutButton');
                 });
         } else {
@@ -18,43 +18,62 @@ app.controller = (function () {
         }
     };
 
-    Controller.prototype.attachLogoutEvents = function(selector) {
+    Controller.prototype.getLoginPage = function (selector) {
         var _this = this;
-        $(selector).click(function() {
-            var token = sessionStorage['logged-in'];
-            $.ajax({
-               method: 'POST',
-               headers: {
-                   'X-Parse-Application-Id': 'gBxtJ8j1z5sRZhOgtAstvprePygEIvYTxY4VNQOY',
-                   'X-Parse-REST-API-Key': 'CLU5dIerpE1k9zX06HiR3RxJQA3Vob2NgJarCl4z',
-                   'X-Parse-Session-Token': token
-               },
-               url: 'https://api.parse.com/1/logout'
+        app.loginView.load(selector)
+            .then(function () {
+                _this.attachLoginEvents('#loginButton');
+            })
+    };
 
-            }).done(function() {
-                sessionStorage.clear();
-                window.location.replace('#/');
-                _this.loadMenu('#menu');
-                Noty.success('Goodbye!');
-            }).fail(function(error) {
-                Noty.error(JSON.parse(error.responseText).error);
-            });
+    Controller.prototype.attachLoginEvents = function (selector) {
+        var _this = this;
+        $(selector).click(function () {
+            var username = ($("input[id=username]").val());
+            var password = ($("input[id=password]").val());
+            _this.models.users.logIn(username, password)
+                .then(function (loginData) {
+                    sessionStorage['logged-in'] = loginData.sessionToken;
+                    sessionStorage['id'] = loginData.objectId;
+                    window.location.replace('#/');
+                    Noty.success('Welcome!');
+                },
+                function (errorData) {
+                    Noty.error(JSON.parse(errorData.responseText).error);
+                });
+        });
+    };
+
+    Controller.prototype.attachLogoutEvents = function (selector) {
+        var _this = this;
+        $(selector).click(function () {
+            _this.models.users.logOut()
+                .then(function () {
+                    sessionStorage.clear();
+                    _this.loadMenu('nav');
+                    window.location.replace('#/');
+                    Noty.success('Goodbye!');
+
+                },
+                function (errorData) {
+                    Noty.error(JSON.parse(errorData.responseText).error);
+                });
 
         });
     };
 
-    Controller.prototype.getProfilePage = function(selector) {
+    Controller.prototype.getProfilePage = function (selector) {
         var _this = this;
         app.profileView.load(selector)
-           .then(function() {
+            .then(function () {
                 _this.attachProfilePageEvents('#editButton');
             })
     };
 
-    Controller.prototype.attachProfilePageEvents = function(selector) {
+    Controller.prototype.attachProfilePageEvents = function (selector) {
         var _this = this;
 
-        $(selector).click(function(event) {
+        $(selector).click(function (event) {
             var data = {
                 username: $("input[id=username]").val(),
                 password: $("input[id=password]").val(),
@@ -70,9 +89,9 @@ app.controller = (function () {
                 },
                 data: JSON.stringify(data),
                 url: 'https://www.parse.com/apps/1/classes/User/' + sessionStorage['id']
-            }).done(function(data) {
-               console.log(data);
-            }).fail(function(error) {
+            }).done(function (data) {
+                console.log(data);
+            }).fail(function (error) {
                 console.log(error.responseText);
             });
 
@@ -87,64 +106,37 @@ app.controller = (function () {
 
     };
 
-    Controller.prototype.getLoginPage = function(selector) {
+    Controller.prototype.getRegisterPage = function (selector) {
         var _this = this;
-        app.loginView.load(selector)
-            .then(function () {
-                _this.attachLoginEvents('#loginButton');
+        app.registerView.load(selector)
+            .then(function (data) {
+                _this.attachRegisterEvents('#registerButton')
+            }, function (error) {
+                console.log(error.responseText);
             })
     };
 
-
-    Controller.prototype.attachLoginEvents = function(selector) {
+    Controller.prototype.attachRegisterEvents = function (selector) {
         var _this = this;
-        $(selector).click(function() {
-            var username = ($("input[id=username]").val());
-            var password =  ($("input[id=password]").val());
-            _this.models.users.logIn(username, password)
-                .then(function (loginData) {
-                    sessionStorage['logged-in'] = loginData.sessionToken;
-                    sessionStorage['id'] = loginData.objectId;
-                    window.location.replace('#/');
-                    Noty.success('Welcome!');
-                },
-                function (errorData) {
-                    Noty.error(JSON.parse(errorData.responseText).error);
-                });
-        });
-    };
-
-    Controller.prototype.attachRegisterEvents = function(selector) {
-        var _this = this;
-        $(selector).click(function(event) {
+        $(selector).click(function (event) {
             var data = {
-                username:  $("input[id=username]").val(),
-                password:  $("input[id=password]").val(),
+                username: $("input[id=username]").val(),
+                password: $("input[id=password]").val(),
                 email: $("input[id=email]").val()
 
             };
             _this.models.users.register(data)
-               .then(function(registerData) {
+                .then(function (registerData) {
                     Noty.success('Registration Successful');
                     sessionStorage['logged-in'] = registerData.sessionToken;
                     window.location.replace('#/');
-                }, function(error) {
+                }, function (error) {
                     Noty.error(JSON.parse(error.responseText).error);
                 })
         });
     };
 
-    Controller.prototype.getRegisterPage = function(selector) {
-        var _this = this;
-        app.registerView.load(selector)
-            .then(function(data) {
-                _this.attachRegisterEvents('#registerButton')
-            }, function(error) {
-                console.log(error.responseText);
-            })
-    };
-
-    Controller.prototype.getHomePage = function(selector) {
+    Controller.prototype.getHomePage = function (selector) {
         app.homeView.load(selector);
     };
 
@@ -158,7 +150,7 @@ app.controller = (function () {
     };
 
     return {
-        get: function(model) {
+        get: function (model) {
             return new Controller(model);
         }
     }
