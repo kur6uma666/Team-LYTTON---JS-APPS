@@ -43,9 +43,9 @@ app._model.user = (function () {
         return defer.promise;
     };
 
-    User.prototype.updateUser = function (data) {
+    User.prototype.updateUser = function (id, data) {
         var defer = Q.defer();
-        this._requester.put('users', data)
+        this._requester.put('users/', id, data)
             .then(function (data) {
                 defer.resolve(data);
             }, function (error) {
@@ -54,9 +54,9 @@ app._model.user = (function () {
         return defer.promise;
     };
 
-    User.prototype.deleteUser = function (data) {
+    User.prototype.deleteUser = function (id) {
         var defer = Q.defer();
-        this._requester.delete('/classes/_User/', sessionStorage['id'])
+        this._requester.delete('users/', id)
             .then(function (data) {
                 defer.resolve(data);
             }, function (error) {

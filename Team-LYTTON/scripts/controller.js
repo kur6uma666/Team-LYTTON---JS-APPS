@@ -79,18 +79,18 @@ app.controller = (function () {
                 password: $("input[id=password]").val(),
                 email: $("input[id=email]").val()
             };
-            _this.model.user.updateUser(data)
+            _this.model.user.updateUser(sessionStorage['id'], data)
                  .then(function (data) {
+                    sessionStorage.clear();
                     window.location.replace('#/');
                     Noty.success('Profile edited successfully.');
                 }, function(error) {
                     Noty.error(JSON.parse(error.responseText).error);
                 });
-
         });
 
         $('#deleteProfileButton').click(function () {
-            _this.model.user.deleteUser()
+            _this.model.user.deleteUser(sessionStorage['id'])
                  .then(function () {
                     sessionStorage.clear();
                     window.location.replace('#/');
