@@ -79,29 +79,14 @@ app.controller = (function () {
                 password: $("input[id=password]").val(),
                 email: $("input[id=email]").val()
             };
-            $.ajax({
-                method: 'PUT',
-                headers: {
-                    'X-Parse-Application-Id': 'gBxtJ8j1z5sRZhOgtAstvprePygEIvYTxY4VNQOY',
-                    'X-Parse-REST-API-Key': 'CLU5dIerpE1k9zX06HiR3RxJQA3Vob2NgJarCl4z',
-                    'X-Parse-Session-Token': sessionStorage['logged-in'],
-                    'Content-Type': 'application/json'
-                },
-                data: JSON.stringify(data),
-                url: 'https://www.parse.com/apps/1/classes/User/' + sessionStorage['id']
-            }).done(function (data) {
-                console.log(data);
-            }).fail(function (error) {
-                console.log(error.responseText);
-            });
+            _this.models.users.updateUser(data)
+                 .then(function(data) {
+                    window.location.replace('#/');
+                    Noty.success('Profile edited successfully.');
+                }, function(error) {
+                    Noty.error(JSON.parse(error.responseText).error);
+                });
 
-            //todo IT SHOULD BE LIKE THIS!!!!
-//            _this.models.users.updateUser(data)
-//                 .then(function(data) {
-//                    console.log(data);
-//                }, function(error) {
-//                    console.log(error.responseText);
-//                })
         });
 
     };

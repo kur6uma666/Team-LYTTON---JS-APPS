@@ -49,7 +49,7 @@ app.dataModel = (function(){
 
        UserModel.prototype.updateUser = function(data) {
            var defer = Q.defer();
-           this._requester.put('users', data)
+           this._requester.put('/classes/_User/', sessionStorage['id'], data)
                .then(function(data) {
                     defer.resolve(data);
                 }, function(error) {
