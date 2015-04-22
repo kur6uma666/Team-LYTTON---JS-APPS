@@ -2,8 +2,8 @@ var app = app || {};
 
 app.controller = (function () {
 
-    function Controller(models) {
-        this.models = models;
+    function Controller(model) {
+        this.model = model;
     }
 
     Controller.prototype.loadMenu = function (selector) {
@@ -31,7 +31,7 @@ app.controller = (function () {
         $(selector).click(function () {
             var username = ($("input[id=username]").val());
             var password = ($("input[id=password]").val());
-            _this.models.users.logIn(username, password)
+            _this.model.user.logIn(username, password)
                 .then(function (loginData) {
                     sessionStorage['logged-in'] = loginData.sessionToken;
                     sessionStorage['id'] = loginData.objectId;
@@ -47,7 +47,7 @@ app.controller = (function () {
     Controller.prototype.attachLogoutEvents = function (selector) {
         var _this = this;
         $(selector).click(function () {
-            _this.models.users.logOut()
+            _this.model.user.logOut()
                 .then(function () {
                     sessionStorage.clear();
                     _this.loadMenu('nav');
@@ -103,7 +103,7 @@ app.controller = (function () {
 
     Controller.prototype.attachRegisterEvents = function (selector) {
         var _this = this;
-        $(selector).click(function (event) {
+        $(selector).click(function () {
             var data = {
                 username: $("input[id=username]").val(),
                 password: $("input[id=password]").val(),
@@ -126,13 +126,13 @@ app.controller = (function () {
     };
 
     Controller.prototype.getBlogPage = function (selector) {
-        this.models.users.getUsers()
+        this.model.user.getUsers()
             .then(function (data) {
                 if(sessionStorage['logged-in']){
                     app.blogView.load(selector, data);
                 }
                 else{
-                    //TODO
+                    //TODO load comments page
                 }
             }, function (error) {
                 console.log(error.responseText);
