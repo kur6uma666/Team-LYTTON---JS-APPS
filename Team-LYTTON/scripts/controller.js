@@ -135,7 +135,27 @@ app.controller = (function () {
 
     Controller.prototype.attachBlogEvents = function(selector) {
         $(selector).click(function() {
-            
+            var data = {
+                title: $("input[id=title]").val(),
+                content: $("textarea[id=content]").val()
+                //todo author(pointer to the user)
+                //todo tags(array)
+            };
+            ////todo EXTRACT/MOVE THIS INTO post.js(in models folder, using promises)
+            $.ajax({
+                method: 'POST',
+                headers: {
+                    'X-Parse-Application-Id': 'gBxtJ8j1z5sRZhOgtAstvprePygEIvYTxY4VNQOY',
+                    'X-Parse-REST-API-Key': 'CLU5dIerpE1k9zX06HiR3RxJQA3Vob2NgJarCl4z',
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify(data),
+                url: 'https://www.parse.com/1/classes/Post'
+            }).done(function(data) {
+                ////todo show the article/post
+            }).fail(function(error) {
+                console.log(error.responseText);
+            })
         })
     };
 
