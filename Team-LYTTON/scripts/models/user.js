@@ -7,6 +7,7 @@ app._model.user = (function () {
         this.users = {
             users: []
         };
+
     }
 
     User.prototype.logIn = function (username, password) {

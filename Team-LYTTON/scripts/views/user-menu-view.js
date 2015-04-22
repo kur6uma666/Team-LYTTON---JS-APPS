@@ -8,9 +8,9 @@ app.userMenuView = (function(){
             var output = Mustache.render(template);
             $(selector).html(output);
 
-        }).success(function(data) {
+        }).done(function(data) {
             deffer.resolve(data);
-        }).error(function (error) {
+        }).fail(function (error) {
             deffer.reject(error);
         });
 

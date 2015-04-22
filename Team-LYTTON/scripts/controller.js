@@ -94,7 +94,7 @@ app.controller = (function () {
     Controller.prototype.getRegisterPage = function (selector) {
         var _this = this;
         app.registerView.load(selector)
-            .then(function (data) {
+            .then(function () {
                 _this.attachRegisterEvents('#registerButton')
             }, function (error) {
                 console.log(error.responseText);
@@ -121,22 +121,24 @@ app.controller = (function () {
         });
     };
 
-    Controller.prototype.getHomePage = function (selector) {
-        app.homeView.load(selector);
-    };
-
     Controller.prototype.getBlogPage = function (selector) {
-        this.model.user.getUsers()
-            .then(function (data) {
-                if(sessionStorage['logged-in']){
-                    app.blogView.load(selector, data);
-                }
-                else{
-                    //TODO load comments page
-                }
+        var _this = this;
+        app.blogView.load(selector)
+            .then(function () {
+                _this.attachBlogEvents('#postArticle')
             }, function (error) {
                 console.log(error.responseText);
             })
+    };
+
+    Controller.prototype.attachBlogEvents = function(selector) {
+        $(selector).click(function() {
+
+        })
+    };
+
+    Controller.prototype.getHomePage = function (selector) {
+        app.homeView.load(selector);
     };
 
     return {

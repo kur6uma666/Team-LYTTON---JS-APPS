@@ -8,9 +8,9 @@ app.registerView = (function(){
             var output = Mustache.render(template);
             $(selector).html(output);
 
-        }).success(function(data) {
+        }).done(function(data) {
             defer.resolve(data);
-        }).error(function (error) {
+        }).fail(function (error) {
             defer.reject(error);
         });
 
