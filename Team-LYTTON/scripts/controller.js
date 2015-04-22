@@ -50,15 +50,13 @@ app.controller = (function () {
             _this.model.user.logOut()
                 .then(function () {
                     sessionStorage.clear();
-                    _this.loadMenu('nav');
                     window.location.replace('#/');
+                    _this.loadMenu('nav');
                     Noty.success('Goodbye!');
-
                 },
                 function (errorData) {
                     Noty.error(JSON.parse(errorData.responseText).error);
                 });
-
         });
     };
 
@@ -82,13 +80,25 @@ app.controller = (function () {
                 email: $("input[id=email]").val()
             };
             _this.model.user.updateUser(data)
-                 .then(function(data) {
+                 .then(function (data) {
                     window.location.replace('#/');
                     Noty.success('Profile edited successfully.');
                 }, function(error) {
                     Noty.error(JSON.parse(error.responseText).error);
                 });
 
+        });
+
+        $('#deleteProfileButton').click(function () {
+            _this.model.user.deleteUser()
+                 .then(function () {
+                    sessionStorage.clear();
+                    window.location.replace('#/');
+                    _this.loadMenu('nav');
+                    Noty.success('Profile deleted successfully.');
+                }, function (error) {
+                   Noty.error(JSON.parse(error.responseText).error);
+                });
         });
 
     };
@@ -116,6 +126,7 @@ app.controller = (function () {
                 .then(function (registerData) {
                     Noty.success('Registration Successful');
                     sessionStorage['logged-in'] = registerData.sessionToken;
+                    sessionStorage['id'] = registerData.objectId;
                     window.location.replace('#/');
                 }, function (error) {
                     Noty.error(JSON.parse(error.responseText).error);

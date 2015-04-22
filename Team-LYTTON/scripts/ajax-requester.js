@@ -59,8 +59,8 @@ app.requester = (function () {
         var headers = {
             'X-Parse-Application-Id': PARSE_APP_ID,
             'X-Parse-REST-API-Key': PARSE_REST_API_KEY,
+            'X-Parse-Session-Token': sessionStorage['logged-in'],
             'Content-Type': 'application/json'
-
         };
 
         if (sessionStorage['logged-in']) {

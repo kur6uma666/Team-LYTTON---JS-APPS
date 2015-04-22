@@ -54,6 +54,17 @@ app._model.user = (function () {
         return defer.promise;
     };
 
+    User.prototype.deleteUser = function (data) {
+        var defer = Q.defer();
+        this._requester.delete('/classes/_User/', sessionStorage['id'])
+            .then(function (data) {
+                defer.resolve(data);
+            }, function (error) {
+                defer.reject(error);
+            });
+        return defer.promise;
+    };
+
     User.prototype.getUsers = function () {
         var defer = Q.defer();
         var _this = this;
