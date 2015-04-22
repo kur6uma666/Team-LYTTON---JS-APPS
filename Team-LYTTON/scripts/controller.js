@@ -67,6 +67,8 @@ app.controller = (function () {
         app.profileView.load(selector)
             .then(function () {
                 _this.attachProfilePageEvents('#editButton');
+            }, function(error) {
+                console.log(error.responseText);
             })
     };
 
@@ -79,7 +81,7 @@ app.controller = (function () {
                 password: $("input[id=password]").val(),
                 email: $("input[id=email]").val()
             };
-            _this.models.users.updateUser(data)
+            _this.model.user.updateUser(data)
                  .then(function(data) {
                     window.location.replace('#/');
                     Noty.success('Profile edited successfully.');
@@ -110,7 +112,7 @@ app.controller = (function () {
                 email: $("input[id=email]").val()
 
             };
-            _this.models.users.register(data)
+            _this.model.user.register(data)
                 .then(function (registerData) {
                     Noty.success('Registration Successful');
                     sessionStorage['logged-in'] = registerData.sessionToken;
@@ -133,7 +135,7 @@ app.controller = (function () {
 
     Controller.prototype.attachBlogEvents = function(selector) {
         $(selector).click(function() {
-
+            
         })
     };
 
