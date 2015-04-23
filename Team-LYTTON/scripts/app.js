@@ -10,7 +10,7 @@ var app = app || {};
         var menuSelector = 'nav';
         var sidebarSelector = '#sidebar';
 
-        this.get('#/', function () {
+        this.get('#/about', function () {
             controller.loadMenu(menuSelector);
             controller.getSidebar(sidebarSelector);
             controller.getHomePage(selector);
@@ -48,5 +48,5 @@ var app = app || {};
 
     });
 
-    app.router.run('#/');
+    app.router.run('#/blog');
 })();

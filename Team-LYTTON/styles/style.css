@@ -1,5 +1,7 @@
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 #wrapper {
@@ -19,4 +21,53 @@ article:nth-child(odd) {
 
 article:nth-child(even) {
     background: lightgoldenrodyellow;
+}
+
+
+header, footer {
+    background: #363636;
+}
+
+header {
+    height: 60px;
+}
+
+nav, #wrapper {
+    max-width: 1070px;
+    margin: 0 auto;
+}
+
+ul {
+    list-style: none;
+}
+
+nav ul {
+    height: 30px;
+    position: relative;
+    top: 15px;
+    vertical-align: text-bottom;
+}
+
+nav li {
+    display: inline-block;
+    color: #ffffff;
+    width: 120px;
+    font-size: 1.3em;
+    text-align: center;
+    height: 30px;
+}
+
+nav li:hover > a{
+    color: #ff8100;
+    transition: color .2s ease-in-out;
+}
+
+a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+a:hover {
+    color: rgb(201, 211, 40);
+    transition: color .2s ease-in-out;
 }

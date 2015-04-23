@@ -35,7 +35,7 @@ app.controller = (function () {
                 .then(function (loginData) {
                     sessionStorage['logged-in'] = loginData.sessionToken;
                     sessionStorage['id'] = loginData.objectId;
-                    window.location.replace('#/');
+                    window.location.replace('#/blog');
                     Noty.success('Welcome!');
                 },
                 function (errorData) {
