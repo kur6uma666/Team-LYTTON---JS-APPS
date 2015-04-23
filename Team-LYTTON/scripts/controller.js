@@ -66,7 +66,7 @@ app.controller = (function () {
             .then(function () {
                 _this.attachProfilePageEvents('#editButton');
             }, function(error) {
-                console.log(error.responseText);
+                Noty.error(JSON.parse(error.responseText).error);
             })
     };
 
@@ -109,7 +109,7 @@ app.controller = (function () {
             .then(function () {
                 _this.attachRegisterEvents('#registerButton')
             }, function (error) {
-                console.log(error.responseText);
+                Noty.error(JSON.parse(error.responseText).error);
             })
     };
 
@@ -173,7 +173,7 @@ app.controller = (function () {
                         })
 
             },function(error) {
-                console.log(error.responseText);
+                    Noty.error(JSON.parse(error.responseText).error);
             })
         })
     };
@@ -189,7 +189,18 @@ app.controller = (function () {
             .then(function(data){
                 app.sidebarView.load(selector, data);
             }, function(error){
-                console.log(error.responseText);
+                Noty.error(JSON.parse(error.responseText).error);
+            });
+    };
+
+    Controller.prototype.getPostPage = function(id, selector){
+        $(selector).empty();
+
+        this.model.post.getPost(id)
+            .then(function(data){
+                app.postView.load(selector, data);
+            }, function(error){
+                Noty.error(JSON.parse(error.responseText).error);
             });
     };
 
@@ -198,5 +209,4 @@ app.controller = (function () {
             return new Controller(model);
         }
     }
-
 })();

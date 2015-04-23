@@ -8,30 +8,42 @@ var app = app || {};
     app.router = Sammy(function () {
         var selector = '#wrapper';
         var menuSelector = 'nav';
+        var sidebarSelector = '#sidebar';
 
         this.get('#/', function () {
             controller.loadMenu(menuSelector);
+            controller.getSidebar(sidebarSelector);
             controller.getHomePage(selector);
         });
 
         this.get('#/login', function () {
             controller.loadMenu(menuSelector);
+            controller.getSidebar(sidebarSelector);
             controller.getLoginPage(selector);
         });
 
         this.get('#/register', function () {
             controller.loadMenu(menuSelector);
+            controller.getSidebar(sidebarSelector);
             controller.getRegisterPage(selector);
         });
 
         this.get('#/blog', function () {
             controller.loadMenu(menuSelector);
+            controller.getSidebar(sidebarSelector);
             controller.getBlogPage(selector);
         });
 
         this.get('#/userProfile', function () {
             controller.loadMenu(menuSelector);
+            controller.getSidebar(sidebarSelector);
             controller.getProfilePage(selector);
+        });
+
+        this.get('#/post/:id', function () {
+            controller.loadMenu(menuSelector);
+            controller.getSidebar(sidebarSelector);
+            controller.getPostPage(this.params['id'], selector);
         });
 
     });
