@@ -5,6 +5,7 @@ app.model = (function(){
        this.user = app._model.user.get(baseURL, ajaxRequester);
        this.post = app._model.post.get(baseURL, ajaxRequester);
        this.comment = app._model.comment.get(baseURL, ajaxRequester);
+       this.sidebar = app._model.sidebar.get(ajaxRequester);
    }
 
    return{

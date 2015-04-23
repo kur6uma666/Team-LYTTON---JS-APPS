@@ -41,7 +41,7 @@ app._model.post = (function () {
         var _this = this;
         this._posts['posts'].length = 0;
 
-        this._requester.get('classes/Post?include=author')
+        this._requester.get('classes/Post?include=author&order=createdAt')
             .then(function (data) {
                 data['results'].forEach(function (dataPost) {
                     var post = {
@@ -51,6 +51,11 @@ app._model.post = (function () {
                         'tags': dataPost.tags,
                         'author': dataPost.author.username
                     };
+
+                    if(dataPost.headerImage){
+                        post.image = dataPost.headerImage.url;
+                    }
+                    console.log(post);
                     _this._posts['posts'].push(post);
                 });
 

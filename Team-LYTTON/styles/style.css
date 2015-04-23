@@ -1,0 +1,22 @@
+* {
+    box-sizing: border-box;
+}
+
+#wrapper {
+    width: 80%;
+    display: inline-block;
+}
+
+#sidebar {
+    width: 19%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+article:nth-child(odd) {
+    background: lightgray;
+}
+
+article:nth-child(even) {
+    background: lightgoldenrodyellow;
+}

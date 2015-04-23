@@ -182,6 +182,17 @@ app.controller = (function () {
         app.homeView.load(selector);
     };
 
+    Controller.prototype.getSidebar = function(selector){
+        $(selector).empty();
+
+        this.model.sidebar.getLatestPosts()
+            .then(function(data){
+                app.sidebarView.load(selector, data);
+            }, function(error){
+                console.log(error.responseText);
+            });
+    };
+
     return {
         get: function (model) {
             return new Controller(model);
