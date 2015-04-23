@@ -22,7 +22,9 @@ app._model.sidebar = (function () {
                 data['results'].forEach(function (dataPost) {
                     var post = {
                         'objectId': dataPost.objectId,
-                        'title': dataPost.title
+                        'title': dataPost.title.length > 25 ?
+                                 dataPost.title.substring(0, 25) + '...' :
+                                 dataPost.title
                     };
                     _this._latestPosts['latestPosts'].push(post);
                 });
