@@ -148,7 +148,7 @@ app.controller = (function () {
                 app.blogView.load('#posts',data);
 
             },function(error) {
-                console.log(error.responseText);
+                Noty.error(JSON.parse(error.responseText).error);
             })
     };
 
@@ -166,9 +166,10 @@ app.controller = (function () {
                     $(selector).empty();
                     _this.model.post.getPosts()
                         .then(function(data) {
+                            Noty.success('Article posted successfully');
                             app.blogView.load('#posts',data);
                         },function(error) {
-                            console.log(error.responseText);
+                            Noty.error(JSON.parse(error.responseText).error);
                         })
 
             },function(error) {
