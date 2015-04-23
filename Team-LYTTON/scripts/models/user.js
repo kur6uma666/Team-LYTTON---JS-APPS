@@ -65,6 +65,18 @@ app._model.user = (function () {
         return defer.promise;
     };
 
+    User.prototype.getUserById =  function(id){
+        var defer = Q.defer();
+        this._requester.get('users/'+ id)
+            .then(function (data) {
+                defer.resolve(data);
+            }, function (error) {
+                defer.reject(error);
+            });
+
+        return defer.promise;
+    };
+
     User.prototype.getUsers = function () {
         var defer = Q.defer();
         var _this = this;

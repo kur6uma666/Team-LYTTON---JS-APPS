@@ -145,18 +145,11 @@ app.controller = (function () {
             });
         _this.model.post.getPosts()
             .then(function(data) {
-                app.blogView.load('#posts', data);
+                app.blogView.load('#posts',data);
+
             },function(error) {
                 console.log(error.responseText);
             })
-
-
-    };
-
-    Controller.prototype.attachCommentEvents = function(selector) {
-        $(selector).click(function (event) {
-            console.log(1);
-           })
     };
 
     Controller.prototype.attachBlogEvents = function(selector) {
@@ -174,15 +167,14 @@ app.controller = (function () {
                     $(selector).empty();
                     _this.model.post.getPosts()
                         .then(function(data) {
-                            app.blogView.load('#posts',data)
+                            app.blogView.load('#posts',data);
                         },function(error) {
                             console.log(error.responseText);
-                        });
+                        })
 
             },function(error) {
                 console.log(error.responseText);
-            });
-
+            })
         })
     };
 

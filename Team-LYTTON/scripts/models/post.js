@@ -9,29 +9,46 @@ app._model.post = (function () {
         }
     }
 
-    Post.prototype.createPost = function(data){
+    Post.prototype.getAuthor = function () {
         var defer = Q.defer();
-        this._requester.post('classes/Post', data)
-            .then(function (data) {
-                defer.resolve(data);
+        this._requester.get('sessions/me')
+            .then(function (sessionData) {
+                defer.resolve(sessionData.user);
+            }, function (error) {
+                defer.reject(error.responseText);
+            });
+        return defer.promise;
+    };
+
+    Post.prototype.createPost = function (data) {
+        var defer = Q.defer();
+        var _this = this;
+        this.getAuthor()
+            .then(function (author) {
+                data.author = author;
+                _this._requester.post('classes/Post', data)
+                    .then(function(_data){
+                        defer.resolve(_data);
+                    });
             }, function (error) {
                 defer.reject(error);
             });
         return defer.promise;
     };
 
-    Post.prototype.getPosts = function(){
+    Post.prototype.getPosts = function () {
         var defer = Q.defer();
         var _this = this;
         this._posts['posts'].length = 0;
 
-        this._requester.get('classes/Post')
+        this._requester.get('classes/Post?include=author')
             .then(function (data) {
                 data['results'].forEach(function (dataPost) {
                     var post = {
                         'objectId': dataPost.objectId,
                         'title': dataPost.title,
-                        'content': dataPost.content
+                        'content': dataPost.content,
+                        'author': dataPost.author.username
                     };
                     _this._posts['posts'].push(post);
                 });
