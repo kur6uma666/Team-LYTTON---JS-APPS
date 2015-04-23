@@ -69,7 +69,6 @@ app._model.user = (function () {
         var defer = Q.defer();
         this._requester.get('users/'+ id)
             .then(function (data) {
-                console.log(data);
                 defer.resolve(data);
             }, function (error) {
                 defer.reject(error);
