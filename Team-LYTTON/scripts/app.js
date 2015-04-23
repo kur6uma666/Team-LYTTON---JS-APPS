@@ -46,6 +46,11 @@ var app = app || {};
             controller.getPostPage(this.params['id'], selector);
         });
 
+        this.get('#/user/:id', function () {
+            controller.loadMenu(menuSelector);
+            controller.getSidebar(sidebarSelector);
+            controller.getUserPage(this.params['id'], selector);
+        });
     });
 
     app.router.run('#/blog');

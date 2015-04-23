@@ -204,6 +204,17 @@ app.controller = (function () {
             });
     };
 
+    Controller.prototype.getUserPage = function(id, selector){
+        $(selector).empty();
+
+        this.model.user.getUserById(id)
+            .then(function(data){
+                app.userView.load(selector, data);
+            }, function(error){
+                Noty.error(JSON.parse(error.responseText).error);
+            });
+    };
+
     return {
         get: function (model) {
             return new Controller(model);

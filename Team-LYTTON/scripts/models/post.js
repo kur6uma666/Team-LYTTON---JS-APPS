@@ -49,7 +49,9 @@ app._model.post = (function () {
                         'title': dataPost.title,
                         'content': dataPost.content,
                         'tags': dataPost.tags,
-                        'author': dataPost.author.username
+                        'author': dataPost.author.username,
+                        'authorId': dataPost.author.objectId,
+                        'createdAt': new Date(dataPost.createdAt).toLocaleString()
                     };
 
                     if(dataPost.headerImage){

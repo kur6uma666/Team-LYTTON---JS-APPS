@@ -29,8 +29,6 @@ app._model.sidebar = (function () {
                     _this._latestPosts['latestPosts'].push(post);
                 });
 
-                _this._latestPosts['url'] = window.location.host;
-
                 defer.resolve(_this._latestPosts);
             }, function (error) {
                 defer.reject(error);
