@@ -2,18 +2,21 @@ var app = app || {};
 
 app.blogView = (function(){
     function BlogView(selector, data) {
-        var deffer = Q.defer();
-
-        $.get('templates/blog.html', function(template) {
-            var output = Mustache.render(template);
-            $(selector).html(output);
-        }).done(function(data) {
-            deffer.resolve(data);
-        }).fail(function(error) {
-            deffer.reject(error);
+        var defer = Q.defer();
+        $.get('templates/blog-view.html', function(template) {
+            $(selector).empty();
+            var output = '';
+            for (var i = data['posts'].length-1; i >= 0 ; i--) {
+                output += Mustache.to_html(template, data['posts'][i]);
+            }
+            $(selector).append(output);
+        }).success(function(data) {
+            defer.resolve(data);
+        }).error(function(error) {
+            defer.reject(error);
         });
 
-        return deffer.promise;
+        return defer.promise;
     }
 
     return {
@@ -21,4 +24,4 @@ app.blogView = (function(){
             return BlogView(selector, data);
         }
     }
-})();
+}());
