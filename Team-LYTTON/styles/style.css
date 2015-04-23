@@ -13,7 +13,7 @@ body {
 
 #main-wrapper {
     max-width: 1070px;
-    margin: 0 auto;
+    margin: 10px auto;
 }
 
 #wrapper {
@@ -103,4 +103,8 @@ header a:hover {
 
 .user-info {
     font-size: 1em;
+}
+
+footer {
+    height: 100px;
 }
