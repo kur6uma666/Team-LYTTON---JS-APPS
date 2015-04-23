@@ -157,9 +157,8 @@ app.controller = (function () {
         $(selector).click(function() {
             var _data = {
                 title: $("input[id=title]").val(),
-                content: $("textarea[id=content]").val()
-                //todo author(pointer to the user)
-                //todo tags(array)
+                content: $("textarea[id=content]").val(),
+                tags: $("input[id=tags]").val().split(', ')
             };
 
             _this.model.post.createPost(_data)

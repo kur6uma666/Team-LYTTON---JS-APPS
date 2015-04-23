@@ -48,6 +48,7 @@ app._model.post = (function () {
                         'objectId': dataPost.objectId,
                         'title': dataPost.title,
                         'content': dataPost.content,
+                        'tags': dataPost.tags,
                         'author': dataPost.author.username
                     };
                     _this._posts['posts'].push(post);
