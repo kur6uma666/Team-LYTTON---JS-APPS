@@ -11,7 +11,7 @@ app.controller = (function () {
         if (sessionStorage['logged-in']) {
             app.userMenuView.load(selector)
                 .then(function () {
-                    _this.attachLogoutEvents('#logoutButton');
+                    _this.attachLogoutEvents('#logout a');
                 });
         } else {
             app.menuView.load(selector);
@@ -50,7 +50,7 @@ app.controller = (function () {
             _this.model.user.logOut()
                 .then(function () {
                     sessionStorage.clear();
-                    window.location.replace('#/');
+                    window.location.replace('#/blog');
                     _this.loadMenu('nav');
                     Noty.success('Goodbye!');
                 },
