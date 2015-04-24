@@ -14,7 +14,7 @@ app.commentView = (function () {
                 }
                 $(selector).append(output);
             }
-            
+
         }).success(function (data) {
             defer.resolve(data);
         }).error(function (error) {
