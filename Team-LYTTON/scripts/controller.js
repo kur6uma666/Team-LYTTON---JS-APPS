@@ -139,17 +139,48 @@ app.controller = (function () {
         var _this = this;
         app.postArticle.load(selector)
             .then(function () {
-                _this.attachBlogEvents('#postArticle')
+                _this.attachBlogEvents('#postArticle');
             }, function (error) {
                 console.log(error.responseText);
             });
         _this.model.post.getPosts()
             .then(function(data) {
                 app.blogView.load('#posts',data);
-
+                _this.model.comment.getComment()
+                     .then(function (data) {
+                        _this.attachCommentEvents('.postCommentButton');
+                    }, function (error) {
+                        console.log(error.responseText);
+                    });
             },function(error) {
                 Noty.error(JSON.parse(error.responseText).error);
-            })
+            });
+    };
+
+    Controller.prototype.attachCommentEvents = function(selector) {
+        $(selector).on('click', function (event) {
+            var data = {
+                author: $(this).parent().find('input[id=author]').val(),
+                content: $(this).parent().find('input[id=content]').val(),
+                email: $(this).parent().find('input[id=email]').val()
+                //todo post: event.target['id'] - postID (pointer)
+            };
+            $.ajax({
+                method: 'POST',
+                headers: {
+                    'X-Parse-Application-Id':'gBxtJ8j1z5sRZhOgtAstvprePygEIvYTxY4VNQOY',
+                    'X-Parse-REST-API-Key':'CLU5dIerpE1k9zX06HiR3RxJQA3Vob2NgJarCl4z',
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify(data),
+                url: 'https://www.parse.com/1/classes/Comment'
+            }).done(function (data) {
+                Noty.success('Comment posted successfully.');
+                console.log(data); //todo VISUALIZE COMMENTS
+            }).fail(function (error) {
+                Noty.error(JSON.parse(error.responseText).error);
+            });
+        })
     };
 
     Controller.prototype.attachBlogEvents = function(selector) {
@@ -171,11 +202,10 @@ app.controller = (function () {
                         },function(error) {
                             Noty.error(JSON.parse(error.responseText).error);
                         })
-
             },function(error) {
                     Noty.error(JSON.parse(error.responseText).error);
             })
-        })
+        });
     };
 
     Controller.prototype.getHomePage = function (selector) {

@@ -2,7 +2,6 @@ var app = app || {};
 app._model = app._model || {};
 
 app._model.comment = (function () {
-
     function Comment(baseUrl, ajaxRequster) {
         this._requester = ajaxRequster;
         this._comments = {
@@ -47,11 +46,9 @@ app._model.comment = (function () {
         return defer.promise;
     };
 
-
     return {
         get: function (baseUrl, ajaxRequester) {
             return new Comment(baseUrl, ajaxRequester);
         }
     }
-
 })();
