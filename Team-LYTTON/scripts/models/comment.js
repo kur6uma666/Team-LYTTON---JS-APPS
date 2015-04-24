@@ -21,19 +21,25 @@ app._model.comment = (function () {
         return defer.promise;
     };
 
-    Comment.prototype.getComment = function (postId) {
+
+    Comment.prototype.getComment = function () {
         var defer = Q.defer();
         var _this = this;
         this._comments['comments'].length = 0;
 
-        this._requester.get('classes/Comment')
+        this._requester.get('classes/Comment?include=post&order=createdAt')
             .then( function(data) {
                 data['results'].forEach(function (comment) {
                     var comment = {
                         'objectId': comment.objectId,
                         'content': comment.content,
-                        'author': comment.author
-                        ////todo post: pointer
+                        'author': comment.author,
+                        'email': comment.email,
+                        'post': {
+                            __type: "Pointer",
+                            className: "Post",
+                            objectId: comment.postId
+                        }
                     };
                     _this._comments['comments'].push(comment);
                 });
