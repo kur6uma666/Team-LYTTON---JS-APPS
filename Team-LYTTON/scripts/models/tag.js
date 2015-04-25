@@ -14,7 +14,7 @@ app._model.tag = (function(){
         var _this = this;
         this._postsByTag['posts'].length = 0;
         var where = {
-            'tags': tag
+            'tags_lower': tag.toLowerCase()
         };
 
         this._requester.get('classes/Post?where=' + JSON.stringify(where) + '&include=author')

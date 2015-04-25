@@ -326,9 +326,10 @@ app.controller = (function () {
             var _data = {
                 title: $("input[id=title]").val(),
                 content: $("textarea[id=content]").val(),
+                visitsCount: 1,
                 tags: uniqueTags,
                 tags_lower: _.map(uniqueTags, function(tag){
-                    return _.isString(tag) ? s.toLowerCase() : tag;
+                    return _.isString(tag) ? tag.toLowerCase() : tag;
                 })
             };
 
