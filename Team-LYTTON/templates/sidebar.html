@@ -1,19 +1,33 @@
 {{#if latestPosts}}
 <section id="latestPosts">
-    <h4>Latest posts:</h4>
-    {{#each latestPosts}}
-    <p><a href="#/post/{{objectId}}">{{title}}</a></p>
-    {{/each}}
+    <div class="panel panel-info col-lg-12 col-sm-12">
+        <div class="panel-heading"><h4>Latest posts:</h4></div>
+
+        {{#each latestPosts}}
+        <div class="panel-body"><a href="#/post/{{objectId}}">{{title}}</a></div>
+        {{/each}}
+    </div>
+
+
 </section>
-<hr />
 {{/if}}
+
 {{#if mostPopularTags}}
 <section id="mostPopularTags">
-    <h4>Most popular tags:</h4>
-    {{#each mostPopularTags}}
-    {{#each this}}
-    <span><a href="#/tag/{{@key}}">{{@key}}({{this}})</a></span>
-    {{/each}}
-    {{/each}}
+    <div class="panel panel-info col-lg-12 col-sm-12">
+        <div class="panel-heading"><h4>Most popular tags:</h4></div>
+            <ul class="list-group">
+                {{#each mostPopularTags}}
+                    {{#each this}}
+                        <li class="list-group-item">
+                            <a href="#/tag/{{@key}}">
+                                <span class="badge">{{this}}</span>
+                                <span class="popular-tag">{{@key}}</span>
+                            </a>
+                        </li>
+                    {{/each}}
+                {{/each}}
+            </ul>
+    </div>
 </section>
 {{/if}}

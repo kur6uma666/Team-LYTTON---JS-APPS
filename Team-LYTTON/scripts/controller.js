@@ -261,7 +261,6 @@ app.controller = (function () {
                                 app.commentView.load(articles, commentsData);
 
                                 if(postsCount > 0) {
-                                    console.log(postsCount);
                                     //app.pagingView.load(selector, { "pages": (parseInt(postsCount / 5) + 1)}, page);
                                     //$(selector).append('<ul class="pagination" id="pagination"></ul>');
                                     $('<ul class="pagination" id="pagination"></ul>').insertBefore($('#posts'));

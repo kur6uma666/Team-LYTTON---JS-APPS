@@ -35,58 +35,40 @@ article:nth-child(even) {
     background: lightgoldenrodyellow;
 }
 
-header, footer {
-    background: #363636;
-}
+/*header, footer {*/
+    /*background: #363636;*/
+/*}*/
 
-header {
-    height: 60px;
-}
+/*header {*/
+    /*height: 60px;*/
+/*}*/
 
-nav, #wrapper {
-    max-width: 1070px;
-    margin: 0 auto;
-}
 
-ul {
-    list-style: none;
-}
 
-nav ul {
-    display: inline-block;
-    margin: 0;
-    height: 30px;
-    position: relative;
-    top: 15px;
-    vertical-align: text-bottom;
-}
+/*ul {*/
+    /*list-style: none;*/
+/*}*/
 
-nav li {
-    background: none;
-    display: inline-block;
-    color: #ffffff;
-    width: 120px;
-    font-size: 1.3em;
-    text-align: center;
-    height: 30px;
-}
+/*nav ul {*/
+    /*display: inline-block;*/
+    /*margin: 0;*/
+    /*height: 30px;*/
+    /*position: relative;*/
+    /*top: 15px;*/
+    /*vertical-align: text-bottom;*/
+/*}*/
 
-nav li:hover > a{
-    color: #ff8100;
-    transition: color .2s ease-in-out;
-}
+/*nav li {*/
+    /*background: none;*/
+    /*display: inline-block;*/
+    /*color: #ffffff;*/
+    /*width: 120px;*/
+    /*font-size: 1.3em;*/
+    /*text-align: center;*/
+    /*height: 30px;*/
+/*}*/
 
-header a {
-    text-decoration: none;
-    color: #ffffff;
-    cursor: pointer;
-}
 
-header a:hover {
-    color: rgb(201, 211, 40);
-    transition: color .2s ease-in-out;
-    text-decoration: none;
-}
 
 #post-section #content {
     width: 100%;
@@ -121,4 +103,70 @@ footer {
 
 #search-input, #search {
     font-size: 1em;
+}
+
+
+/* Aside */
+
+#sidebar .panel {
+    padding: 0;
+}
+
+#sidebar .panel-body {
+    padding: 10px;
+}
+
+.popular-tag {
+    font-size: 1.3em;
+}
+
+#sidebar .nav-pills li {
+    width: 100%;
+}
+
+#sidebar #mostPopularTags li {
+    border: none;
+}
+
+/* Header */
+header {
+    background: #222222;
+    height: 60px;
+}
+
+header .navbar {
+    border: none;
+    margin-bottom: 0;
+    font-size: 1em;
+}
+
+nav, #wrapper {
+    max-width: 1070px;
+    margin: 0 auto;
+}
+
+nav li:hover > a{
+    color: #ff8100 !important;
+    transition: color .2s ease-in-out;
+}
+
+header .navbar a {
+    font-size: 1.5em;
+    text-decoration: none;
+    color: #ffffff !important;
+    cursor: pointer;
+}
+
+header .navbar a:hover {
+    color: #ff8100 !important;
+    transition: color .2s ease-in-out;
+    text-decoration: none;
+}
+
+.navbar-nav li {
+    margin: 0 5px;
+}
+
+header .navbar-inverse .navbar-nav>.active>a {
+    background: #E90606;
 }
