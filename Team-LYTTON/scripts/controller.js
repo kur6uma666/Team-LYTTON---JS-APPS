@@ -74,33 +74,64 @@ app.controller = (function () {
         var _this = this;
 
         $(selector).click(function (event) {
-            var data = {
+            var userData = {
                 username: $("input[id=username]").val(),
                 password: $("input[id=password]").val(),
-                email: $("input[id=email]").val()
+                email: $("input[id=email]").val(),
+                firstName: $("input[id=firstName]").val(),
+                middleName: $("input[id=middleName]").val(),
+                lastName: $("input[id=lastName]").val(),
+                gender: $("input[name=gender-radio]:checked").val(),
+                picture: $('#picture').attr('data-picture-data')
             };
-            _this.model.user.updateUser(sessionStorage['id'], data)
-                .then(function (data) {
+
+            _this.model.user.updateUser(sessionStorage['id'], userData)
+                 .then(function (data) {
                     sessionStorage.clear();
                     window.location.replace('#/');
                     Noty.success('Profile edited successfully.');
-                }, function (error) {
-                    Noty.error(JSON.parse(error.responseText).error);
+                }, function(error) {
+                    Noty.error('Error saving changes. Please try again.');
                 });
         });
 
-        $('#deleteProfileButton').click(function () {
+        $('#cancel-btn').click(function () {
+            window.location.replace('#/');
+            _this.loadMenu('nav');
+        });
+
+        $('#delete-btn').click(function () {
             _this.model.user.deleteUser(sessionStorage['id'])
-                .then(function () {
+                 .then(function () {
                     sessionStorage.clear();
                     window.location.replace('#/');
                     _this.loadMenu('nav');
                     Noty.success('Profile deleted successfully.');
                 }, function (error) {
-                    Noty.error(JSON.parse(error.responseText).error);
+                   Noty.error(JSON.parse(error.responseText).error);
                 });
         });
+    };
+	
+	Controller.prototype.attachPictureUploadHandler = function (selector) {
+        $(selector).on('click', '#upload-file-button', function() {
+            $('#picture').click();
+        });
 
+        $(selector).on('change', '#picture', function() {
+            var file = this.files[0];
+            if (file.type.match(/image\/.*/)) {
+                var reader = new FileReader();
+                reader.onload = function() {
+                    $('.picture-name').text(file.name);
+                    $('.picture-preview').attr('src', reader.result);
+                    $('#picture').attr('data-picture-data', reader.result);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                Noty.error("Invalid file format.");
+            }
+        });
     };
 
     Controller.prototype.getRegisterPage = function (selector) {
