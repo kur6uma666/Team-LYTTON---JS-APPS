@@ -81,9 +81,18 @@ app.controller = (function () {
             .then(function () {
                 _this.attachProfilePageEvents('#save-btn');
                 //TODO Showing current user data in inputs in editProfile page
-                //var userId = sessionStorage['id'];
-                //var userData = app._model.user.getUserById(userId);
-                //$('username').val(userData.username);
+                var userId = sessionStorage['id'];
+                var userData = _this.model.user.getUserById(userId)
+                    .then(function (data) {
+                        $('#username').val(data.username);
+                        $('#email').val(data.email);
+                        $('#firstName').val(data.firstName);
+                        $('#middleName').val(data.middleName);
+                        $('#lastName').val(data.lastName);
+                        $("input[name=gender-radio]").val(data.gender);
+                    }, function (error) {
+                        Noty.error(JSON.parse(error.responseText).error);
+                    });
             }, function (error) {
                 Noty.error(JSON.parse(error.responseText).error);
             })
@@ -100,8 +109,8 @@ app.controller = (function () {
                 firstName: $("input[id=firstName]").val(),
                 middleName: $("input[id=middleName]").val(),
                 lastName: $("input[id=lastName]").val(),
-                gender: $("input[name=gender-radio]:checked").val(),
-                picture: $('#picture').attr('data-picture-data')
+                gender: $("input[name=gender-radio]:checked").val()
+                //picture: $('#picture').attr('data-picture-data')
             };
 
             _this.model.user.updateUser(sessionStorage['id'], userData)
@@ -212,7 +221,7 @@ app.controller = (function () {
                 middleName: $("input[id=reg-midName]").val(),
                 lastName: $("input[id=reg-lasName]").val(),
                 gender: $('input[name="gender-radio"]:checked').val(),
-                picture: sessionStorage['pictureUrl']
+                //picture: sessionStorage['pictureUrl']
             };
             _this.model.user.register(userRegData)
                 .then(function (data) {
