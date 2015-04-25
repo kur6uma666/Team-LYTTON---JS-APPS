@@ -12,10 +12,21 @@ app.controller = (function () {
             app.userMenuView.load(selector)
                 .then(function () {
                     _this.attachLogoutEvents('#logout a');
+                    _this.attachSearchEvents('#search');
                 });
         } else {
-            app.menuView.load(selector);
+            app.menuView.load(selector)
+                .then(function () {
+                    _this.attachSearchEvents('#search');
+                });
         }
+    };
+
+    Controller.prototype.attachSearchEvents = function(selector){
+        $(selector).click(function(){
+            var tag = $('#search-input').val().trim();
+            window.location.replace('#/tag/' + tag);
+        });
     };
 
     Controller.prototype.getLoginPage = function (selector) {
@@ -220,7 +231,7 @@ app.controller = (function () {
         var _this = this;
         app.postArticle.load(selector)
             .then(function () {
-                _this.attachBlogEvents('#postArticle');
+                _this.attachBlogEvents('#postArticle')
             }, function (error) {
                 console.log(error.responseText);
             });
@@ -269,21 +280,47 @@ app.controller = (function () {
                 }, function (error) {
                     Noty.error(JSON.parse(error.responseText).error);
                 });
+        });
+
+        $('body').find('a').on('click', function (event) {
+            var postId = /[^/]*$/.exec(event.target['href'])[0];
+            var data = {
+                visitsCount: {
+                    __op: 'Increment',
+                    amount: 1
+                }
+            };
+            $.ajax({
+                method: 'PUT',
+                headers: {
+                    'X-Parse-Application-Id': 'gBxtJ8j1z5sRZhOgtAstvprePygEIvYTxY4VNQOY',
+                    'X-Parse-REST-API-Key': 'CLU5dIerpE1k9zX06HiR3RxJQA3Vob2NgJarCl4z',
+                    'X-Parse-Session-Token': sessionStorage['logged-in'],
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify(data),
+                url: 'https://api.parse.com/1/classes/Post/' + postId
+            }).done(function (successData) {
+
+            }).fail(function (error) {
+
+            })
         })
     };
 
     Controller.prototype.attachBlogEvents = function (selector) {
         var _this = this;
+
         $(selector).click(function () {
             var _data = {
                 title: $("input[id=title]").val(),
                 content: $("textarea[id=content]").val(),
-                tags: $("input[id=tags]").val().split(', ')
+                tags: _.uniq($("input[id=tags]").val().split(', '))
             };
 
             _this.model.post.createPost(_data)
-                .then(function (data) {
-                    $(selector).empty();
+                .then(function () {
+                    $('#posts').empty();
                     _this.model.post.getPosts()
                         .then(function (data) {
                             Noty.success('Article posted successfully');
@@ -362,5 +399,4 @@ app.controller = (function () {
             return new Controller(model);
         }
     }
-})
-();
+})();
