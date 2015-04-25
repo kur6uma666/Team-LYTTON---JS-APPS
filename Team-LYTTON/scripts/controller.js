@@ -12,10 +12,18 @@ app.controller = (function () {
             app.userMenuView.load(selector)
                 .then(function () {
                     _this.attachLogoutEvents('#logout a');
+                    _this.attachSearchEvents('#search');
                 });
         } else {
             app.menuView.load(selector);
         }
+    };
+
+    Controller.prototype.attachSearchEvents = function(selector){
+        $(selector).click(function(){
+            var tag = $('#search-input').val().trim();
+            window.location.replace('#/tag/' + tag);
+        });
     };
 
     Controller.prototype.getLoginPage = function (selector) {

@@ -53,6 +53,7 @@ ul {
 }
 
 nav ul {
+    display: inline-block;
     margin: 0;
     height: 30px;
     position: relative;
@@ -107,4 +108,16 @@ header a:hover {
 
 footer {
     height: 100px;
+}
+
+#search-form {
+    float: right;
+    height: 30px;
+    position: relative;
+    top: 15px;
+    vertical-align: text-bottom;
+}
+
+#search-input, #search {
+    font-size: 1em;
 }
