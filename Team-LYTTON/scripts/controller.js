@@ -20,12 +20,9 @@ app.controller = (function () {
                     _this.attachSearchEvents('#search');
                 });
         }
-
-
     };
 
     Controller.prototype.attachSearchEvents = function(selector){
-        console.log(selector);
         $(selector).click(function(){
             var tag = $('#search-input').val().trim();
             window.location.replace('#/tag/' + tag);
@@ -258,19 +255,11 @@ app.controller = (function () {
             }).fail(function (error) {
 
             })
-
         })
     };
 
     Controller.prototype.attachBlogEvents = function (selector) {
         var _this = this;
-
-//        var arrayUnique = function(a) {
-//            return a.reduce(function(p, c) {
-//                if (p.indexOf(c) < 0) p.push(c);
-//                return p;
-//            }, []);
-//        };
 
         $(selector).click(function () {
             var _data = {
