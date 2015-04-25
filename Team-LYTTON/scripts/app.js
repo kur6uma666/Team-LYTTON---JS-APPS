@@ -11,46 +11,49 @@ var app = app || {};
         var sidebarSelector = '#sidebar';
 
         this.get('#/about', function () {
-            controller.loadMenu(menuSelector);
-            controller.getSidebar(sidebarSelector, 'mostPopularTags', 'Post', 5);
+            initLoad();
             controller.getHomePage(selector);
         });
 
         this.get('#/login', function () {
-            controller.loadMenu(menuSelector);
-            controller.getSidebar(sidebarSelector, 'mostPopularTags', 'Post', 5);
+            initLoad();
             controller.getLoginPage(selector);
         });
 
         this.get('#/register', function () {
-            controller.loadMenu(menuSelector);
-            controller.getSidebar(sidebarSelector, 'mostPopularTags', 'Post', 5);
+            initLoad();
             controller.getRegisterPage(selector);
         });
 
         this.get('#/blog', function () {
-            controller.loadMenu(menuSelector);
-            controller.getSidebar(sidebarSelector, 'mostPopularTags', 'Post', 5);
+            initLoad();
             controller.getBlogPage(selector);
         });
 
         this.get('#/userProfile', function () {
-            controller.loadMenu(menuSelector);
-            controller.getSidebar(sidebarSelector, 'mostPopularTags', 'Post', 5);
+            initLoad();
             controller.getProfilePage(selector);
         });
 
         this.get('#/post/:id', function () {
-            controller.loadMenu(menuSelector);
-            controller.getSidebar(sidebarSelector, 'mostPopularTags', 'Post', 5);
+            initLoad();
             controller.getPostPage(this.params['id'], selector);
         });
 
         this.get('#/user/:id', function () {
-            controller.loadMenu(menuSelector);
-            controller.getSidebar(sidebarSelector, 'mostPopularTags', 'Post', 5);
+            initLoad();
             controller.getUserPage(this.params['id'], selector);
         });
+
+        this.get('#/tag/:id', function () {
+            initLoad();
+            controller.getTagPage(this.params['id'], selector);
+        });
+
+        function initLoad(){
+            controller.loadMenu(menuSelector);
+            controller.getSidebar(sidebarSelector, 'mostPopularTags', 'Post', 5);
+        }
     });
 
     app.router.run('#/blog');

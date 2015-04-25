@@ -265,6 +265,17 @@ app.controller = (function () {
             });
     };
 
+    Controller.prototype.getTagPage = function (tag, selector) {
+        $(selector).empty();
+
+        this.model.tag.getPostsByTag(tag)
+            .then(function (data) {
+                app.blogView.load(selector, data);
+            }, function (error) {
+                Noty.error(JSON.parse(error.responseText).error);
+            });
+    };
+
     return {
         get: function (model) {
             return new Controller(model);
