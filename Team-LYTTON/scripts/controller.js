@@ -224,16 +224,24 @@ app.controller = (function () {
 
     Controller.prototype.attachBlogEvents = function (selector) {
         var _this = this;
+
+        var arrayUnique = function(a) {
+            return a.reduce(function(p, c) {
+                if (p.indexOf(c) < 0) p.push(c);
+                return p;
+            }, []);
+        };
+
         $(selector).click(function () {
             var _data = {
                 title: $("input[id=title]").val(),
                 content: $("textarea[id=content]").val(),
-                tags: $("input[id=tags]").val().split(', ')
+                tags: arrayUnique($("input[id=tags]").val().split(', '))
             };
 
             _this.model.post.createPost(_data)
-                .then(function (data) {
-                    $(selector).empty();
+                .then(function () {
+                    $('#posts').empty();
                     _this.model.post.getPosts()
                         .then(function (data) {
                             Noty.success('Article posted successfully');
