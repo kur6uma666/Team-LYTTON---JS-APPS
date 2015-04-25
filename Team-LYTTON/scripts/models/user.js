@@ -20,6 +20,9 @@ app._model.user = (function () {
         return defer.promise;
     };
 
+    //Users.prototype.logout = function() {
+    //    credentials.clearLocalStorage();
+    //}
     User.prototype.logOut = function () {
         var defer = Q.defer();
         this._requester.post('logout')

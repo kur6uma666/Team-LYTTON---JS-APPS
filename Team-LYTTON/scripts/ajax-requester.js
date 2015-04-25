@@ -5,6 +5,14 @@ app.requester = (function () {
         this._baseUrl = baseUrl;
     }
 
+    //Requester.prototype.upload = function (serviceUrl) {
+    //    var headers = getHeaders();
+    //    var file = 'file.type';
+    //
+    //    return makeRequest()
+    //
+    //};
+
     Requester.prototype.get = function (serviceUrl) {
         var headers = getHeaders();
         var url = this._baseUrl + serviceUrl;
@@ -41,6 +49,7 @@ app.requester = (function () {
             url: url,
             contentType: 'application/json',
             data: JSON.stringify(data),
+            processData: false,
             success: function (data) {
                 defer.resolve(data);
             },

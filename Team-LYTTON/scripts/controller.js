@@ -22,21 +22,25 @@ app.controller = (function () {
         var _this = this;
         app.loginView.load(selector)
             .then(function () {
-                _this.attachLoginEvents('#loginButton');
+                _this.attachLoginEvents('#login-btn');
+                $('#register-btn').click(function () {
+                    window.location.replace('#/register');
+                })
             })
     };
 
     Controller.prototype.attachLoginEvents = function (selector) {
         var _this = this;
         $(selector).click(function () {
-            var username = ($("input[id=username]").val());
-            var password = ($("input[id=password]").val());
+            var username = ($("input[id=login-username]").val());
+            var password = ($("input[id=login-password]").val());
+
             _this.model.user.logIn(username, password)
-                .then(function (loginData) {
-                    sessionStorage['logged-in'] = loginData.sessionToken;
-                    sessionStorage['id'] = loginData.objectId;
+                .then(function (data) {
+                    sessionStorage['logged-in'] = data.sessionToken;
+                    sessionStorage['id'] = data.objectId;
                     window.location.replace('#/blog');
-                    Noty.success('Welcome!');
+                    Noty.success('Successfully logged in!');
                 },
                 function (errorData) {
                     Noty.error(JSON.parse(errorData.responseText).error);
@@ -64,7 +68,11 @@ app.controller = (function () {
         var _this = this;
         app.profileView.load(selector)
             .then(function () {
-                _this.attachProfilePageEvents('#editButton');
+                _this.attachProfilePageEvents('#save-btn');
+                //TODO Showing current user data in inputs in editProfile page
+                //var userId = sessionStorage['id'];
+                //var userData = app._model.user.getUserById(userId);
+                //$('username').val(userData.username);
             }, function (error) {
                 Noty.error(JSON.parse(error.responseText).error);
             })
@@ -95,9 +103,10 @@ app.controller = (function () {
                 });
         });
 
+        _this.attachPictureUploadEvents('#upload-file-button');
+
         $('#cancel-btn').click(function () {
-            window.location.replace('#/');
-            _this.loadMenu('nav');
+            window.location.replace('#/blog');
         });
 
         $('#delete-btn').click(function () {
@@ -113,32 +122,66 @@ app.controller = (function () {
         });
     };
 	
-	Controller.prototype.attachPictureUploadHandler = function (selector) {
-        $(selector).on('click', '#upload-file-button', function() {
-            $('#picture').click();
+	Controller.prototype.attachPictureUploadEvents = function (selector) {
+        var file;
+
+        $('#picture').bind("change", function(e) {
+            var files = e.target.files || e.dataTransfer.files;
+            file = files[0];
         });
 
-        $(selector).on('change', '#picture', function() {
-            var file = this.files[0];
-            if (file.type.match(/image\/.*/)) {
-                var reader = new FileReader();
-                reader.onload = function() {
-                    $('.picture-name').text(file.name);
-                    $('.picture-preview').attr('src', reader.result);
-                    $('#picture').attr('data-picture-data', reader.result);
-                };
-                reader.readAsDataURL(file);
-            } else {
-                Noty.error("Invalid file format.");
-            }
-        });
+        //TEST
+        //$('#picture').bind("change", function (e) {
+        //    var fileUploadControl = $("#upload-file-button")[0];
+        //    var file = fileUploadControl.files[0];
+        //    var name = file.name; //This does *NOT* need to be a unique name
+        //    var parseFile = new Parse.File(name, file);
+        //
+        //    parseFile.save().then(function () {
+        //        var profilePicture = new Parse.Object("ProfilePicture");
+        //        profilePicture.set("pic", parseFile);
+        //        profilePicture.save();
+        //    }, function (error) {
+        //
+        //    });
+        //});
+
+        $(selector).click(function() {
+            var serverUrl = 'https://api.parse.com/1/files/' + file.name;
+
+                $.ajax({
+                    method: "POST",
+                    headers: {
+                        'X-Parse-Application-Id': 'gBxtJ8j1z5sRZhOgtAstvprePygEIvYTxY4VNQOY',
+                        'X-Parse-REST-API-Key': 'CLU5dIerpE1k9zX06HiR3RxJQA3Vob2NgJarCl4z',
+                        'Content-Type': file.type
+                    },
+                    url: serverUrl,
+                    data: file,
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
+                        //sessionStorage['pictureUrl'] = data.url;
+                        //See console to see the uploaded picture url
+                        console.log(data.url);
+                        alert('Upload success!');
+                    },
+                    error: function(data) {
+                        var obj = $.parseJSON(data);
+                        alert(obj.error);
+                    }
+                });
+            });
     };
 
     Controller.prototype.getRegisterPage = function (selector) {
         var _this = this;
         app.registerView.load(selector)
             .then(function () {
-                _this.attachRegisterEvents('#registerButton')
+                _this.attachRegisterEvents('#reg-btn');
+                $('#login-btn').click(function() {
+                    window.location.replace('#/login');
+                })
             }, function (error) {
                 Noty.error(JSON.parse(error.responseText).error);
             })
@@ -146,19 +189,26 @@ app.controller = (function () {
 
     Controller.prototype.attachRegisterEvents = function (selector) {
         var _this = this;
-        $(selector).click(function () {
-            var data = {
-                username: $("input[id=username]").val(),
-                password: $("input[id=password]").val(),
-                email: $("input[id=email]").val()
 
+        _this.attachPictureUploadEvents('#upload-file-button');
+
+        $(selector).click(function () {
+            var userRegData = {
+                username: $("input[id=reg-username]").val(),
+                password: $("input[id=reg-password]").val(),
+                email: $("input[id=reg-email]").val(),
+                firstName: $("input[id=reg-firstName]").val(),
+                middleName: $("input[id=reg-midName]").val(),
+                lastName: $("input[id=reg-lasName]").val(),
+                gender: $('input[name="gender-radio"]:checked').val(),
+                picture: sessionStorage['pictureUrl']
             };
-            _this.model.user.register(data)
-                .then(function (registerData) {
+            _this.model.user.register(userRegData)
+                .then(function (data) {
                     Noty.success('Registration Successful');
-                    sessionStorage['logged-in'] = registerData.sessionToken;
-                    sessionStorage['id'] = registerData.objectId;
-                    window.location.replace('#/');
+                    sessionStorage['logged-in'] = data.sessionToken;
+                    sessionStorage['id'] = data.objectId;
+                    window.location.replace('#/blog');
                 }, function (error) {
                     Noty.error(JSON.parse(error.responseText).error);
                 })

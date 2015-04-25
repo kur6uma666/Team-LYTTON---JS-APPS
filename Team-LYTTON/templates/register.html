@@ -1,15 +1,79 @@
-<form>
-    <h2>Register</h2>
-    <label for="username">Username:</label>
-    <input type="text" id="username">
-    <br/>
-    <label for="password">Password:</label>
-    <input type="password" id="password">
-    <br/>
-    <label for="password-repeat">Repeat password:</label>
-    <input type="password" id="password-repeat">
-    <br/>
-    <label for="email">Email:</label>
-    <input type="email" id="email">
-    <input type="button" id="registerButton" value="Register">
-</form>
+<div class="row">
+    <form class="register form-horizontal col-lg-12">
+        <fieldset>
+            <legend><h2>Create a new account</h2></legend>
+            <div class="col-lg-9 form-info">
+                <div class="form-group">
+                    <label for="reg-username" class="col-lg-3 control-label">Username:</label>
+                    <div class="col-lg-9">
+                        <input type="text" class="form-control" id="reg-username" placeholder="Username">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="reg-password" class="col-lg-3 control-label">Password:</label>
+                    <div class="col-lg-9">
+                        <input type="password" class="form-control" id="reg-password" placeholder="Password">
+                    </div>
+                    <label for="repeat-password" class="col-lg-3 control-label">Repeat password:</label>
+                    <div class="col-lg-9">
+                        <input type="password" class="form-control" id="repeat-password" placeholder="Repeat password">
+                    </div>
+                    <label for="reg-email" class="col-lg-3 control-label">Email:</label>
+                    <div class="col-lg-9">
+                        <input type="email" class="form-control" id="reg-email" placeholder="example@yahoo.com">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="reg-firstName" class="col-lg-3 control-label">First name:</label>
+                    <div class="col-lg-9">
+                        <input type="text" class="form-control" id="reg-firstName">
+                    </div>
+                    <label for="reg-midName" class="col-lg-3 control-label">Middle name:</label>
+                    <div class="col-lg-9">
+                        <input type="text" class="form-control" id="reg-midName">
+                    </div>
+                    <label for="reg-lastName" class="col-lg-3 control-label">Last name:</label>
+                    <div class="col-lg-9">
+                        <input type="text" class="form-control" id="reg-lastName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Gender:</label>
+                    <div class="col-lg-9">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="gender-radio" value="male">Male
+                            </label>
+                            <label>
+                                <input type="radio" name="gender-radio" value="female">Female
+                            </label>
+                            <label>
+                                <input type="radio" name="gender-radio" value="other">Other
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 picture-upload">
+                <div class="form-group">
+                    <img class="thumbnail picture-preview"/>
+                </div>
+                <div class="form-group">
+                    <p class="picture-name"></p>
+                    <button type="button" id="upload-file-button" class="btn btn-md btn-info">Upload</button>
+                    <input type="file" id="picture" />
+                    <p>Size limit: 128KB</p>
+                </div>
+            </div>
+
+            <div class="form-group col-lg-12">
+                <div class="col-lg-10 col-lg-offset-2">
+                    <button id="reg-btn" type="button" class="btn btn-lg btn-primary">Register</button>
+                    <span>or</span>
+                    <button id="login-btn" type="button" class="btn btn-lg btn-primary">Login</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
