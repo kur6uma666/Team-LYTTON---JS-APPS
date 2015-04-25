@@ -10,9 +10,9 @@
     <section id="mostPopularTags">
         <h4>Most popular tags:</h4>
         {{#each mostPopularTags}}
-        {{#each this}}
-            <span><a href="#/tag/{{@key}}">{{@key}}({{this}})</a></span>
-        {{/each}}
+            {{#each this}}
+                <span><a href="#/tag/{{@key}}">{{@key}}({{this}})</a></span>
+            {{/each}}
         {{/each}}
     </section>
 {{/if}}

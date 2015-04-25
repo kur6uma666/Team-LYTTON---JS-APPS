@@ -43,11 +43,7 @@ app._model.sidebar = (function () {
         this._mostPopularTags['mostPopularTags'].length = 0;
         this._requester.post('functions/' + func, data)
             .then(function (_data) {
-                //_data['result'].forEach(function (tag) {
-                //    _this._mostPopularTags['mostPopularPosts'].push(tag);
-                //});
                 _this._mostPopularTags['mostPopularTags'] = _data['result'];
-                console.log(_this._mostPopularTags);
                 defer.resolve(_this._mostPopularTags);
             }, function (error) {
                 defer.reject(error);

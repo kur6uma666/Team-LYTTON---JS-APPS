@@ -4,12 +4,9 @@ app.blogView = (function(){
     function BlogView(selector, data) {
         var defer = Q.defer();
         $.get('templates/blog-view.html', function(template) {
-            $(selector).empty();
-            var output = '';
-            for (var i = data['posts'].length-1; i >= 0 ; i--) {
-                output += Mustache.to_html(template, data['posts'][i]);
-            }
-            $(selector).append(output);
+            var temp = Handlebars.compile(template);
+            var html = temp(data);
+            $(selector).append(html);
         }).success(function(data) {
             defer.resolve(data);
         }).error(function(error) {

@@ -3,7 +3,7 @@ var app = app || {};
 app.sidebarView = (function(){
     function SidebarView(selector, data){
         var deffer = Q.defer();
-
+        
         $.get('templates/sidebar.html', function (template) {
             var temp = Handlebars.compile(template);
             var html = temp(data);

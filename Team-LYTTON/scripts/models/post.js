@@ -41,7 +41,7 @@ app._model.post = (function () {
         var _this = this;
         this._posts['posts'].length = 0;
 
-        this._requester.get('classes/Post?include=author&order=createdAt')
+        this._requester.get('classes/Post?include=author&order=-createdAt')
             .then(function (data) {
                 data['results'].forEach(function (dataPost) {
                     var post = {
