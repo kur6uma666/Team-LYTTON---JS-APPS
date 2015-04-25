@@ -291,40 +291,45 @@ app.controller = (function () {
                 });
         });
 
-        $('body').find('a').on('click', function (event) {
-            var postId = /[^/]*$/.exec(event.target['href'])[0];
-            var data = {
-                visitsCount: {
-                    __op: 'Increment',
-                    amount: 1
-                }
-            };
-            $.ajax({
-                method: 'PUT',
-                headers: {
-                    'X-Parse-Application-Id': 'gBxtJ8j1z5sRZhOgtAstvprePygEIvYTxY4VNQOY',
-                    'X-Parse-REST-API-Key': 'CLU5dIerpE1k9zX06HiR3RxJQA3Vob2NgJarCl4z',
-                    'X-Parse-Session-Token': sessionStorage['logged-in'],
-                    'Content-Type': 'application/json'
-                },
-                data: JSON.stringify(data),
-                url: 'https://api.parse.com/1/classes/Post/' + postId
-            }).done(function (successData) {
-
-            }).fail(function (error) {
-
-            })
-        })
+        //$('body').find('a').on('click', function (event) {
+        //    var postId = /[^/]*$/.exec(event.target['href'])[0];
+        //    var data = {
+        //        visitsCount: {
+        //            __op: 'Increment',
+        //            amount: 1
+        //        }
+        //    };
+        //    $.ajax({
+        //        method: 'PUT',
+        //        headers: {
+        //            'X-Parse-Application-Id': 'gBxtJ8j1z5sRZhOgtAstvprePygEIvYTxY4VNQOY',
+        //            'X-Parse-REST-API-Key': 'CLU5dIerpE1k9zX06HiR3RxJQA3Vob2NgJarCl4z',
+        //            'X-Parse-Session-Token': sessionStorage['logged-in'],
+        //            'Content-Type': 'application/json'
+        //        },
+        //        data: JSON.stringify(data),
+        //        url: 'https://api.parse.com/1/classes/Post/' + postId
+        //    }).done(function (successData) {
+        //
+        //    }).fail(function (error) {
+        //
+        //    })
+        //})
     };
 
     Controller.prototype.attachBlogEvents = function (selector) {
         var _this = this;
 
         $(selector).click(function () {
+            var uniqueTags = _.uniq($("input[id=tags]").val().split(', '));
+
             var _data = {
                 title: $("input[id=title]").val(),
                 content: $("textarea[id=content]").val(),
-                tags: _.uniq($("input[id=tags]").val().split(', '))
+                tags: uniqueTags,
+                tags_lower: _.map(uniqueTags, function(tag){
+                    return _.isString(tag) ? s.toLowerCase() : tag;
+                })
             };
 
             _this.model.post.createPost(_data)
