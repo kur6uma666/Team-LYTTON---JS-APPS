@@ -85,6 +85,7 @@ header a {
 header a:hover {
     color: rgb(201, 211, 40);
     transition: color .2s ease-in-out;
+    text-decoration: none;
 }
 
 #post-section #content {

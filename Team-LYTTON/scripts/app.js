@@ -50,6 +50,11 @@ var app = app || {};
             controller.getTagPage(this.params['id'], selector);
         });
 
+        this.get('#/blog/page/:page', function () {
+            initLoad();
+            controller.getBlogPage(selector, this.params['page']);
+        });
+
         function initLoad(){
             controller.loadMenu(menuSelector);
             controller.getSidebar(sidebarSelector, 'mostPopularTags', 'Post', 5);

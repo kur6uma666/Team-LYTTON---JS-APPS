@@ -235,29 +235,42 @@ app.controller = (function () {
         });
     };
 
-    Controller.prototype.getBlogPage = function (selector) {
+    Controller.prototype.getBlogPage = function (selector, page) {
         $(selector).empty();
         var _this = this;
+
         app.postArticle.load(selector)
             .then(function () {
                 _this.attachBlogEvents('#postArticle')
             }, function (error) {
                 console.log(error.responseText);
             });
-        _this.model.post.getPosts()
-            .then(function (data) {
-                app.blogView.load('#posts', data);
-                _this.model.comment.getComment()
-                    .then(function (commentsData) {
-                        var articles = $('.postCommentButton');
-                        app.commentView.load(articles, commentsData);
-                        _this.attachCommentEvents('.postCommentButton');
+
+        _this.model.post.getPostsCount('classes/Post?count=1&limit=0')
+            .then(function(dataCount){
+                var postsCount = dataCount;
+                _this.model.post.getPosts('classes/Post?include=author&order=-createdAt&limit=5&skip=' + (page * 5))
+                    .then(function (data) {
+                        app.blogView.load('#posts', data);
+                        _this.model.comment.getComment()
+                            .then(function (commentsData) {
+                                var articles = $('.postCommentButton');
+                                app.commentView.load(articles, commentsData);
+                                _this.attachCommentEvents('.postCommentButton');
+                            }, function (error) {
+                                console.log(error.responseText);
+                            });
                     }, function (error) {
-                        console.log(error.responseText);
+                        Noty.error(JSON.parse(error.responseText).error);
                     });
-            }, function (error) {
+
+            }, function(error){
                 Noty.error(JSON.parse(error.responseText).error);
             });
+
+
+
+
     };
 
     Controller.prototype.attachCommentEvents = function (selector) {
@@ -336,7 +349,7 @@ app.controller = (function () {
             _this.model.post.createPost(_data)
                 .then(function () {
                     $('#posts').empty();
-                    _this.model.post.getPosts()
+                    _this.model.post.getPosts('classes/Post?include=author&order=-createdAt&limit=5&skip=0')
                         .then(function (data) {
                             Noty.success('Article posted successfully');
                             app.blogView.load('#posts', data);

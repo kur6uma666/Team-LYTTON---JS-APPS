@@ -36,12 +36,12 @@ app._model.post = (function () {
         return defer.promise;
     };
 
-    Post.prototype.getPosts = function () {
+    Post.prototype.getPosts = function (url) {
         var defer = Q.defer();
         var _this = this;
         this._posts['posts'].length = 0;
 
-        this._requester.get('classes/Post?include=author&order=-createdAt')
+        this._requester.get(url)
             .then(function (data) {
                 data['results'].forEach(function (dataPost) {
                     var post = {
@@ -62,6 +62,20 @@ app._model.post = (function () {
                 });
 
                 defer.resolve(_this._posts);
+            }, function (error) {
+                defer.reject(error);
+            });
+
+        return defer.promise;
+    };
+
+    Post.prototype.getPostsCount = function(url){
+        var defer = Q.defer();
+        var _this = this;
+
+        this._requester.get(url)
+            .then(function (data) {
+                defer.resolve(data.count);
             }, function (error) {
                 defer.reject(error);
             });
