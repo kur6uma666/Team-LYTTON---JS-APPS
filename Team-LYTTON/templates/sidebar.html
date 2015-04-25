@@ -1,3 +1,18 @@
-{{#each latestPosts}}
-    <p><a href="#/post/{{objectId}}">{{title}}</a></p>
-{{/each}}
+{{#if latestPosts}}
+    <section id="latestPosts">
+        <h4>Latest posts:</h4>
+        {{#each latestPosts}}
+        <p><a href="#/post/{{objectId}}">{{title}}</a></p>
+        {{/each}}
+    </section>
+    <hr />
+{{else}}
+    <section id="mostPopularTags">
+        <h4>Most popular tags:</h4>
+        {{#each mostPopularTags}}
+        {{#each this}}
+            <span><a href="#/tag/{{@key}}">{{@key}}({{this}})</a></span>
+        {{/each}}
+        {{/each}}
+    </section>
+{{/if}}

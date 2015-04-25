@@ -220,10 +220,22 @@ app.controller = (function () {
         app.homeView.load(selector);
     };
 
-    Controller.prototype.getSidebar = function (selector) {
+    Controller.prototype.getSidebar = function (selector, tagsFunction, tagsClassName, tagsLimit) {
         $(selector).empty();
 
         this.model.sidebar.getLatestPosts()
+            .then(function (data) {
+                app.sidebarView.load(selector, data);
+            }, function (error) {
+                Noty.error(JSON.parse(error.responseText).error);
+            });
+
+        var data = {
+            'className': tagsClassName,
+            'limit': tagsLimit
+        };
+
+        this.model.sidebar.getMostPopularTags(tagsFunction, data)
             .then(function (data) {
                 app.sidebarView.load(selector, data);
             }, function (error) {

@@ -12,43 +12,43 @@ var app = app || {};
 
         this.get('#/about', function () {
             controller.loadMenu(menuSelector);
-            controller.getSidebar(sidebarSelector);
+            controller.getSidebar(sidebarSelector, 'mostPopularTags', 'Post', 5);
             controller.getHomePage(selector);
         });
 
         this.get('#/login', function () {
             controller.loadMenu(menuSelector);
-            controller.getSidebar(sidebarSelector);
+            controller.getSidebar(sidebarSelector, 'mostPopularTags', 'Post', 5);
             controller.getLoginPage(selector);
         });
 
         this.get('#/register', function () {
             controller.loadMenu(menuSelector);
-            controller.getSidebar(sidebarSelector);
+            controller.getSidebar(sidebarSelector, 'mostPopularTags', 'Post', 5);
             controller.getRegisterPage(selector);
         });
 
         this.get('#/blog', function () {
             controller.loadMenu(menuSelector);
-            controller.getSidebar(sidebarSelector);
+            controller.getSidebar(sidebarSelector, 'mostPopularTags', 'Post', 5);
             controller.getBlogPage(selector);
         });
 
         this.get('#/userProfile', function () {
             controller.loadMenu(menuSelector);
-            controller.getSidebar(sidebarSelector);
+            controller.getSidebar(sidebarSelector, 'mostPopularTags', 'Post', 5);
             controller.getProfilePage(selector);
         });
 
         this.get('#/post/:id', function () {
             controller.loadMenu(menuSelector);
-            controller.getSidebar(sidebarSelector);
+            controller.getSidebar(sidebarSelector, 'mostPopularTags', 'Post', 5);
             controller.getPostPage(this.params['id'], selector);
         });
 
         this.get('#/user/:id', function () {
             controller.loadMenu(menuSelector);
-            controller.getSidebar(sidebarSelector);
+            controller.getSidebar(sidebarSelector, 'mostPopularTags', 'Post', 5);
             controller.getUserPage(this.params['id'], selector);
         });
     });

@@ -7,8 +7,8 @@ app._model.sidebar = (function () {
         this._latestPosts = {
             latestPosts: []
         };
-        this._popularTags = {
-            popularTags: []
+        this._mostPopularTags = {
+            mostPopularTags: []
         }
     }
 
@@ -30,6 +30,25 @@ app._model.sidebar = (function () {
                 });
 
                 defer.resolve(_this._latestPosts);
+            }, function (error) {
+                defer.reject(error);
+            });
+
+        return defer.promise;
+    };
+
+    Sidebar.prototype.getMostPopularTags = function(func, data){
+        var defer = Q.defer();
+        var _this = this;
+        this._mostPopularTags['mostPopularTags'].length = 0;
+        this._requester.post('functions/' + func, data)
+            .then(function (_data) {
+                //_data['result'].forEach(function (tag) {
+                //    _this._mostPopularTags['mostPopularPosts'].push(tag);
+                //});
+                _this._mostPopularTags['mostPopularTags'] = _data['result'];
+                console.log(_this._mostPopularTags);
+                defer.resolve(_this._mostPopularTags);
             }, function (error) {
                 defer.reject(error);
             });
