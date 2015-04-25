@@ -237,6 +237,7 @@ app.controller = (function () {
 
     Controller.prototype.getBlogPage = function (selector, page) {
         $(selector).empty();
+
         var _this = this;
 
         app.postArticle.load(selector)
@@ -249,13 +250,24 @@ app.controller = (function () {
         _this.model.post.getPostsCount('classes/Post?count=1&limit=0')
             .then(function(dataCount){
                 var postsCount = dataCount;
-                _this.model.post.getPosts('classes/Post?include=author&order=-createdAt&limit=5&skip=' + (page * 5))
+                //_this.model.post.getPosts('classes/Post?include=author&order=-createdAt&limit=5&skip=' + (--page * 5))
+                _this.model.post.getPosts('classes/Post?include=author&order=-createdAt')
                     .then(function (data) {
+
                         app.blogView.load('#posts', data);
                         _this.model.comment.getComment()
                             .then(function (commentsData) {
                                 var articles = $('.postCommentButton');
                                 app.commentView.load(articles, commentsData);
+
+                                if(postsCount > 0) {
+                                    console.log(postsCount);
+                                    //app.pagingView.load(selector, { "pages": (parseInt(postsCount / 5) + 1)}, page);
+                                    //$(selector).append('<ul class="pagination" id="pagination"></ul>');
+                                    $('<ul class="pagination" id="pagination"></ul>').insertBefore($('#posts'));
+                                    $('#posts').pageMe({pagerSelector:'#pagination',showPrevNext:true,hidePageNumbers:false,perPage:4});
+                                }
+
                                 _this.attachCommentEvents('.postCommentButton');
                             }, function (error) {
                                 console.log(error.responseText);
