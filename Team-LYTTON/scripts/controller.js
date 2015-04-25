@@ -15,11 +15,17 @@ app.controller = (function () {
                     _this.attachSearchEvents('#search');
                 });
         } else {
-            app.menuView.load(selector);
+            app.menuView.load(selector)
+                .then(function () {
+                    _this.attachSearchEvents('#search');
+                });
         }
+
+
     };
 
     Controller.prototype.attachSearchEvents = function(selector){
+        console.log(selector);
         $(selector).click(function(){
             var tag = $('#search-input').val().trim();
             window.location.replace('#/tag/' + tag);
