@@ -49,6 +49,7 @@ app._model.post = (function () {
                         'title': dataPost.title,
                         'content': dataPost.content,
                         'tags': dataPost.tags,
+                        'visitsCount': dataPost.visitsCount,
                         'author': dataPost.author.username,
                         'authorId': dataPost.author.objectId,
                         'createdAt': new Date(dataPost.createdAt).toLocaleString()
@@ -80,7 +81,8 @@ app._model.post = (function () {
                     'title': dataPost.title,
                     'content': dataPost.content,
                     'tags': dataPost.tags,
-                    'author': dataPost.author.username
+                    'author': dataPost.author.username,
+                    'visitsCount': dataPost.visitsCount
                 };
 
                 if(dataPost.headerImage){
