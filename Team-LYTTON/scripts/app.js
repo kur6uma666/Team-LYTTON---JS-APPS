@@ -50,20 +50,6 @@ var app = app || {};
             controller.getTagPage(this.params['id'], selector);
         });
 
-        //this.get('#/blog/page/', function () {
-        //    window.location.replace('#/blog/page/1');
-        //});
-        //
-        //this.get('#/blog/page/:page', function () {
-        //    var page = this.params['page'];
-        //    if(isNaN(page) || parseInt(page) != page || page < 1){
-        //        window.location.replace('#/blog/page/1');
-        //    } else {
-        //        initLoad();
-        //        controller.getBlogPage(selector, this.params['page']);
-        //    }
-        //});
-
         function initLoad(){
             controller.loadMenu(menuSelector);
             controller.getSidebar(sidebarSelector, 'mostPopularTags', 'Post', 5);

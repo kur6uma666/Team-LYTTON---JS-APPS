@@ -25,7 +25,20 @@ app.controller = (function () {
     Controller.prototype.attachSearchEvents = function(selector){
         $(selector).click(function(){
             var tag = $('#search-input').val().trim();
-            window.location.replace('#/tag/' + tag);
+            if(tag){
+                window.location.replace('#/tag/' + tag);
+            }
+        });
+
+        $(document).on('keyup', '#search-form', function (event) {
+            event.preventDefault();
+            if(event.keyCode === 13){
+                $(selector).trigger('click');
+            }
+        });
+
+        $(document).on('keypress', '#search-form', function (event) {
+            return event.keyCode !== 13;
         });
     };
 
@@ -300,43 +313,35 @@ app.controller = (function () {
                 console.log(error.responseText);
             });
 
-        _this.model.post.getPostsCount('classes/Post?count=1&limit=0')
-            .then(function(dataCount){
-                var postsCount = dataCount;
+            _this.model.post.getPosts('classes/Post?include=author&order=-createdAt')
+                .then(function (data) {
+                    $('#posts').hide();
+                    var postsCount = Object.keys(data.posts).length;
+                    app.blogView.load('#posts', data);
 
-                //_this.model.post.getPosts('classes/Post?include=author&order=-createdAt&limit=5&skip=' + (--page * 5))
-                _this.model.post.getPosts('classes/Post?include=author&order=-createdAt')
-                    .then(function (data) {
-                        $('#posts').hide();
-
-                        app.blogView.load('#posts', data);
-
-                        _.each(data.posts,function(p) {
-                            _this.model.comment.getPostCommentsCount(p.objectId)
-                                .then(function(c){
-                                    $('article#'+ p.objectId + ' .comments-count').text('Comments: ' + c.count);
-                                }, function(error){
-                                    Noty.error(JSON.parse(error.responseText).error);
-                                });
-                        });
-
-                        _this.model.comment.getComment()
-                            .then(function () {
-                                if(postsCount > 0) {
-                                    $('<ul class="pagination" id="pagination"></ul>').insertAfter($('#post-section'));
-                                    $('#posts').pageMe({pagerSelector:'#pagination',showPrevNext:true,hidePageNumbers:false,perPage:5});
-                                    $('#posts').fadeIn();
-                                }
-                            }, function (error) {
-                                console.log(error.responseText);
+                    _.each(data.posts,function(p) {
+                        _this.model.comment.getPostCommentsCount(p.objectId)
+                            .then(function(c){
+                                $('article#'+ p.objectId + ' .comments-count').text(c.count);
+                            }, function(error){
+                                Noty.error(JSON.parse(error.responseText).error);
                             });
-                    }, function (error) {
-                        Noty.error(JSON.parse(error.responseText).error);
                     });
-            }, function(error){
-                Noty.error(JSON.parse(error.responseText).error);
-            });
-    };
+
+                    _this.model.comment.getComment()
+                        .then(function () {
+                            if(postsCount > 0) {
+                                $('<ul class="pagination" id="pagination"></ul>').insertAfter($('#post-section'));
+                                $('#posts').pageMe({pagerSelector:'#pagination',showPrevNext:true,hidePageNumbers:false,perPage:5});
+                                $('#posts').fadeIn();
+                            }
+                        }, function (error) {
+                            console.log(error.responseText);
+                        });
+                }, function (error) {
+                    Noty.error(JSON.parse(error.responseText).error);
+                });
+     };
 
     Controller.prototype.attachCommentEvents = function (selector) {
         var _this = this;
@@ -507,17 +512,27 @@ app.controller = (function () {
         this.model.user.getUserById(id)
             .then(function (data) {
                 app.userView.load(selector, data);
-            }, function (error) {
+                            }, function (error) {
                 Noty.error(JSON.parse(error.responseText).error);
             });
     };
 
     Controller.prototype.getTagPage = function (tag, selector) {
         $(selector).empty();
+        var _this = this;
 
         this.model.tag.getPostsByTag(tag)
             .then(function (data) {
                 app.blogView.load(selector, data);
+
+                _.each(data.posts,function(p) {
+                    _this.model.comment.getPostCommentsCount(p.objectId)
+                        .then(function(c){
+                            $('article#'+ p.objectId + ' .comments-count').text(c.count);
+                        }, function(error){
+                            Noty.error(JSON.parse(error.responseText).error);
+                        });
+                });
             }, function (error) {
                 Noty.error(JSON.parse(error.responseText).error);
             });

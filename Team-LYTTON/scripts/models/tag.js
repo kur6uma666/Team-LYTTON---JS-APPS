@@ -27,7 +27,8 @@ app._model.tag = (function(){
                         'tags': dataPost.tags,
                         'author': dataPost.author.username,
                         'authorId': dataPost.author.objectId,
-                        'createdAt': new Date(dataPost.createdAt).toLocaleString()
+                        'createdAt': new Date(dataPost.createdAt).toLocaleString(),
+                        'visitsCount': dataPost.visitsCount
                     };
                     _this._postsByTag['posts'].push(post);
                 });

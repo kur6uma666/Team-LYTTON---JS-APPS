@@ -35,41 +35,6 @@ article:nth-child(even) {
     background: lightgoldenrodyellow;
 }
 
-/*header, footer {*/
-    /*background: #363636;*/
-/*}*/
-
-/*header {*/
-    /*height: 60px;*/
-/*}*/
-
-
-
-/*ul {*/
-    /*list-style: none;*/
-/*}*/
-
-/*nav ul {*/
-    /*display: inline-block;*/
-    /*margin: 0;*/
-    /*height: 30px;*/
-    /*position: relative;*/
-    /*top: 15px;*/
-    /*vertical-align: text-bottom;*/
-/*}*/
-
-/*nav li {*/
-    /*background: none;*/
-    /*display: inline-block;*/
-    /*color: #ffffff;*/
-    /*width: 120px;*/
-    /*font-size: 1.3em;*/
-    /*text-align: center;*/
-    /*height: 30px;*/
-/*}*/
-
-
-
 #post-section #content {
     width: 100%;
     height: 200px;
@@ -91,19 +56,6 @@ article:nth-child(even) {
 footer {
     height: 100px;
 }
-
-/*#search-form {*/
-    /*float: right;*/
-    /*height: 30px;*/
-    /*position: relative;*/
-    /*top: 15px;*/
-    /*vertical-align: text-bottom;*/
-/*}*/
-
-/*#search-input, #search {*/
-    /*font-size: 1em;*/
-/*}*/
-
 
 /* Aside */
 
@@ -215,6 +167,17 @@ input[readonly] {
     margin-top: 13px;
     color: green;
 }
+
+.post-details {
+    margin-right: 15px;
+    color: #038cff;
+}
+
+.post-details-container .glyphicon {
+    font-size: 1.1em;
+}
+
+
 
 /* validation css */
 #result{
