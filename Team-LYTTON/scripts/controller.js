@@ -211,7 +211,7 @@ app.controller = (function () {
         var _this = this;
         _this.attachPictureUploadEvents('#upload-file-button');
 
-        $("input[id=reg-password]").keyup(function () {
+        $("input[id=reg-password], input[id=repeat-password]").keyup(function () {
             $('#result').empty();
             if(($("input[id=reg-password]").val()).length >= 6) {
                 var passwordStrength = validation.checkPasswordStrength($("input[id=reg-password]").val());
@@ -247,20 +247,20 @@ app.controller = (function () {
             }
         }); // pasword strength function
 
-        $("input[id=repeat-password]").keyup(function () {
-            if(validation.checkIfPasswordsMatch($("input[id=repeat-password]").val(), $("input[id=reg-password]").val())) {
-                $('#passwordMatch').html('Both passwords are the same.');
+        $("input[id=repeat-password], input[id=reg-password]").keyup(function () {
+            if(!validation.checkIfPasswordsMatch($("input[id=repeat-password]").val(), $("input[id=reg-password]").val())) {
+                $('#passwordMatch').html('Both passwords do not match.').css({"background-color": "red", "font-weight": "bold", "color" : "white"});
             } else {
-                $('#passwordMatch').html('Both password do not match.');
+                $('#passwordMatch').empty();
             }
         }); // password match function
 
         $("input[id=reg-email]").keyup(function () {
             var isValid = validation.checkEmail($("input[id=reg-email]").val());
-            if(isValid !== null) {
-                $('#checkEmail').html('The email is valid');
+            if(isValid === null) {
+                $('#checkEmail').html('This email is NOT valid').css({"background-color": "red", "font-weight": "bold", "color" : "white"});
             } else {
-                $('#checkEmail').html('The email is NOT valid');
+                $('#checkEmail').hide();
             }
         });
 
