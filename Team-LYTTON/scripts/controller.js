@@ -212,27 +212,31 @@ app.controller = (function () {
         _this.attachPictureUploadEvents('#upload-file-button');
 
         $("input[id=reg-password]").keyup(function () {
-            var passwordStrength = validation.checkPasswordStrength($("input[id=reg-password]").val());
-            switch (passwordStrength) {
-                case 'weak':
-                    $('#result').html(passwordStrength).css({"background-color": "red"});
-                    break;
+            $('#result').empty();
+            if(($("input[id=reg-password]").val()).length >= 6) {
+                var passwordStrength = validation.checkPasswordStrength($("input[id=reg-password]").val());
+                switch (passwordStrength) {
+                    case 'weak':
+                        $('#result').html(passwordStrength).css({"background-color": "red"});
+                        break;
 
-                case 'medium':
-                    $('#result').html(passwordStrength).css({"background-color": "deepskyblue"});
-                    break;
+                    case 'medium':
+                        $('#result').html(passwordStrength).css({"background-color": "deepskyblue"});
+                        break;
 
-                case 'good':
-                    $('#result').html(passwordStrength).css({"background-color": "blue"});
-                    break;
+                    case 'good':
+                        $('#result').html(passwordStrength).css({"background-color": "blue"});
+                        break;
 
-                case 'strong':
-                    $('#result').html(passwordStrength).css({"background-color": "green"});
-                    break;
+                    case 'strong':
+                        $('#result').html(passwordStrength).css({"background-color": "green"});
+                        break;
 
-                case 'excellent':
-                    $('#result').html(passwordStrength).css({"background-color": "greenyellow"});
-                    break;
+                    case 'excellent':
+                        $('#result').empty();
+                        $('#result').html(passwordStrength).css({"background-color": "greenyellow"});
+                        break;
+                }
             }
         }); // pasword strength function
 
