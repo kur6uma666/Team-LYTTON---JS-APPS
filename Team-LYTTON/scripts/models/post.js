@@ -95,14 +95,16 @@ app._model.post = (function () {
                     'title': dataPost.title,
                     'content': dataPost.content,
                     'tags': dataPost.tags,
-                    'author': dataPost.author.username,
-                    'visitsCount': dataPost.visitsCount
+                    'author': dataPost.author,
+                    'visitsCount': dataPost.visitsCount,
+                    'createdAt': dataPost.createdAt
                 };
 
                 if(dataPost.headerImage){
                     post.image = dataPost.headerImage.url;
                 }
                 _this._posts['posts'].push(post);
+
                 defer.resolve(_this._posts);
             }, function (error) {
                 defer.reject(error);

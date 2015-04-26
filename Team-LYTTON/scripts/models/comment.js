@@ -54,6 +54,31 @@ app._model.comment = (function () {
         return defer.promise;
     };
 
+    Comment.prototype.getPostComments = function(postId){
+        var defer = Q.defer();
+        var _this = this;
+        this._comments['comments'].length = 0;
+        var where = {
+            "post": {
+                "__type": "Pointer",
+                "className": "Post",
+                "objectId": postId
+            }
+        };
+
+        this._requester.get('classes/Comment?order=-createdAt&include=post&where=' + JSON.stringify(where))
+            .then( function(data) {
+                _.each(data['results'], function(dataComment){
+                    _this._comments['comments'].push(dataComment);
+                });
+                defer.resolve(_this._comments);
+            }, function (error) {
+                defer.reject(error);
+            });
+
+        return defer.promise;
+    };
+
     Comment.prototype.getPostCommentsCount = function (postId){
         var defer = Q.defer();
         var _this = this;

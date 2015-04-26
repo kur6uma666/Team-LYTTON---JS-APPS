@@ -189,7 +189,7 @@ header .navbar-inverse .navbar-nav>.active>a {
     text-align: right;
     filter: alpha(opacity=0);
     opacity: 0;
-    background: red;
+    background: #ff0000;
     cursor: inherit;
     display: block;
 }
@@ -198,15 +198,15 @@ input[readonly] {
     cursor: text !important;
 }
 
-#posts .jumbotron {
+#posts .jumbotron, .post .jumbotron {
     padding: 5px 20px;
 }
 
-#posts .jumbotron p{
+#posts .jumbotron p, .post .jumbotron p{
     font-size: 1.1em;
 }
 
-#posts .jumbotron .post-content {
+#posts .jumbotron .post-content, .post .jumbotron .post-content {
     font-size: 1.4em;
     background: #f6f6f6;
 }
