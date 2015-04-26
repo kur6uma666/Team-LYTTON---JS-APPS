@@ -367,12 +367,8 @@ app.controller = (function () {
     Controller.prototype.attachCommentEvents = function (selector, commentsSelector) {
         var _this = this;
 
-<<<<<<< HEAD
         $(document).on('click', selector, function(event){
             event.stopPropagation();
-=======
-        $(document).on('click', selector, function (event) {
->>>>>>> origin/master
             var id = event.target['id'];
             var data = {
                 author: $(this).parent().find('input[id=author]').val(),
