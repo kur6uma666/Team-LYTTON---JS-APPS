@@ -22,17 +22,17 @@ app.controller = (function () {
         }
     };
 
-    Controller.prototype.attachSearchEvents = function(selector){
-        $(selector).click(function(){
+    Controller.prototype.attachSearchEvents = function (selector) {
+        $(selector).click(function () {
             var tag = $('#search-input').val().trim();
-            if(tag){
+            if (tag) {
                 window.location.replace('#/tag/' + tag);
             }
         });
 
         $(document).on('keyup', '#search-form', function (event) {
             event.preventDefault();
-            if(event.keyCode === 13){
+            if (event.keyCode === 13) {
                 $(selector).trigger('click');
             }
         });
@@ -61,6 +61,7 @@ app.controller = (function () {
 
             _this.model.user.logIn(username, password)
                 .then(function (data) {
+                    sessionStorage['username'] = data.username;
                     sessionStorage['logged-in'] = data.sessionToken;
                     sessionStorage['id'] = data.objectId;
                     window.location.replace('#/blog');
@@ -78,7 +79,7 @@ app.controller = (function () {
             _this.model.user.logOut()
                 .then(function () {
                     sessionStorage.clear();
-                    window.location.replace('#/blog');
+                    window.location.replace('#/login');
                     _this.loadMenu('nav');
                     Noty.success('Goodbye!');
                 },
@@ -114,33 +115,24 @@ app.controller = (function () {
         var _this = this;
 
         $(selector).click(function (event) {
+            var userData = {
+                username: $("input[id=username]").val(),
+                email: $("input[id=email]").val(),
+                firstName: $("input[id=firstName]").val(),
+                middleName: $("input[id=middleName]").val(),
+                lastName: $("input[id=lastName]").val(),
+                gender: $("#gender").val()
+            };
             if ($('#password').val()) {
-                var userData = {
-                    username: $("input[id=username]").val(),
-                    password: $("input[id=password]").val(),
-                    email: $("input[id=email]").val(),
-                    firstName: $("input[id=firstName]").val(),
-                    middleName: $("input[id=middleName]").val(),
-                    lastName: $("input[id=lastName]").val(),
-                    gender: $("#gender").val()
-                };
-            } else {
-                var userData = {
-                    username: $("input[id=username]").val(),
-                    email: $("input[id=email]").val(),
-                    firstName: $("input[id=firstName]").val(),
-                    middleName: $("input[id=middleName]").val(),
-                    lastName: $("input[id=lastName]").val(),
-                    gender: $("#gender").val()
-                };
+                userData['password'] =  $("input[id=password]").val();
             }
 
             _this.model.user.updateUser(sessionStorage['id'], userData)
-                 .then(function (data) {
+                .then(function (data) {
                     sessionStorage.clear();
                     window.location.replace('#/blog');
                     Noty.success('Profile edited successfully.');
-                }, function(error) {
+                }, function (error) {
                     Noty.error('Error saving changes. Please try again.');
                 });
         });
@@ -153,21 +145,21 @@ app.controller = (function () {
 
         $('#delete-btn').click(function () {
             _this.model.user.deleteUser(sessionStorage['id'])
-                 .then(function () {
+                .then(function () {
                     sessionStorage.clear();
                     window.location.replace('#/');
                     _this.loadMenu('nav');
                     Noty.success('Profile deleted successfully.');
                 }, function (error) {
-                   Noty.error(JSON.parse(error.responseText).error);
+                    Noty.error(JSON.parse(error.responseText).error);
                 });
         });
     };
-	
-	Controller.prototype.attachPictureUploadEvents = function (selector) {
+
+    Controller.prototype.attachPictureUploadEvents = function (selector) {
         var file;
 
-        $('#picture').bind("change", function(e) {
+        $('#picture').bind("change", function (e) {
             var files = e.target.files || e.dataTransfer.files;
             file = files[0];
         });
@@ -188,32 +180,32 @@ app.controller = (function () {
         //    });
         //});
 
-        $(selector).click(function() {
+        $(selector).click(function () {
             var serverUrl = 'https://api.parse.com/1/files/' + file.name;
 
-                $.ajax({
-                    method: "POST",
-                    headers: {
-                        'X-Parse-Application-Id': 'gBxtJ8j1z5sRZhOgtAstvprePygEIvYTxY4VNQOY',
-                        'X-Parse-REST-API-Key': 'CLU5dIerpE1k9zX06HiR3RxJQA3Vob2NgJarCl4z',
-                        'Content-Type': file.type
-                    },
-                    url: serverUrl,
-                    data: file,
-                    processData: false,
-                    contentType: false,
-                    success: function(data) {
-                        //sessionStorage['pictureUrl'] = data.url;
-                        //See console to see the uploaded picture url
-                        console.log(data.url);
-                        alert('Upload success!');
-                    },
-                    error: function(data) {
-                        var obj = $.parseJSON(data);
-                        alert(obj.error);
-                    }
-                });
+            $.ajax({
+                method: "POST",
+                headers: {
+                    'X-Parse-Application-Id': 'gBxtJ8j1z5sRZhOgtAstvprePygEIvYTxY4VNQOY',
+                    'X-Parse-REST-API-Key': 'CLU5dIerpE1k9zX06HiR3RxJQA3Vob2NgJarCl4z',
+                    'Content-Type': file.type
+                },
+                url: serverUrl,
+                data: file,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    //sessionStorage['pictureUrl'] = data.url;
+                    //See console to see the uploaded picture url
+                    console.log(data.url);
+                    alert('Upload success!');
+                },
+                error: function (data) {
+                    var obj = $.parseJSON(data);
+                    alert(obj.error);
+                }
             });
+        });
     };
 
     Controller.prototype.getRegisterPage = function (selector) {
@@ -221,7 +213,7 @@ app.controller = (function () {
         app.registerView.load(selector)
             .then(function () {
                 _this.attachRegisterEvents('#reg-btn');
-                $('#login-btn').click(function() {
+                $('#login-btn').click(function () {
                     window.location.replace('#/login');
                 })
             }, function (error) {
@@ -235,7 +227,7 @@ app.controller = (function () {
 
         $("input[id=reg-password], input[id=repeat-password]").keyup(function () {
             $('#result').empty();
-            if(($("input[id=reg-password]").val()).length >= 6) {
+            if (($("input[id=reg-password]").val()).length >= 6) {
                 var passwordStrength = validation.checkPasswordStrength($("input[id=reg-password]").val());
                 switch (passwordStrength) {
                     case 'weak':
@@ -265,13 +257,21 @@ app.controller = (function () {
                 }
             } else {
                 $('#resultLabel').hide();
-                $('#result').html('Password is too short').css({"background-color": "red", "font-weight": "bold", "color" : "white"})
+                $('#result').html('Password is too short').css({
+                    "background-color": "red",
+                    "font-weight": "bold",
+                    "color": "white"
+                })
             }
         }); // pasword strength function
 
         $("input[id=repeat-password], input[id=reg-password]").keyup(function () {
-            if(!validation.checkIfPasswordsMatch($("input[id=repeat-password]").val(), $("input[id=reg-password]").val())) {
-                $('#passwordMatch').html('Both passwords do not match.').css({"background-color": "red", "font-weight": "bold", "color" : "white"});
+            if (!validation.checkIfPasswordsMatch($("input[id=repeat-password]").val(), $("input[id=reg-password]").val())) {
+                $('#passwordMatch').html('Both passwords do not match.').css({
+                    "background-color": "red",
+                    "font-weight": "bold",
+                    "color": "white"
+                });
             } else {
                 $('#passwordMatch').empty();
             }
@@ -279,8 +279,12 @@ app.controller = (function () {
 
         $("input[id=reg-email]").keyup(function () {
             var isValid = validation.checkEmail($("input[id=reg-email]").val());
-            if(isValid === null) {
-                $('#checkEmail').html('This email is NOT valid').css({"background-color": "red", "font-weight": "bold", "color" : "white"});
+            if (isValid === null) {
+                $('#checkEmail').html('This email is NOT valid').css({
+                    "background-color": "red",
+                    "font-weight": "bold",
+                    "color": "white"
+                });
             } else {
                 $('#checkEmail').hide();
             }
@@ -316,46 +320,59 @@ app.controller = (function () {
 
         app.postArticle.load(selector)
             .then(function () {
+                if (sessionStorage['username'] != 'admin') {
+                    $('#post-section').empty();
+                }
                 _this.attachBlogEvents('#postArticle')
             }, function (error) {
                 console.log(error.responseText);
             });
 
-            _this.model.post.getPosts('classes/Post?include=author&order=-createdAt')
-                .then(function (data) {
-                    $('#posts').hide();
-                    var postsCount = Object.keys(data.posts).length;
-                    app.blogView.load('#posts', data);
+        _this.model.post.getPosts('classes/Post?include=author&order=-createdAt')
+            .then(function (data) {
+                $('#posts').hide();
+                var postsCount = Object.keys(data.posts).length;
+                app.blogView.load('#posts', data);
 
-                    _.each(data.posts,function(p) {
-                        _this.model.comment.getPostCommentsCount(p.objectId)
-                            .then(function(c){
-                                $('article#'+ p.objectId + ' .comments-count').text(c.count);
-                            }, function(error){
-                                Noty.error(JSON.parse(error.responseText).error);
-                            });
-                    });
-
-                    _this.model.comment.getComment()
-                        .then(function () {
-                            if(postsCount > 0) {
-                                $('<ul class="pagination" id="pagination"></ul>').insertAfter($('#post-section'));
-                                $('#posts').pageMe({pagerSelector:'#pagination',showPrevNext:true,hidePageNumbers:false,perPage:5});
-                                $('#posts').fadeIn();
-                            }
+                _.each(data.posts, function (p) {
+                    _this.model.comment.getPostCommentsCount(p.objectId)
+                        .then(function (c) {
+                            $('article#' + p.objectId + ' .comments-count').text(c.count);
                         }, function (error) {
-                            console.log(error.responseText);
+                            Noty.error(JSON.parse(error.responseText).error);
                         });
-                }, function (error) {
-                    Noty.error(JSON.parse(error.responseText).error);
                 });
-     };
+
+                _this.model.comment.getComment()
+                    .then(function () {
+                        if (postsCount > 0) {
+                            $('<ul class="pagination" id="pagination"></ul>').insertAfter($('#post-section'));
+                            $('#posts').pageMe({
+                                pagerSelector: '#pagination',
+                                showPrevNext: true,
+                                hidePageNumbers: false,
+                                perPage: 5
+                            });
+                            $('#posts').fadeIn();
+                        }
+                    }, function (error) {
+                        console.log(error.responseText);
+                    });
+            }, function (error) {
+                Noty.error(JSON.parse(error.responseText).error);
+            });
+
+    };
 
     Controller.prototype.attachCommentEvents = function (selector, commentsSelector) {
         var _this = this;
 
+<<<<<<< HEAD
         $(document).on('click', selector, function(event){
             event.stopPropagation();
+=======
+        $(document).on('click', selector, function (event) {
+>>>>>>> origin/master
             var id = event.target['id'];
             var data = {
                 author: $(this).parent().find('input[id=author]').val(),
@@ -368,6 +385,14 @@ app.controller = (function () {
                     objectId: id
                 }
             };
+
+            $.getJSON('scripts/lang.json', function(data) {
+                $.each(data['words'], function(key, value) {
+                    // split string
+                    // check if swear
+                    // if swear replace
+                });
+            });
 
             _this.model.comment.createComment(data)
                 .then(function (commentData) {
@@ -386,23 +411,23 @@ app.controller = (function () {
     };
 
     Controller.prototype.attachBlogEvents = function (selector) {
-        $(document).on('change', '.btn-file :file', function() {
+        $(document).on('change', '.btn-file :file', function () {
             var input = $(this),
                 numFiles = input.get(0).files ? input.get(0).files.length : 1,
                 label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
             input.trigger('fileselect', [numFiles, label]);
         });
 
-        $(document).ready( function() {
-            $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+        $(document).ready(function () {
+            $('.btn-file :file').on('fileselect', function (event, numFiles, label) {
 
                 var input = $(this).parents('.input-group').find(':text'),
                     log = numFiles > 1 ? numFiles + ' files selected' : label;
 
-                if( input.length ) {
+                if (input.length) {
                     input.val(log);
                 } else {
-                    if( log ) alert(log);
+                    if (log) alert(log);
                 }
             });
         });
@@ -412,16 +437,16 @@ app.controller = (function () {
         $(selector).click(function () {
             var uniqueTags =
                 _.uniq($("input[id=tags]").val().trim().split(','))
-                .filter(function(tag){
-                    return tag !== "";
-                });
+                    .filter(function (tag) {
+                        return tag !== "";
+                    });
 
             var _data = {
                 title: $("input[id=title]").val(),
                 content: $("textarea[id=content]").val(),
                 visitsCount: 1,
                 tags: uniqueTags,
-                tags_lower: _.map(uniqueTags, function(tag){
+                tags_lower: _.map(uniqueTags, function (tag) {
                     return _.isString(tag) ? tag.toLowerCase() : tag;
                 })
             };
@@ -476,19 +501,19 @@ app.controller = (function () {
         this.model.post.getPost(id)
             .then(function (data) {
                 _this.model.comment.getPostComments(id)
-                    .then(function(comment){
+                    .then(function (comment) {
                         data.posts[0]['commentsCount'] = comment.comments.length;
                         data.comments = comment.comments;
                         app.postView.load(selector, data);
                         app.commentView.load('.comments', data);
-                        _this.attachCommentEvents('.postCommentButton','.comments');
+                        _this.attachCommentEvents('.postCommentButton', '.comments');
                         _this.model.post.visitsIncrement(id)
-                            .then(function(){
+                            .then(function () {
 
-                            }, function(error){
+                            }, function (error) {
                                 Noty.error(JSON.parse(error.responseText).error);
                             });
-                    }, function(error){
+                    }, function (error) {
                         Noty.error(JSON.parse(error.responseText).error);
                     });
 
@@ -503,7 +528,7 @@ app.controller = (function () {
         this.model.user.getUserById(id)
             .then(function (data) {
                 app.userView.load(selector, data);
-                            }, function (error) {
+            }, function (error) {
                 Noty.error(JSON.parse(error.responseText).error);
             });
     };
@@ -516,11 +541,11 @@ app.controller = (function () {
             .then(function (data) {
                 app.blogView.load(selector, data);
 
-                _.each(data.posts,function(p) {
+                _.each(data.posts, function (p) {
                     _this.model.comment.getPostCommentsCount(p.objectId)
-                        .then(function(c){
-                            $('article#'+ p.objectId + ' .comments-count').text(c.count);
-                        }, function(error){
+                        .then(function (c) {
+                            $('article#' + p.objectId + ' .comments-count').text(c.count);
+                        }, function (error) {
                             Noty.error(JSON.parse(error.responseText).error);
                         });
                 });
@@ -534,4 +559,5 @@ app.controller = (function () {
             return new Controller(model);
         }
     }
-})();
+})
+();
