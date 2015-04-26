@@ -237,6 +237,8 @@ app.controller = (function () {
                         $('#result').html(passwordStrength).css({"background-color": "greenyellow"});
                         break;
                 }
+            } else {
+                $('#result').html('Password is too short').css({"background-color": "red", "font-weight": "bold", "color" : "white"})
             }
         }); // pasword strength function
 
