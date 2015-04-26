@@ -201,3 +201,7 @@ input[readonly] {
 #gender {
     width: 25%;
 }
+
+.thumbnail {
+    width: 170px;
+}
