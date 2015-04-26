@@ -114,15 +114,26 @@ app.controller = (function () {
         var _this = this;
 
         $(selector).click(function (event) {
-            var userData = {
-                username: $("input[id=username]").val(),
-                password: $("input[id=password]").val(),
-                email: $("input[id=email]").val(),
-                firstName: $("input[id=firstName]").val(),
-                middleName: $("input[id=middleName]").val(),
-                lastName: $("input[id=lastName]").val(),
-                gender: $("#gender").val()
-        };
+            if ($('#password').val()) {
+                var userData = {
+                    username: $("input[id=username]").val(),
+                    password: $("input[id=password]").val(),
+                    email: $("input[id=email]").val(),
+                    firstName: $("input[id=firstName]").val(),
+                    middleName: $("input[id=middleName]").val(),
+                    lastName: $("input[id=lastName]").val(),
+                    gender: $("#gender").val()
+                };
+            } else {
+                var userData = {
+                    username: $("input[id=username]").val(),
+                    email: $("input[id=email]").val(),
+                    firstName: $("input[id=firstName]").val(),
+                    middleName: $("input[id=middleName]").val(),
+                    lastName: $("input[id=lastName]").val(),
+                    gender: $("#gender").val()
+                };
+            }
 
             _this.model.user.updateUser(sessionStorage['id'], userData)
                  .then(function (data) {
@@ -283,9 +294,8 @@ app.controller = (function () {
                 email: $("input[id=reg-email]").val(),
                 firstName: $("input[id=reg-firstName]").val(),
                 middleName: $("input[id=reg-midName]").val(),
-                lastName: $("input[id=reg-lasName]").val(),
-                gender: $('input[name="gender-radio"]:checked').val()
-                //picture: sessionStorage['pictureUrl']
+                lastName: $("input[id=reg-lastName]").val(),
+                gender: $('#gender').val()
             };
             _this.model.user.register(userRegData)
                 .then(function (data) {
