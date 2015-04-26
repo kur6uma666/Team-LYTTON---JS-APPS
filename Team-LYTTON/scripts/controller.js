@@ -217,27 +217,32 @@ app.controller = (function () {
                 var passwordStrength = validation.checkPasswordStrength($("input[id=reg-password]").val());
                 switch (passwordStrength) {
                     case 'weak':
+                        $('#resultLabel').show();
                         $('#result').html(passwordStrength).css({"background-color": "red"});
                         break;
 
                     case 'medium':
+                        $('#resultLabel').show();
                         $('#result').html(passwordStrength).css({"background-color": "deepskyblue"});
                         break;
 
                     case 'good':
+                        $('#resultLabel').show();
                         $('#result').html(passwordStrength).css({"background-color": "blue"});
                         break;
 
                     case 'strong':
+                        $('#resultLabel').show();
                         $('#result').html(passwordStrength).css({"background-color": "green"});
                         break;
 
                     case 'excellent':
-                        $('#result').empty();
+                        $('#resultLabel').show();
                         $('#result').html(passwordStrength).css({"background-color": "greenyellow"});
                         break;
                 }
             } else {
+                $('#resultLabel').hide();
                 $('#result').html('Password is too short').css({"background-color": "red", "font-weight": "bold", "color" : "white"})
             }
         }); // pasword strength function
