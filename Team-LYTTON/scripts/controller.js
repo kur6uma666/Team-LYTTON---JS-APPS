@@ -199,6 +199,24 @@ app.controller = (function () {
                     //See console to see the uploaded picture url
                     console.log(data.url);
                     alert('Upload success!');
+                    $.ajax({
+                        method: 'PUT',
+                        headers: {
+                            'X-Parse-Application-Id': 'gBxtJ8j1z5sRZhOgtAstvprePygEIvYTxY4VNQOY',
+                            'X-Parse-REST-API-Key': 'CLU5dIerpE1k9zX06HiR3RxJQA3Vob2NgJarCl4z',
+                            'X-Parse-Session-Token': sessionStorage['logged-in'],
+                            'Content-Type': 'application/json'
+                        },
+                        url: 'https://api.parse.com/1/classes/_User/' + sessionStorage['id'],
+                        data: JSON.stringify({
+                            imageUrl: data.url
+                        })
+                    }).done(function (successData) {
+                        $('#profilePicture').attr("src", data.url);
+                        window.location.replace('#/userProfile');
+                    }).fail(function (error) {
+
+                    })
                 },
                 error: function (data) {
                     var obj = $.parseJSON(data);

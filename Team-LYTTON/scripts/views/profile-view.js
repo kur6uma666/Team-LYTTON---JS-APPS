@@ -7,7 +7,6 @@ app.profileView = (function(){
         $.get('templates/profile-page.html', function(template) {
             var output = Mustache.render(template);
             $(selector).html(output);
-
         }).done(function(data) {
             deffer.resolve(data);
         }).fail(function (error) {
