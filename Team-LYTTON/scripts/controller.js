@@ -354,8 +354,8 @@ app.controller = (function () {
     Controller.prototype.attachCommentEvents = function (selector) {
         var _this = this;
 
-        $(selector).on('click', function (event) {
-            var id = event.target.parentElement.parentElement['id'];
+        $(document).on('click', selector, function(event){
+            var id = event.target['id'];
             var data = {
                 author: $(this).parent().find('input[id=author]').val(),
                 content: $(this).parent().find('input[id=content]').val(),
@@ -375,37 +375,12 @@ app.controller = (function () {
                         .then(function (commentsData) {
                             app.commentView.load(selector, commentsData);
                         }, function (error) {
-                            console.log(error.responseText);
+                            Noty.error(JSON.parse(error.responseText).error);
                         });
                 }, function (error) {
                     Noty.error(JSON.parse(error.responseText).error);
                 });
         });
-
-        //$('body').find('a').on('click', function (event) {
-        //    var postId = /[^/]*$/.exec(event.target['href'])[0];
-        //    var data = {
-        //        visitsCount: {
-        //            __op: 'Increment',
-        //            amount: 1
-        //        }
-        //    };
-        //    $.ajax({
-        //        method: 'PUT',
-        //        headers: {
-        //            'X-Parse-Application-Id': 'gBxtJ8j1z5sRZhOgtAstvprePygEIvYTxY4VNQOY',
-        //            'X-Parse-REST-API-Key': 'CLU5dIerpE1k9zX06HiR3RxJQA3Vob2NgJarCl4z',
-        //            'X-Parse-Session-Token': sessionStorage['logged-in'],
-        //            'Content-Type': 'application/json'
-        //        },
-        //        data: JSON.stringify(data),
-        //        url: 'https://api.parse.com/1/classes/Post/' + postId
-        //    }).done(function (successData) {
-        //
-        //    }).fail(function (error) {
-        //
-        //    })
-        //})
     };
 
     Controller.prototype.attachBlogEvents = function (selector) {
@@ -503,6 +478,7 @@ app.controller = (function () {
                         data.posts[0]['commentsCount'] = comment.comments.length;
                         data.comments = comment.comments;
                         app.postView.load(selector, data);
+                        _this.attachCommentEvents('.postCommentButton');
                         _this.model.post.visitsIncrement(id)
                             .then(function(){
 
