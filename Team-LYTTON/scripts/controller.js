@@ -93,16 +93,15 @@ app.controller = (function () {
         app.profileView.load(selector)
             .then(function () {
                 _this.attachProfilePageEvents('#save-btn');
-                //TODO Showing current user data in inputs in editProfile page
                 var userId = sessionStorage['id'];
-                var userData = _this.model.user.getUserById(userId)
+                _this.model.user.getUserById(userId)
                     .then(function (data) {
                         $('#username').val(data.username);
                         $('#email').val(data.email);
                         $('#firstName').val(data.firstName);
                         $('#middleName').val(data.middleName);
                         $('#lastName').val(data.lastName);
-                        $("input[name=gender-radio]").val(data.gender);
+                        $("#gender").val(data.gender);
                     }, function (error) {
                         Noty.error(JSON.parse(error.responseText).error);
                     });
@@ -122,14 +121,13 @@ app.controller = (function () {
                 firstName: $("input[id=firstName]").val(),
                 middleName: $("input[id=middleName]").val(),
                 lastName: $("input[id=lastName]").val(),
-                gender: $("input[name=gender-radio]:checked").val()
-                //picture: $('#picture').attr('data-picture-data')
-            };
+                gender: $("#gender").val()
+        };
 
             _this.model.user.updateUser(sessionStorage['id'], userData)
                  .then(function (data) {
                     sessionStorage.clear();
-                    window.location.replace('#/');
+                    window.location.replace('#/blog');
                     Noty.success('Profile edited successfully.');
                 }, function(error) {
                     Noty.error('Error saving changes. Please try again.');

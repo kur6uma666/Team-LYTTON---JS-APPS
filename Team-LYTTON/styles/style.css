@@ -189,3 +189,7 @@ input[readonly] {
     margin-left:5px;
 }
 /* end of validation css */
+
+#gender {
+    width: 15%;
+}
