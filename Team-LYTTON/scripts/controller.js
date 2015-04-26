@@ -355,6 +355,7 @@ app.controller = (function () {
         var _this = this;
 
         $(document).on('click', selector, function(event){
+            event.stopPropagation();
             var id = event.target['id'];
             var data = {
                 author: $(this).parent().find('input[id=author]').val(),

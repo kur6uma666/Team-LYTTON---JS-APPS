@@ -5,7 +5,6 @@ app.commentView = (function () {
         var defer = Q.defer();
 
         $.get('templates/comment-view.html', function (template) {
-            console.log(data);
             var temp = Handlebars.compile(template);
             var html = temp(data);
             $(selector).append(html);
