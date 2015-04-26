@@ -124,7 +124,7 @@ app.controller = (function () {
                 gender: $("#gender").val()
             };
             if ($('#password').val()) {
-                userData['password'] =  $("input[id=password]").val();
+                userData['password'] = $("input[id=password]").val();
             }
 
             _this.model.user.updateUser(sessionStorage['id'], userData)
@@ -386,13 +386,29 @@ app.controller = (function () {
                 }
             };
 
-            $.getJSON('scripts/lang.json', function(data) {
-                $.each(data['words'], function(key, value) {
-                    // split string
-                    // check if swear
-                    // if swear replace
+            // bad words censorship
+            $.ajaxSetup({
+                async: false
+            });
+            var badWords = [];
+            var currentWords = data.content.split(' ');
+            $.getJSON('scripts/lang.json', function (data) {
+                $.each(data['words'], function (key, value) {
+                    badWords.push(value);
                 });
             });
+            for (var i = 0; i < badWords.length; i++) {
+                for (var j = 0; j < currentWords.length; j++) {
+                    if (currentWords[j].toLowerCase() == badWords[i].toLowerCase()) {
+                        currentWords[j] =  '****';
+                    }
+                }
+            }
+            $.ajaxSetup({
+                async: true
+            });
+            data.content = currentWords.join(' ');
+            // end of bad words censorship
 
             _this.model.comment.createComment(data)
                 .then(function (commentData) {
