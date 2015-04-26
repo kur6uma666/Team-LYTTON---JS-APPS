@@ -1,10 +1,24 @@
+<!--{{#each comments}}-->
+    <!--<li>-->
+        <!--<h4>Author: {{author}}  with email: {{email}} said:</h4>-->
+        <!--<p>{{content}}</p>-->
+        <!--<button id="likeButton" class="{{objectId}}">Like</button>-->
+        <!--&lt;!&ndash;<p>Likes: {{likes}}</p>&ndash;&gt;-->
+        <!--<button id="dislikeButton" class="{{objectId}}">Dislike</button>-->
+        <!--&lt;!&ndash;<p>Dislikes: {{dislikes}}</p>&ndash;&gt;-->
+    <!--</li>-->
+<!--{{/each}}-->
+
+
 {{#each comments}}
+    <hr />
     <li>
-        <h4>Author: {{author}}  with email: {{email}} said:</h4>
-        <p>{{content}}</p>
-        <button id="likeButton" class="{{objectId}}">Like</button>
+        <p>commented by <span class="glyphicon glyphicon-user"></span><span class="author"><a href="#/user/{{this.author}}"> {{this.author}}</a></span> at <span class="glyphicon glyphicon-calendar"></span> <time>{{this.createdAt}}</time></p>
+        <p>{{this.content}}</p>
+
+        <span><button class="likeButton">Like</button></span>
         <!--<p>Likes: {{likes}}</p>-->
-        <button id="dislikeButton" class="{{objectId}}">Dislike</button>
+         <span><button class="dislikeButton">Dislike</button></span>
         <!--<p>Dislikes: {{dislikes}}</p>-->
     </li>
 {{/each}}

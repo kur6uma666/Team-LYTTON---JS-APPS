@@ -479,6 +479,7 @@ app.controller = (function () {
                         data.posts[0]['commentsCount'] = comment.comments.length;
                         data.comments = comment.comments;
                         app.postView.load(selector, data);
+                        app.commentView.load('.comments', data);
                         _this.attachCommentEvents('.postCommentButton','.comments');
                         _this.model.post.visitsIncrement(id)
                             .then(function(){

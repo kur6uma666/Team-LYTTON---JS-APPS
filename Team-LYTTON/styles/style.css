@@ -16,6 +16,14 @@ body {
     margin: 10px auto;
 }
 
+ul {
+    list-style: none;
+}
+
+.post ul {
+    padding: 0 40px;
+}
+
 #wrapper {
     width: 80%;
     display: inline-block;

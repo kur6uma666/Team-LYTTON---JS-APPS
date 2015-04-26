@@ -28,11 +28,6 @@
         <input type="button" class="postCommentButton" id="{{posts.0.objectId}}" value="PostComment">
     </form>
     <ul class="comments">
-        {{#each comments}}
-            <li>
-                <p>{{this.content}}</p>
-                <p>commented by <span class="glyphicon glyphicon-user"></span><span class="author"><a href="#/user/{{this.author}}"> {{this.author}}</a></span> at <span class="glyphicon glyphicon-calendar"></span> <time>{{this.createdAt}}</time></p>
-            </li>
-        {{/each}}
+
     </ul>
 </article>
