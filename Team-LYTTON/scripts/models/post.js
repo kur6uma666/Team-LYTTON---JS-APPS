@@ -113,6 +113,21 @@ app._model.post = (function () {
         return defer.promise;
     };
 
+    Post.prototype.visitsIncrement = function(postId){
+        var defer = Q.defer();
+
+        var data = {
+              "postId": postId
+        };
+
+        this._requester.post('functions/incrementViewCount', data)
+            .then(function () {
+                defer.resolve('success');
+            }, function (error) {
+                defer.reject(error);
+            });
+    };
+
     return {
         get: function (baseUrl, ajaxRequester) {
             return new Post(baseUrl, ajaxRequester);

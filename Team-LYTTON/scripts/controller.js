@@ -483,11 +483,15 @@ app.controller = (function () {
             .then(function (data) {
                 _this.model.comment.getPostComments(id)
                     .then(function(comment){
-                        console.log(comment);
                         data.posts[0]['commentsCount'] = comment.comments.length;
                         data.comments = comment.comments;
                         app.postView.load(selector, data);
-                        _this.model.post.visistIncrement(id);
+                        _this.model.post.visitsIncrement(id)
+                            .then(function(){
+
+                            }, function(error){
+                                Noty.error(JSON.parse(error.responseText).error);
+                            });
                     }, function(error){
                         Noty.error(JSON.parse(error.responseText).error);
                     });
@@ -495,29 +499,6 @@ app.controller = (function () {
             }, function (error) {
                 Noty.error(JSON.parse(error.responseText).error);
             });
-
-        //this.model.comment.getPostComments(id)
-        //    .then(function (data) {
-        //        _this.model.user.getUserById(data['comments'][0].post.author.objectId)
-        //            .then(function(userData){
-        //                data['author'] = userData;
-        //                data['post'] = data.comments[0].post;
-        //                app.postView.load(selector, data);
-        //            },function(error){
-        //                Noty.error(JSON.parse(error.responseText).error);
-        //            });
-        //
-        //    }, function (error) {
-        //        Noty.error(JSON.parse(error.responseText).error);
-        //    });
-
-
-        //this.model.post.getPost(id)
-        //    .then(function (data) {
-        //        app.postView.load(selector, data);
-        //    }, function (error) {
-        //        Noty.error(JSON.parse(error.responseText).error);
-        //    });
     };
 
     Controller.prototype.getUserPage = function (id, selector) {
