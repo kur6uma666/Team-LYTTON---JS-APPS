@@ -35,6 +35,8 @@ app._model.comment = (function () {
                         'content': comment.content,
                         'author': comment.author,
                         'email': comment.email,
+                        'likes': comment.likes,
+                        'dislikes': comment.dislikes,
                         'post': {
                             __type: "Pointer",
                             className: "Post",
