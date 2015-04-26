@@ -115,25 +115,16 @@ app.controller = (function () {
         var _this = this;
 
         $(selector).click(function (event) {
+            var userData = {
+                username: $("input[id=username]").val(),
+                email: $("input[id=email]").val(),
+                firstName: $("input[id=firstName]").val(),
+                middleName: $("input[id=middleName]").val(),
+                lastName: $("input[id=lastName]").val(),
+                gender: $("#gender").val()
+            };
             if ($('#password').val()) {
-                var userData = {
-                    username: $("input[id=username]").val(),
-                    password: $("input[id=password]").val(),
-                    email: $("input[id=email]").val(),
-                    firstName: $("input[id=firstName]").val(),
-                    middleName: $("input[id=middleName]").val(),
-                    lastName: $("input[id=lastName]").val(),
-                    gender: $("#gender").val()
-                };
-            } else {
-                var userData = {
-                    username: $("input[id=username]").val(),
-                    email: $("input[id=email]").val(),
-                    firstName: $("input[id=firstName]").val(),
-                    middleName: $("input[id=middleName]").val(),
-                    lastName: $("input[id=lastName]").val(),
-                    gender: $("#gender").val()
-                };
+                userData['password'] =  $("input[id=password]").val();
             }
 
             _this.model.user.updateUser(sessionStorage['id'], userData)
@@ -389,6 +380,14 @@ app.controller = (function () {
                     objectId: id
                 }
             };
+
+            $.getJSON('scripts/lang.json', function(data) {
+                $.each(data['words'], function(key, value) {
+                    // split string
+                    // check if swear
+                    // if swear replace
+                });
+            });
 
             _this.model.comment.createComment(data)
                 .then(function (commentData) {

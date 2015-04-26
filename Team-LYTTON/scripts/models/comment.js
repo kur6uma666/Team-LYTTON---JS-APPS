@@ -69,6 +69,7 @@ app._model.comment = (function () {
         this._requester.get('classes/Comment?order=-createdAt&include=post&where=' + JSON.stringify(where))
             .then( function(data) {
                 _.each(data['results'], function(dataComment){
+
                     _this._comments['comments'].push(dataComment);
                 });
                 defer.resolve(_this._comments);
