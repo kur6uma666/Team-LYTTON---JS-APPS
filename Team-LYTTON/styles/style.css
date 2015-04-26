@@ -200,6 +200,10 @@ input[readonly] {
     width: 25%;
 }
 
+.picture-preview {
+    max-width: 214px;
+    /*max-height: 270px;*/
+}
 .thumbnail {
     width: 170px;
 }
