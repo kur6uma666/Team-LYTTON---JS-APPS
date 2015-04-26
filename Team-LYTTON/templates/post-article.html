@@ -1,20 +1,27 @@
 <section id="post-section">
 <h3>Post an article</h3>
 <div>
-    <input type="text" id="title" placeholder="Title...">
+    <input type="text" class="form-control" id="title" placeholder="Title...">
+</div>
+
+<div class="input-group">
+        <span class="input-group-btn">
+            <span class="btn btn-primary btn-file">
+                Upload header image&hellip; <input type="file" single>
+            </span>
+        </span>
+    <input type="text" class="form-control" readonly>
+</div>
+
+<div>
+    <textarea id="content" class="form-control" placeholder="Content..."></textarea>
 </div>
 <div>
-    <label for="headerImg">Upload a header image:</label>
-    <input type="file" id="headerImg">
+    <input type="text" class="form-control" id="tags" placeholder="Tags... ">
 </div>
-<div>
-    <textarea id="content" placeholder="Content..."></textarea>
-</div>
-<div>
-    <input type="text" id="tags" placeholder="Tags... ">
-</div>
-<input type="button" id="postArticle" value="Post">
+    <button id="postArticle" class="btn btn-primary" type="button">Post</button>
 </section>
 <section id="posts">
 
 </section>
+

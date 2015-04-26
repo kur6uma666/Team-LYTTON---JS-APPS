@@ -76,7 +76,6 @@ article:nth-child(even) {
     font-size: 1em;
 }
 #post-section input[type=text] {
-    width: 50%;
     font-size: 1em;
 }
 
@@ -93,17 +92,17 @@ footer {
     height: 100px;
 }
 
-#search-form {
-    float: right;
-    height: 30px;
-    position: relative;
-    top: 15px;
-    vertical-align: text-bottom;
-}
+/*#search-form {*/
+    /*float: right;*/
+    /*height: 30px;*/
+    /*position: relative;*/
+    /*top: 15px;*/
+    /*vertical-align: text-bottom;*/
+/*}*/
 
-#search-input, #search {
-    font-size: 1em;
-}
+/*#search-input, #search {*/
+    /*font-size: 1em;*/
+/*}*/
 
 
 /* Aside */
@@ -135,6 +134,7 @@ header {
 }
 
 header .navbar {
+    z-index: 1001;
     border: none;
     margin-bottom: 0;
     font-size: 1em;
@@ -170,3 +170,48 @@ header .navbar a:hover {
 header .navbar-inverse .navbar-nav>.active>a {
     background: #E90606;
 }
+
+#post-section div{
+    margin: 5px 0;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    background: red;
+    cursor: inherit;
+    display: block;
+}
+input[readonly] {
+    background-color: white !important;
+    cursor: text !important;
+}
+
+#posts .jumbotron {
+    padding: 5px 20px;
+}
+
+#posts .jumbotron p{
+    font-size: 1.1em;
+}
+
+#posts .jumbotron .post-content {
+    font-size: 1.4em;
+    background: #f6f6f6;
+}
+
+#search-form {
+    margin-top: 13px;
+}
+
