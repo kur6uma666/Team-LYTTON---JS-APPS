@@ -135,7 +135,7 @@ app._model.user = (function () {
             }
         };
 
-        this._requester.get('classes/Picture?where=' + JSON.stringify(where))
+        this._requester.get('classes/Picture?order=-createdAt&limit=1&where=' + JSON.stringify(where))
             .then(function (picture) {
                 _this._profilePicture['profilePicture'] = picture;
                 defer.resolve(_this._profilePicture);

@@ -167,27 +167,10 @@ app.controller = (function () {
         var file;
         var _this = this;
 
-
         $('#picture').bind("change", function (e) {
             var files = e.target.files || e.dataTransfer.files;
             file = files[0];
         });
-
-        //TEST
-        //$('#picture').bind("change", function (e) {
-        //    var fileUploadControl = $("#upload-file-button")[0];
-        //    var file = fileUploadControl.files[0];
-        //    var name = file.name; //This does *NOT* need to be a unique name
-        //    var parseFile = new Parse.File(name, file);
-        //
-        //    parseFile.save().then(function () {
-        //        var profilePicture = new Parse.Object("ProfilePicture");
-        //        profilePicture.set("pic", parseFile);
-        //        profilePicture.save();
-        //    }, function (error) {
-        //
-        //    });
-        //});
 
         $(selector).click(function () {
             var serverUrl = 'https://api.parse.com/1/files/' + file.name;
@@ -204,10 +187,6 @@ app.controller = (function () {
                 processData: false,
                 contentType: false,
                 success: function (data) {
-                    //sessionStorage['pictureUrl'] = data.url;
-                    //See console to see the uploaded picture url
-                    console.log(data.url);
-                    alert('Upload success!');
 
                     var pictureData = {
                         "imageUrl": data.url,
@@ -221,13 +200,14 @@ app.controller = (function () {
                             "className": "_User",
                             "objectId": sessionStorage['id']
                         }
-                    }
+                    };
 
                     _this.model.user.uploadProfilePicture(pictureData)
                         .then(function(pictureData){
-                            _this.model.user.getProfilePicture(pictureData.objectId)
+                            _this.model.user.getProfilePicture(sessionStorage['id'])
                                 .then(function(picture){
-                                    $('.picture-preview').attr('src', picture.profilePicture.imageUrl);
+                                    Noty.success('Upload Successful');
+                                    $('.picture-preview').attr('src', picture.profilePicture.results[0].imageUrl);
                                 }, function(response){
                                     Noty.error(JSON.parse(response.responseText).error);
                                 });
