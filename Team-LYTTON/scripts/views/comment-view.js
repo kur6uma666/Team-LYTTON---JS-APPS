@@ -1,20 +1,13 @@
 var app = app || {};
 
 app.commentView = (function () {
-    function CommentView(selectors, data) {
+    function CommentView(selector, data) {
         var defer = Q.defer();
         $.get('templates/comment-view.html', function (template) {
-            for (var j = selectors.length - 1; j >= 0; j--) {
-                var selector = selectors[j].parentElement.parentElement;
-                var output = '';
-                for (var i = data['results'].length - 1; i >= 0; i--) {
-                    if (data['results'][i].postId === selector['id']) {
-                        output += Mustache.to_html(template, data['results'][i]);
-                    }
-                }
-                $(selector).append(output);
-            }
-
+            console.log(data);
+            var temp = Handlebars.compile(template);
+            var html = temp(data);
+            $(selector).append(html);
         }).success(function (data) {
             defer.resolve(data);
         }).error(function (error) {

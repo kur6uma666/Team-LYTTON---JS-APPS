@@ -351,7 +351,7 @@ app.controller = (function () {
                 });
      };
 
-    Controller.prototype.attachCommentEvents = function (selector) {
+    Controller.prototype.attachCommentEvents = function (selector, commentsSelector) {
         var _this = this;
 
         $(document).on('click', selector, function(event){
@@ -371,9 +371,10 @@ app.controller = (function () {
             _this.model.comment.createComment(data)
                 .then(function (commentData) {
                     Noty.success('Comment posted successfully.');
-                    _this.model.comment.getComment()
+                    _this.model.comment.getPostComments(id)
                         .then(function (commentsData) {
-                            app.commentView.load(selector, commentsData);
+                            $(commentsSelector).empty();
+                            app.commentView.load(commentsSelector, commentsData);
                         }, function (error) {
                             Noty.error(JSON.parse(error.responseText).error);
                         });
@@ -478,7 +479,7 @@ app.controller = (function () {
                         data.posts[0]['commentsCount'] = comment.comments.length;
                         data.comments = comment.comments;
                         app.postView.load(selector, data);
-                        _this.attachCommentEvents('.postCommentButton');
+                        _this.attachCommentEvents('.postCommentButton','.comments');
                         _this.model.post.visitsIncrement(id)
                             .then(function(){
 

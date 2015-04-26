@@ -1,8 +1,10 @@
-<li>
-    <h4>Author: {{author}}  with email: {{email}} said:</h4>
-    <p>{{content}}</p>
-    <button id="likeButton" class="{{objectId}}">Like</button>
-    <p>Likes: {{likes}}</p>
-    <button id="dislikeButton" class="{{objectId}}">Dislike</button>
-    <p>Dislikes: {{dislikes}}</p>
-</li>
+{{#each comments}}
+    <li>
+        <h4>Author: {{author}}  with email: {{email}} said:</h4>
+        <p>{{content}}</p>
+        <button id="likeButton" class="{{objectId}}">Like</button>
+        <!--<p>Likes: {{likes}}</p>-->
+        <button id="dislikeButton" class="{{objectId}}">Dislike</button>
+        <!--<p>Dislikes: {{dislikes}}</p>-->
+    </li>
+{{/each}}
