@@ -213,4 +213,15 @@ input[readonly] {
 
 #search-form {
     margin-top: 13px;
+    color: green;
 }
+
+/* validation css */
+#result{
+    margin-left:5px;
+}
+
+#passwordMatch {
+    margin-left:5px;
+}
+/* end of validation css */

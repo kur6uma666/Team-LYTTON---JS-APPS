@@ -209,8 +209,49 @@ app.controller = (function () {
 
     Controller.prototype.attachRegisterEvents = function (selector) {
         var _this = this;
-
         _this.attachPictureUploadEvents('#upload-file-button');
+
+        $("input[id=reg-password]").keyup(function () {
+            var passwordStrength = validation.checkPasswordStrength($("input[id=reg-password]").val());
+            switch (passwordStrength) {
+                case 'weak':
+                    $('#result').html(passwordStrength).css({"background-color": "red"});
+                    break;
+
+                case 'medium':
+                    $('#result').html(passwordStrength).css({"background-color": "deepskyblue"});
+                    break;
+
+                case 'good':
+                    $('#result').html(passwordStrength).css({"background-color": "blue"});
+                    break;
+
+                case 'strong':
+                    $('#result').html(passwordStrength).css({"background-color": "green"});
+                    break;
+
+                case 'excellent':
+                    $('#result').html(passwordStrength).css({"background-color": "greenyellow"});
+                    break;
+            }
+        }); // pasword strength function
+
+        $("input[id=repeat-password]").keyup(function () {
+            if(validation.checkIfPasswordsMatch($("input[id=repeat-password]").val(), $("input[id=reg-password]").val())) {
+                $('#passwordMatch').html('Both passwords are the same.');
+            } else {
+                $('#passwordMatch').html('Both password do not match.');
+            }
+        }); // password match function
+
+        $("input[id=reg-email]").keyup(function () {
+            var isValid = validation.checkEmail($("input[id=reg-email]").val());
+            if(isValid !== null) {
+                $('#checkEmail').html('The email is valid');
+            } else {
+                $('#checkEmail').html('The email is NOT valid');
+            }
+        });
 
         $(selector).click(function () {
             var userRegData = {

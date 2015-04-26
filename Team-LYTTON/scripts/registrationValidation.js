@@ -16,7 +16,7 @@ validation = {
                 if(currentUserName == user.username) {
                     isUnique = false;
                 }
-            })
+            });
         }).fail(function (error) {
             console.log(error.responseText);
         });
@@ -52,6 +52,11 @@ validation = {
 
     checkIfPasswordsMatch: function(password, repeatPassword) {
         return password === repeatPassword;
+    },
+
+    checkEmail: function(email) {
+        var regExp = /[@]+/g;
+        return (email.match(regExp));
     },
 
     checkPasswordStrength: function(password) {
