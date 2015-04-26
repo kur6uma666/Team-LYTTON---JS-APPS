@@ -7,8 +7,8 @@ app.blogView = (function(){
             var temp = Handlebars.compile(template);
             var html = temp(data);
             $(selector).append(html);
-        }).success(function(data) {
-            defer.resolve(data);
+        }).success(function(_data) {
+            defer.resolve(_data);
         }).error(function(error) {
             defer.reject(error);
         });

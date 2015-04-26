@@ -250,38 +250,39 @@ app.controller = (function () {
         _this.model.post.getPostsCount('classes/Post?count=1&limit=0')
             .then(function(dataCount){
                 var postsCount = dataCount;
+
                 //_this.model.post.getPosts('classes/Post?include=author&order=-createdAt&limit=5&skip=' + (--page * 5))
                 _this.model.post.getPosts('classes/Post?include=author&order=-createdAt')
                     .then(function (data) {
+                        $('#posts').hide();
 
                         app.blogView.load('#posts', data);
+
+                        _.each(data.posts,function(p) {
+                            _this.model.comment.getPostCommentsCount(p.objectId)
+                                .then(function(c){
+                                    $('article#'+ p.objectId + ' .comments-count').text('Comments: ' + c.count);
+                                }, function(error){
+                                    Noty.error(JSON.parse(error.responseText).error);
+                                });
+                        });
+
                         _this.model.comment.getComment()
-                            .then(function (commentsData) {
-                                var articles = $('.postCommentButton');
-                                app.commentView.load(articles, commentsData);
-
+                            .then(function () {
                                 if(postsCount > 0) {
-                                    //app.pagingView.load(selector, { "pages": (parseInt(postsCount / 5) + 1)}, page);
-                                    //$(selector).append('<ul class="pagination" id="pagination"></ul>');
-                                    $('<ul class="pagination" id="pagination"></ul>').insertBefore($('#posts'));
-                                    $('#posts').pageMe({pagerSelector:'#pagination',showPrevNext:true,hidePageNumbers:false,perPage:4});
+                                    $('<ul class="pagination" id="pagination"></ul>').insertAfter($('#post-section'));
+                                    $('#posts').pageMe({pagerSelector:'#pagination',showPrevNext:true,hidePageNumbers:false,perPage:5});
+                                    $('#posts').fadeIn();
                                 }
-
-                                _this.attachCommentEvents('.postCommentButton');
                             }, function (error) {
                                 console.log(error.responseText);
                             });
                     }, function (error) {
                         Noty.error(JSON.parse(error.responseText).error);
                     });
-
             }, function(error){
                 Noty.error(JSON.parse(error.responseText).error);
             });
-
-
-
-
     };
 
     Controller.prototype.attachCommentEvents = function (selector) {

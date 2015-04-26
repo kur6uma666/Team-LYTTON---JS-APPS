@@ -54,6 +54,27 @@ app._model.comment = (function () {
         return defer.promise;
     };
 
+    Comment.prototype.getPostCommentsCount = function (postId){
+        var defer = Q.defer();
+        var _this = this;
+        var where = {
+            "post": {
+                "__type": "Pointer",
+                "className": "Post",
+                "objectId": postId
+            }
+        };
+
+        this._requester.get('classes/Comment?count=1&limit=0&where=' + JSON.stringify(where))
+            .then( function(data) {
+                defer.resolve(data);
+            }, function (error) {
+                defer.reject(error);
+            });
+
+        return defer.promise;
+    };
+
     return {
         get: function (baseUrl, ajaxRequester) {
             return new Comment(baseUrl, ajaxRequester);
