@@ -186,8 +186,6 @@ input[readonly] {
     padding-right: 3px;
 }
 
-
-
 /* validation css */
 #result{
     margin-left:5px;
@@ -204,4 +202,8 @@ input[readonly] {
 
 .thumbnail {
     width: 170px;
+}
+
+#profileButtons {
+    text-align: right;
 }
