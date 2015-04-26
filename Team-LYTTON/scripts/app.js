@@ -56,5 +56,5 @@ var app = app || {};
         }
     });
 
-    app.router.run('#/blog');
+    app.router.run('#/about');
 })();

@@ -48,7 +48,7 @@ app.controller = (function () {
             .then(function () {
                 _this.attachLoginEvents('#login-btn');
                 $('#register-btn').click(function () {
-                    window.location.replace('#/register');
+                    window.location.replace('#/about');
                 })
             })
     };
@@ -79,7 +79,7 @@ app.controller = (function () {
             _this.model.user.logOut()
                 .then(function () {
                     sessionStorage.clear();
-                    window.location.replace('#/login');
+                    window.location.replace('#/about');
                     _this.loadMenu('nav');
                     Noty.success('Goodbye!');
                 },
@@ -130,7 +130,7 @@ app.controller = (function () {
             _this.model.user.updateUser(sessionStorage['id'], userData)
                 .then(function (data) {
                     sessionStorage.clear();
-                    window.location.replace('#/blog');
+                    window.location.replace('#/about');
                     Noty.success('Profile edited successfully.');
                 }, function (error) {
                     Noty.error('Error saving changes. Please try again.');
@@ -470,6 +470,7 @@ app.controller = (function () {
                         .then(function (data) {
                             Noty.success('Article posted successfully');
                             app.blogView.load('#posts', data);
+                            window.location.replace('#/blog');
                         }, function (error) {
                             Noty.error(JSON.parse(error.responseText).error);
                         })
@@ -571,5 +572,4 @@ app.controller = (function () {
             return new Controller(model);
         }
     }
-})
-();
+})();
