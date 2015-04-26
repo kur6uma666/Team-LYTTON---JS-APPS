@@ -48,7 +48,7 @@ app.controller = (function () {
             .then(function () {
                 _this.attachLoginEvents('#login-btn');
                 $('#register-btn').click(function () {
-                    window.location.replace('#/about');
+                    window.location.replace('#/register');
                 })
             })
     };
