@@ -435,6 +435,7 @@ app.controller = (function () {
                         data.posts[0]['commentsCount'] = comment.comments.length;
                         data.comments = comment.comments;
                         app.postView.load(selector, data);
+                        _this.model.post.visistIncrement(id);
                     }, function(error){
                         Noty.error(JSON.parse(error.responseText).error);
                     });
