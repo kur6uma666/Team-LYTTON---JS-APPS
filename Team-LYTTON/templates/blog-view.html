@@ -8,7 +8,11 @@
             <p class="post-details-container">
                 <span class="glyphicon glyphicon-eye-open" title="visits"></span> <span class="views post-details" title="visits"> {{visitsCount}}</span>
                 <span class="glyphicon glyphicon-comment" title="comments"></span> <span class="comments-count post-details" title="comments"></span>
-                <span class="glyphicon glyphicon-tags" title="tags"> </span> <span class="post-details" title="tags"> {{tags}}</span>
+                <span class="glyphicon glyphicon-tags" title="tags"> </span> <span class="post-details" title="tags">
+                    {{#tags}}
+                        <a href="#/tag/{{this}}">{{this}}</a><span> / </span>
+                    {{/tags}}
+                </span>
             </p>
             <hr />
         </div>

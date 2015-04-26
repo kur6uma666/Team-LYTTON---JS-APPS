@@ -175,6 +175,7 @@ input[readonly] {
 
 .post-details-container .glyphicon {
     font-size: 1.1em;
+    padding-right: 3px;
 }
 
 

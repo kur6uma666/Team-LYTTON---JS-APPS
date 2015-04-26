@@ -425,7 +425,11 @@ app.controller = (function () {
         var _this = this;
 
         $(selector).click(function () {
-            var uniqueTags = _.uniq($("input[id=tags]").val().split(', '));
+            var uniqueTags =
+                _.uniq($("input[id=tags]").val().trim().split(','))
+                .filter(function(tag){
+                    return tag !== "";
+                });
 
             var _data = {
                 title: $("input[id=title]").val(),
