@@ -4,6 +4,9 @@ app._model = app._model || {};
 app._model.user = (function () {
     function User(baseUrl, ajaxRequester) {
         this._requester = ajaxRequester;
+        this._profilePicture = {
+            profilePicture: []
+        };
         this.users = {
             users: []
         };
@@ -104,6 +107,44 @@ app._model.user = (function () {
         return defer.promise;
     };
 
+    User.prototype.uploadProfilePicture = function(data){
+        var defer = Q.defer();
+        var _this = this;
+        this._profilePicture['profilePicture'].length = 0;
+
+        this._requester.post('classes/Picture', data)
+            .then(function (picture) {
+                defer.resolve(picture);
+            }, function (error) {
+                defer.reject(error);
+            });
+
+        return defer.promise;
+    };
+
+    User.prototype.getProfilePicture = function(userId){
+        var defer = Q.defer();
+        var _this = this;
+        this._profilePicture['profilePicture'].length = 0;
+
+        var where = {
+            "user":{
+                "__type":"Pointer",
+                "className":"_User",
+                "objectId":userId
+            }
+        };
+
+        this._requester.get('classes/Picture?where=' + JSON.stringify(where))
+            .then(function (picture) {
+                _this._profilePicture['profilePicture'] = picture;
+                defer.resolve(_this._profilePicture);
+            }, function (error) {
+                defer.reject(error);
+            });
+
+        return defer.promise;
+    };
 
     return {
         get: function (baseUrl, ajaxRequester) {

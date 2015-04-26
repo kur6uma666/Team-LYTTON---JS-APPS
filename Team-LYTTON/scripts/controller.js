@@ -103,6 +103,13 @@ app.controller = (function () {
                         $('#middleName').val(data.middleName);
                         $('#lastName').val(data.lastName);
                         $("#gender").val(data.gender);
+                        _this.model.user.getProfilePicture(userId)
+                            .then(function(picture){
+                                $('.picture-preview').attr('src', picture.profilePicture.results[0].imageUrl);
+                            }, function(err){
+                                Noty.error(JSON.parse(err.responseText).error);
+                            });
+
                     }, function (error) {
                         Noty.error(JSON.parse(error.responseText).error);
                     });
@@ -158,6 +165,8 @@ app.controller = (function () {
 
     Controller.prototype.attachPictureUploadEvents = function (selector) {
         var file;
+        var _this = this;
+
 
         $('#picture').bind("change", function (e) {
             var files = e.target.files || e.dataTransfer.files;
@@ -199,28 +208,35 @@ app.controller = (function () {
                     //See console to see the uploaded picture url
                     console.log(data.url);
                     alert('Upload success!');
-                    $.ajax({
-                        method: 'PUT',
-                        headers: {
-                            'X-Parse-Application-Id': 'gBxtJ8j1z5sRZhOgtAstvprePygEIvYTxY4VNQOY',
-                            'X-Parse-REST-API-Key': 'CLU5dIerpE1k9zX06HiR3RxJQA3Vob2NgJarCl4z',
-                            'X-Parse-Session-Token': sessionStorage['logged-in'],
-                            'Content-Type': 'application/json'
-                        },
-                        url: 'https://api.parse.com/1/classes/_User/' + sessionStorage['id'],
-                        data: JSON.stringify({
-                            imageUrl: data.url
-                        })
-                    }).done(function (successData) {
-                        $('#profilePicture').attr("src", data.url);
-                        window.location.replace('#/userProfile');
-                    }).fail(function (error) {
 
-                    })
+                    var pictureData = {
+                        "imageUrl": data.url,
+                        "profilePicture": {
+                            "name": data.name,
+                            "__type": "File"
+                        },
+                        "username": sessionStorage['username'],
+                        "user": {
+                            "__type": "Pointer",
+                            "className": "_User",
+                            "objectId": sessionStorage['id']
+                        }
+                    }
+
+                    _this.model.user.uploadProfilePicture(pictureData)
+                        .then(function(pictureData){
+                            _this.model.user.getProfilePicture(pictureData.objectId)
+                                .then(function(picture){
+                                    $('.picture-preview').attr('src', picture.profilePicture.imageUrl);
+                                }, function(response){
+                                    Noty.error(JSON.parse(response.responseText).error);
+                                });
+                        }, function(error){
+                            Noty.error(JSON.parse(error.responseText).error);
+                        });
                 },
-                error: function (data) {
-                    var obj = $.parseJSON(data);
-                    alert(obj.error);
+                error: function (err) {
+                    Noty.error(JSON.parse(err.responseText).error);
                 }
             });
         });
