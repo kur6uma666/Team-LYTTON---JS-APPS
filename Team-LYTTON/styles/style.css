@@ -169,7 +169,8 @@ input[readonly] {
 }
 
 #posts .jumbotron .post-content, .post .jumbotron .post-content {
-    font-size: 1.4em;
+    line-height: 1.5em;
+    font-size: 1.1em;
     background: #f6f6f6;
 }
 
