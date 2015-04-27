@@ -346,11 +346,7 @@ app.controller = (function () {
                 username: $("input[id=reg-username]").val(),
                 password: $("input[id=reg-password]").val(),
                 passwordRepeat: $("input[id=repeat-password]").val(),
-                email: $("input[id=reg-email]").val(),
-                firstName: $("input[id=reg-firstName]").val(),
-                middleName: $("input[id=reg-midName]").val(),
-                lastName: $("input[id=reg-lastName]").val(),
-                gender: $('#gender').val()
+                email: $("input[id=reg-email]").val()
             };
             _this.model.user.register(userRegData)
                 .then(function (data) {
