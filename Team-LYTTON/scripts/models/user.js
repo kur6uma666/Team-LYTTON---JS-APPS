@@ -107,6 +107,22 @@ app._model.user = (function () {
         return defer.promise;
     };
 
+    User.prototype.isAdmin = function(id){
+        var defer = Q.defer();
+        var data = {
+            id: id
+        };
+
+        this._requester.post('functions/isAdmin', data)
+            .then(function(role){
+                defer.resolve(role);
+            }, function(error){
+                defer.reject(error);
+            });
+
+        return defer.promise;
+    };
+
     User.prototype.uploadProfilePicture = function(data){
         var defer = Q.defer();
         var _this = this;

@@ -368,50 +368,57 @@ app.controller = (function () {
         $(selector).empty();
         var _this = this;
 
-        app.postArticle.load(selector)
-            .then(function () {
-                if (sessionStorage['username'] !== 'admin') {
-                    $('#post-section').empty();
-                }
-                _this.attachBlogEvents('#postArticle')
-            }, function (error) {
-                console.log(error.responseText);
-            });
-
-        _this.model.post.getPosts('classes/Post?include=author&order=-createdAt')
-            .then(function (data) {
-                $('#posts').hide();
-                var postsCount = Object.keys(data.posts).length;
-                app.blogView.load('#posts', data);
-
-                _.each(data.posts, function (p) {
-                    _this.model.comment.getPostCommentsCount(p.objectId)
-                        .then(function (c) {
-                            $('article#' + p.objectId + ' .comments-count').text(c.count);
-                        }, function (error) {
-                            Noty.error(JSON.parse(error.responseText).error);
-                        });
-                });
-
-                _this.model.comment.getComment()
-                    .then(function () {
-                        if (postsCount > 0) {
-                            $('<ul class="pagination" id="pagination"></ul>').insertAfter($('#post-section'));
-                            $('#posts').pageMe({
-                                pagerSelector: '#pagination',
-                                showPrevNext: true,
-                                hidePageNumbers: false,
-                                perPage: 5
+        if(sessionStorage['logged-in']){
+            this.model.user.isAdmin(sessionStorage['id'])
+                .then(function (data) {
+                    if (data.result){
+                        app.postArticle.load(selector)
+                            .then(function(){
+                                loadPosts()
                             });
-                            $('#posts').fadeIn();
-                        }
-                    }, function (error) {
-                        console.log(error.responseText);
-                    });
-            }, function (error) {
-                Noty.error(JSON.parse(error.responseText).error);
-            });
+                    }
+                }, function (error) {
+                    console.log(error.responseText);
+                });
+        } else {
+            loadPosts()
+        }
 
+        function loadPosts(){
+            _this.model.post.getPosts('classes/Post?include=author&order=-createdAt')
+                .then(function (data) {
+                    $('<section id="posts">').appendTo(selector).hide();
+                    var postsCount = Object.keys(data.posts).length;
+                    app.blogView.load('#posts', data);
+
+                    _.each(data.posts, function (p) {
+                        _this.model.comment.getPostCommentsCount(p.objectId)
+                            .then(function (c) {
+                                $('article#' + p.objectId + ' .comments-count').text(c.count);
+                            }, function (error) {
+                                Noty.error(JSON.parse(error.responseText).error);
+                            });
+                    })
+
+                    _this.model.comment.getComment()
+                        .then(function () {
+                            if (postsCount > 0) {
+                                $('<ul class="pagination" id="pagination"></ul>').insertBefore($('#posts'));
+                                $('#posts').pageMe({
+                                    pagerSelector: '#pagination',
+                                    showPrevNext: true,
+                                    hidePageNumbers: false,
+                                    perPage: 5
+                                });
+                                $('#posts').fadeIn();
+                            }
+                        }, function (error) {
+                            console.log(error.responseText);
+                        });
+                }, function (error) {
+                    Noty.error(JSON.parse(error.responseText).error);
+                });
+        }
     };
 
     Controller.prototype.attachCommentEvents = function (selector, commentsSelector) {

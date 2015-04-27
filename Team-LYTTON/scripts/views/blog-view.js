@@ -4,6 +4,7 @@ app.blogView = (function(){
     function BlogView(selector, data) {
         var defer = Q.defer();
         $.get('templates/blog-view.html', function(template) {
+            console.log(data);
             var temp = Handlebars.compile(template);
             var html = temp(data);
             $(selector).append(html);

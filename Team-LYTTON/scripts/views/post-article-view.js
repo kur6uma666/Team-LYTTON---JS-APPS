@@ -5,8 +5,9 @@ app.postArticle = (function(){
         var deffer = Q.defer();
 
         $.get('templates/post-article.html', function(template) {
-            var output = Mustache.render(template);
-            $(selector).html(output);
+            var temp = Handlebars.compile(template);
+            var html = temp(data);
+            $(selector).prepend(html);
         }).done(function(data) {
             deffer.resolve(data);
         }).fail(function(error) {
