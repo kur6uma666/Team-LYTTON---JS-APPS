@@ -465,6 +465,7 @@ app.controller = (function () {
                     _this.model.comment.getPostComments(id)
                         .then(function (commentsData) {
                             $(commentsSelector).empty();
+                            $('#comment-form')[0].reset();
                             app.commentView.load(commentsSelector, commentsData);
                         }, function (error) {
                             Noty.error(JSON.parse(error.responseText).error);
