@@ -256,12 +256,14 @@ app.controller = (function () {
                            }
                         });
                         if(!isUnique) {
+                            validation.hideRegistrationButton();
                             $('#usernameCheck').html('Username is already taken.').css({
                                 "background-color": "red",
                                 "font-weight": "bold",
                                 "color": "white"
                             });
                         } else {
+                            validation.showRegistrationButton();
                             $('#usernameCheck').html('Username is available.').css({
                                 "background-color": "green",
                                 "font-weight": "bold",
@@ -272,7 +274,7 @@ app.controller = (function () {
 
             } else if ($input.length == 0) {
                 $('#usernameCheck').empty();
-            } else {
+            } else if($input) {
                 $('#usernameCheck').html('Username is too short.').css({
                     "background-color": "red",
                     "font-weight": "bold",
@@ -286,6 +288,7 @@ app.controller = (function () {
             var $resultLabel = $('#resultLabel');
             var $result = $('#result');
             if ($input.length >= 6) {
+                validation.showRegistrationButton();
                 var passwordStrength = validation.checkPasswordStrength($input);
                 switch (passwordStrength) {
                     case 'weak':
@@ -316,6 +319,7 @@ app.controller = (function () {
             } else if($input.length == 0 ) {
                 $resultLabel.empty();
                 $result.hide();
+                validation.hideRegistrationButton()
             } else {
                 $resultLabel.hide();
                 $result.html('Password is too short').css({
@@ -323,6 +327,7 @@ app.controller = (function () {
                     "font-weight": "bold",
                     "color": "white"
                 })
+                validation.hideRegistrationButton();
             }
         });
 
@@ -333,8 +338,10 @@ app.controller = (function () {
                     "font-weight": "bold",
                     "color": "white"
                 });
+                validation.hideRegistrationButton();
             } else {
                 $('#passwordMatch').empty();
+                validation.showRegistrationButton();
             }
         });
 
@@ -342,8 +349,10 @@ app.controller = (function () {
             var $input = $("input[id=reg-email]").val();
             var isValid = validation.checkEmail($input);
             if($input.length == 0) {
+                validation.hideRegistrationButton();
                 $('#checkEmail').empty();
             } else if(isValid === null) {
+                validation.hideRegistrationButton();
                 $('#checkEmail').html('This email is NOT valid').css({
                     "background-color": "red",
                     "font-weight": "bold",
@@ -360,12 +369,14 @@ app.controller = (function () {
                         });
 
                         if(!isUnique) {
+                            validation.hideRegistrationButton();
                             $('#checkEmail').html('This email is already taken!').css({
                                 "background-color": "red",
                                 "font-weight": "bold",
                                 "color": "white"
                             });
                         } else {
+                            validation.showRegistrationButton();
                             $('#checkEmail').html('This email is available!').css({
                                 "background-color": "green",
                                 "font-weight": "bold",

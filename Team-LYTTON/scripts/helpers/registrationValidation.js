@@ -6,6 +6,14 @@ validation = {
         'Content-Type': 'application/json'
     },
 
+    hideRegistrationButton: function () {
+        $('body').find('#reg-btn').attr('disabled','disabled');
+    },
+
+    showRegistrationButton: function () {
+        $('body').find('#reg-btn').removeAttr('disabled');
+    },
+
     checkUsernameForLength: function (userName) {
         return userName.isLongEnough();
     },
