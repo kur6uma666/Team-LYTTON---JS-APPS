@@ -24,6 +24,7 @@ app._model.tag = (function(){
                         'objectId': dataPost.objectId,
                         'title': dataPost.title,
                         'content': dataPost.content,
+                        'contentSummary': dataPost.contentSummary,
                         'tags': dataPost.tags,
                         'author': dataPost.author.username,
                         'authorId': dataPost.author.objectId,

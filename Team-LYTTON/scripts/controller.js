@@ -519,9 +519,12 @@ app.controller = (function () {
                         return tag !== "";
                     });
 
+            var content = $("textarea[id=content]").val();
+
             var _data = {
                 title: $("input[id=title]").val(),
-                content: $("textarea[id=content]").val(),
+                content: content,
+                contentSummary: content.length > 300 ? content.substring(0, 300) + '...'  : content,
                 visitsCount: 1,
                 tags: uniqueTags,
                 tags_lower: _.map(uniqueTags, function (tag) {
@@ -583,11 +586,13 @@ app.controller = (function () {
                     .then(function (comment) {
                         data.posts[0]['commentsCount'] = comment.comments.length;
                         data.comments = comment.comments;
+
                         if(sessionStorage['logged-in']){
                             data.logged = true;
                         } else {
                             data.logged = false;
                         }
+
                         app.postView.load(selector, data)
                             .then(function(){
                                 _this.attachPostEvents('#comment-form-toggle', '#comment-form')

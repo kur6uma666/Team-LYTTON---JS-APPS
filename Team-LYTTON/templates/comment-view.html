@@ -1,7 +1,7 @@
 {{#each comments}}
     <hr />
     <li>
-        <p>commented by <span class="glyphicon glyphicon-user"></span><span class="author"><a href="#/user/{{this.author.objectId}}"> {{this.author.username}} </a> </span> at <span class="glyphicon glyphicon-calendar"></span> <time>{{this.createdAt}}</time></p>
+        <p><span class="glyphicon glyphicon-user"></span><span class="author"><a href="#/user/{{this.author.objectId}}"> {{this.author.username}} </a> </span> at <span class="glyphicon glyphicon-calendar"></span> <time>{{this.createdAt}}</time></p>
         <p>{{this.content}}</p>
 
         <span><button class="likeButton">Like</button></span>
