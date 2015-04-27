@@ -418,6 +418,9 @@ app.controller = (function () {
         var _this = this;
 
         $(document).on('click', selector, function(event){
+            $('#comment-form-toggle').trigger('click');
+            console.log(Math.random());
+            event.preventDefault();
             event.stopPropagation();
             var id = event.target['id'];
             var data = {
@@ -567,15 +570,21 @@ app.controller = (function () {
                     .then(function (comment) {
                         data.posts[0]['commentsCount'] = comment.comments.length;
                         data.comments = comment.comments;
-                        app.postView.load(selector, data);
-                        app.commentView.load('.comments', data);
-                        _this.attachCommentEvents('.postCommentButton', '.comments');
-                        _this.model.post.visitsIncrement(id)
-                            .then(function () {
+                        app.postView.load(selector, data)
+                            .then(function(){
+                                _this.attachPostEvents('#comment-form-toggle', '#comment-form')
+                                app.commentView.load('.comments', data).
+                                then(function(){
+                                    _this.attachCommentEvents('.postCommentButton', '.comments');
+                                    _this.model.post.visitsIncrement(id)
+                                        .then(function () {
 
-                            }, function (error) {
-                                Noty.error(JSON.parse(error.responseText).error);
+                                        }, function (error) {
+                                            Noty.error(JSON.parse(error.responseText).error);
+                                        });
+                                });
                             });
+
                     }, function (error) {
                         Noty.error(JSON.parse(error.responseText).error);
                     });
@@ -583,6 +592,13 @@ app.controller = (function () {
             }, function (error) {
                 Noty.error(JSON.parse(error.responseText).error);
             });
+    };
+
+    Controller.prototype.attachPostEvents = function(selector, child){
+        $(selector).on('click', function(e){
+            e.stopPropagation();
+            $(child).slideToggle(400);
+        });
     };
 
     Controller.prototype.getUserPage = function (id, selector) {

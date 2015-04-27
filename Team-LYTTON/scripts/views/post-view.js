@@ -14,7 +14,7 @@ app.postView = (function(){
             deffer.reject(error);
         });
 
-        return deffer.resolve;
+        return deffer.promise;
     }
 
     return {
