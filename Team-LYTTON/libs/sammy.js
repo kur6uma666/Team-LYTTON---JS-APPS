@@ -109,9 +109,8 @@
   if (typeof window.console != 'undefined') {
     if (typeof window.console.log === 'function' && _isFunction(window.console.log.apply)) {
       Sammy.addLogger(function() {
-        //console.log(arguments);
         window.location.replace('#/about');
-        //window.console.log.apply(window.console, arguments);
+        window.console.log.apply(window.console, arguments);
       });
     } else {
       Sammy.addLogger(function() {
