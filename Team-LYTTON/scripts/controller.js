@@ -374,8 +374,10 @@ app.controller = (function () {
                     if (data.result){
                         app.postArticle.load(selector)
                             .then(function(){
-                                loadPosts()
+                                loadPosts();
                             });
+                    } else {
+                        loadPosts();
                     }
                 }, function (error) {
                     console.log(error.responseText);
