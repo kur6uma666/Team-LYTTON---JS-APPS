@@ -211,3 +211,15 @@ input[readonly] {
 #profileButtons {
     text-align: right;
 }
+
+.noty_type_error{
+    background: #ff574f;
+    color: white;
+}
+
+.noty_type_success {
+    /*#dff0d8*/
+    background: rgba(121, 216, 121, 0.50);
+    /*#3C763C*/
+    color: #3C763C;
+}

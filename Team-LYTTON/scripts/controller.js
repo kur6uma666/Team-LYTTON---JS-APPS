@@ -370,7 +370,7 @@ app.controller = (function () {
 
         app.postArticle.load(selector)
             .then(function () {
-                if (sessionStorage['username'] != 'admin') {
+                if (sessionStorage['username'] !== 'admin') {
                     $('#post-section').empty();
                 }
                 _this.attachBlogEvents('#postArticle')
@@ -417,17 +417,20 @@ app.controller = (function () {
     Controller.prototype.attachCommentEvents = function (selector, commentsSelector) {
         var _this = this;
 
+
+
         $(document).one('click', selector, function(event){
             $('#comment-form-toggle').trigger('click');
-            console.log(Math.random());
             event.preventDefault();
             event.stopPropagation();
             var id = event.target['id'];
             var data = {
-                author: $(this).parent().find('input[id=author]').val(),
-                content: $(this).parent().find('input[id=content]').val(),
-                email: $(this).parent().find('input[id=email]').val(),
-                postId: id,
+                author: {
+                    "__type": "Pointer",
+                    "className": "_User",
+                    "objectId": sessionStorage['id']
+                },
+                content: $('#content').val(),
                 'post': {
                     __type: "Pointer",
                     className: "Post",
@@ -472,7 +475,12 @@ app.controller = (function () {
                             Noty.error(JSON.parse(error.responseText).error);
                         });
                 }, function (error) {
-                    Noty.error(JSON.parse(error.responseText).error);
+                    var errorCode = JSON.parse(error.responseText).code;
+                    if(errorCode === 119){
+                        Noty.error("Only users can leave a comment.");
+                    } else {
+                        Noty.error(JSON.parse(error.responseText).error);
+                    }
                     _this.attachCommentEvents('.postCommentButton', '.comments');
                 });
 
@@ -575,6 +583,11 @@ app.controller = (function () {
                     .then(function (comment) {
                         data.posts[0]['commentsCount'] = comment.comments.length;
                         data.comments = comment.comments;
+                        if(sessionStorage['logged-in']){
+                            data.logged = true;
+                        } else {
+                            data.logged = false;
+                        }
                         app.postView.load(selector, data)
                             .then(function(){
                                 _this.attachPostEvents('#comment-form-toggle', '#comment-form')

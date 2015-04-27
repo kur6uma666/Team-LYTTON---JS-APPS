@@ -66,7 +66,7 @@ app._model.comment = (function () {
             }
         };
 
-        this._requester.get('classes/Comment?order=-createdAt&include=post&where=' + JSON.stringify(where))
+        this._requester.get('classes/Comment?order=-createdAt&include=post,author&where=' + JSON.stringify(where))
             .then( function(data) {
                 _.each(data['results'], function(dataComment){
 

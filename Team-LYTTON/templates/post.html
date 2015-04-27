@@ -16,17 +16,19 @@
             </span>
         </p>
         <hr />
+        {{#if logged}}
+        <button id="comment-form-toggle" type="button" class="btn btn-info">Add comment</button>
+        <form id="comment-form" hidden="hidden">
+            <textarea id="content" class="form-control" rows="3" placeholder="Content..."></textarea>
+            <button id="{{posts.0.objectId}}" type="button" class="postCommentButton btn btn-info">Add</button>
+            <!--<input type="button" class="postCommentButton" id="{{posts.0.objectId}}" value="PostComment">-->
+        </form>
+        {{else}}
+        <div class="alert alert-info" role="alert">Log in to leave a comment.</div>
+        {{/if}}
     </div>
-    <button id="comment-form-toggle" type="button" class="btn btn-info">Add comment</button>
-    <form id="comment-form" hidden="hidden">
-        <label for="author">Author</label>
-        <input type="text" id="author">
-        <label for="content">Content:</label>
-        <input type="text" id="content">
-        <label for="email">Email</label>
-        <input type="text" id="email">
-        <input type="button" class="postCommentButton" id="{{posts.0.objectId}}" value="PostComment">
-    </form>
+
+
     <ul class="comments">
 
     </ul>

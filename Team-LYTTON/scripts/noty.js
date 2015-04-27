@@ -5,19 +5,19 @@ var Noty = (function() {
             text: text,
             type: type,
             dismissQueue: true,
-            layout: 'topCenter',
-            theme: 'defaultTheme',
+            layout: 'topLeft',
+            theme: 'bootstrapTheme',
             maxVisible: 10,
             timeout: time
         });
     }
 
     function success(text) {
-        display('success', text, 1500);
+        display('success', text, 3000);
     }
 
     function error(text) {
-        display('error', text, 1500);
+        display('error', text, 3000);
     }
 
     return {
