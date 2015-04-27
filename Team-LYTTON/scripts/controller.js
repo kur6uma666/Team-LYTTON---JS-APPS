@@ -105,7 +105,13 @@ app.controller = (function () {
                         $("#gender").val(data.gender);
                         _this.model.user.getProfilePicture(userId)
                             .then(function(picture){
-                                $('.picture-preview').attr('src', picture.profilePicture.results[0].imageUrl);
+                                console.log(picture);
+                                if(picture.profilePicture.results.length > 0){
+                                    $('.picture-preview').attr('src', picture.profilePicture.results[0].imageUrl);
+                                } else {
+                                    $('.picture-preview').attr('src', 'resources/default-avatar.png');
+                                }
+
                             }, function(err){
                                 Noty.error(JSON.parse(err.responseText).error);
                             });
@@ -371,6 +377,7 @@ app.controller = (function () {
                         app.postArticle.load(selector)
                             .then(function(){
                                 loadPosts();
+                                _this.attachBlogEvents('#postArticle');
                             });
                     } else {
                         loadPosts();
@@ -515,7 +522,7 @@ app.controller = (function () {
 
         $(selector).click(function () {
             var uniqueTags =
-                _.uniq($("input[id=tags]").val().trim().split(','))
+                _.uniq($("input[id=tags]").val().trim().split(/\s*,\s*/))
                     .filter(function (tag) {
                         return tag !== "";
                     });
