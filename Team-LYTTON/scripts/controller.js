@@ -545,8 +545,8 @@ app.controller = (function () {
         });
     };
 
-    Controller.prototype.getHomePage = function (selector) {
-        app.homeView.load(selector);
+    Controller.prototype.getAboutPage = function (selector) {
+        app.aboutView.load(selector);
     };
 
     Controller.prototype.getSidebar = function (selector, tagsFunction, tagsClassName, tagsLimit) {

@@ -118,6 +118,16 @@ header .navbar a:hover {
 .navbar-nav li {
     margin: 0 5px;
 }
+.header-logo>#header-logo-img {
+    background: url('../resources/logoLytton-white.png');
+    background-size: 70px 30px;
+    width: 70px;
+    height: 30px;
+}
+.header-logo:hover  #header-logo-img{
+    background: url('../resources/logoLytton-grey.png');
+    background-size: 70px 30px;
+}
 
 header .navbar-inverse .navbar-nav>.active>a {
     background: #E90606;
@@ -177,7 +187,24 @@ input[readonly] {
     font-size: 1.1em;
     padding-right: 3px;
 }
-
+#about-section>h2{
+    text-align: center;
+}
+#about-section>h5{
+    line-height: 2em;
+}
+#about-logo{
+    position: relative;
+    left: 37%;
+    width: 250px ;
+    height: 125px;
+    background: url("../resources/logoLytton-blue.png");
+    background-size: 250px 125px;
+}
+#about-logo:hover{
+    background: url("../resources/logoLytton-grey.png");
+    background-size: 250px 125px;
+}
 /* validation css */
 #result{
     margin-left:5px;

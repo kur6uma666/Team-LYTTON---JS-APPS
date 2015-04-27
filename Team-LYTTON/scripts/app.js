@@ -12,7 +12,7 @@ var app = app || {};
 
         this.get('#/about', function () {
             initLoad();
-            controller.getHomePage(selector);
+            controller.getAboutPage(selector);
         });
 
         this.get('#/login', function () {

@@ -1,10 +1,10 @@
 var app = app || {};
 
-app.homeView = (function(){
-    function HomeView(selector, data) {
+app.aboutView = (function(){
+    function AboutView(selector, data) {
         var deffer = Q.defer();
 
-        $.get('templates/home.html', function(template) {
+        $.get('templates/about.html', function(template) {
             var output = Mustache.render(template);
             $(selector).html(output);
         }).done(function(data) {
@@ -18,7 +18,7 @@ app.homeView = (function(){
 
     return {
         load: function (selector, data) {
-            return HomeView(selector, data);
+            return AboutView(selector, data);
         }
     }
 })();
