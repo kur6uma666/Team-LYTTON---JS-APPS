@@ -126,7 +126,7 @@ app.controller = (function () {
     Controller.prototype.attachProfilePageEvents = function (selector) {
         var _this = this;
 
-        $(selector).click(function (event) {
+        $(selector).click(function () {
             var userData = {
                 username: $("input[id=username]").val(),
                 email: $("input[id=email]").val(),
@@ -140,11 +140,11 @@ app.controller = (function () {
             }
 
             _this.model.user.updateUser(sessionStorage['id'], userData)
-                .then(function (data) {
+                .then(function () {
                     sessionStorage.clear();
                     window.location.replace('#/about');
                     Noty.success('Profile edited successfully.');
-                }, function (error) {
+                }, function () {
                     Noty.error('Error saving changes. Please try again.');
                 });
         });
@@ -192,7 +192,6 @@ app.controller = (function () {
                 processData: false,
                 contentType: false,
                 success: function (data) {
-
                     var pictureData = {
                         "imageUrl": data.url,
                         "profilePicture": {
@@ -266,7 +265,7 @@ app.controller = (function () {
                             $('#usernameCheck').html('Username is available.').css({
                                 "background-color": "green",
                                 "font-weight": "bold",
-                                "color": "black"
+                                "color": "white"
                             })
                         }
                     });
@@ -342,16 +341,38 @@ app.controller = (function () {
         $("input[id=reg-email]").keyup(function () {
             var $input = $("input[id=reg-email]").val();
             var isValid = validation.checkEmail($input);
-            if (isValid === null) {
+            if($input.length == 0) {
+                $('#checkEmail').empty();
+            } else if(isValid === null) {
                 $('#checkEmail').html('This email is NOT valid').css({
                     "background-color": "red",
                     "font-weight": "bold",
                     "color": "white"
                 });
-            } else if($input.length == 0){
-                $('#checkEmail').empty();
             } else {
-                $('#checkEmail').empty();
+                var isUnique = true;
+                _this.model.user.getUsers()
+                    .then(function (data) {
+                        data.users.forEach(function(key) {
+                            if(key.email.toLowerCase() == $input.toLowerCase()) {
+                                isUnique = false;
+                            }
+                        });
+
+                        if(!isUnique) {
+                            $('#checkEmail').html('This email is already taken!').css({
+                                "background-color": "red",
+                                "font-weight": "bold",
+                                "color": "white"
+                            });
+                        } else {
+                            $('#checkEmail').html('This email is available!').css({
+                                "background-color": "green",
+                                "font-weight": "bold",
+                                "color": "white"
+                            });
+                        }
+                    });
             }
         });
 
