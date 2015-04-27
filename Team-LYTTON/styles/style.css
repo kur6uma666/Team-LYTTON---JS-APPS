@@ -35,14 +35,6 @@ ul {
     vertical-align: top;
 }
 
-article:nth-child(odd) {
-    background: lightgray;
-}
-
-article:nth-child(even) {
-    background: lightgoldenrodyellow;
-}
-
 #post-section #content {
     width: 100%;
     height: 200px;
@@ -211,6 +203,11 @@ input[readonly] {
 #profileButtons {
     text-align: right;
 }
+
+.comments hr{
+    border-color: #C0B6B6;
+}
+
 
 .noty_type_error{
     background: #ff574f;
