@@ -417,7 +417,7 @@ app.controller = (function () {
     Controller.prototype.attachCommentEvents = function (selector, commentsSelector) {
         var _this = this;
 
-        $(document).on('click', selector, function(event){
+        $(document).one('click', selector, function(event){
             $('#comment-form-toggle').trigger('click');
             console.log(Math.random());
             event.preventDefault();
@@ -461,6 +461,7 @@ app.controller = (function () {
 
             _this.model.comment.createComment(data)
                 .then(function (commentData) {
+                    _this.attachCommentEvents('.postCommentButton', '.comments');
                     Noty.success('Comment posted successfully.');
                     _this.model.comment.getPostComments(id)
                         .then(function (commentsData) {
@@ -472,7 +473,10 @@ app.controller = (function () {
                         });
                 }, function (error) {
                     Noty.error(JSON.parse(error.responseText).error);
+                    _this.attachCommentEvents('.postCommentButton', '.comments');
                 });
+
+            return false;
         });
     };
 
