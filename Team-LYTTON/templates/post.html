@@ -16,20 +16,20 @@
             </span>
         </p>
         <hr />
+
         {{#if logged}}
         <button id="comment-form-toggle" type="button" class="btn btn-info">Leave a comment</button>
         <form id="comment-form" hidden="hidden">
             <textarea id="content" class="form-control" rows="10" placeholder="Content..."></textarea>
             <button id="{{posts.0.objectId}}" type="button" class="postCommentButton btn btn-info">Add</button>
-            <!--<input type="button" class="postCommentButton" id="{{posts.0.objectId}}" value="PostComment">-->
         </form>
         {{else}}
         <div class="alert alert-info" role="alert">Log in to leave a comment.</div>
         {{/if}}
     </div>
-
-
     <ul class="comments">
-
     </ul>
 </article>
+
+
+

@@ -417,12 +417,7 @@ app.controller = (function () {
     Controller.prototype.attachCommentEvents = function (selector, commentsSelector) {
         var _this = this;
 
-
-
-        $(document).one('click', selector, function(event){
-            $('#comment-form-toggle').trigger('click');
-            event.preventDefault();
-            event.stopPropagation();
+        $(selector).click(function(event){
             var id = event.target['id'];
             var data = {
                 author: {
@@ -437,6 +432,8 @@ app.controller = (function () {
                     objectId: id
                 }
             };
+
+            $('#comment-form-toggle').trigger('click');
 
             // bad words censorship
             $.ajaxSetup({
@@ -464,7 +461,6 @@ app.controller = (function () {
 
             _this.model.comment.createComment(data)
                 .then(function (commentData) {
-                    _this.attachCommentEvents('.postCommentButton', '.comments');
                     Noty.success('Comment posted successfully.');
                     _this.model.comment.getPostComments(id)
                         .then(function (commentsData) {
@@ -479,9 +475,9 @@ app.controller = (function () {
                     if(errorCode === 119){
                         Noty.error("Only users can leave a comment.");
                     } else {
+                        console.log(error);
                         Noty.error(JSON.parse(error.responseText).error);
                     }
-                    _this.attachCommentEvents('.postCommentButton', '.comments');
                 });
 
             return false;
@@ -623,6 +619,11 @@ app.controller = (function () {
         $(selector).on('click', function(e){
             e.stopPropagation();
             $(child).slideToggle(400);
+            $('#content').val("");
+
+            if ($(child).not(":hidden")) {
+                $('#content').focus();
+            }
         });
     };
 
