@@ -238,6 +238,43 @@ app.controller = (function () {
     Controller.prototype.attachRegisterEvents = function (selector) {
         var _this = this;
         _this.attachPictureUploadEvents('#upload-file-button');
+        $("input[id=reg-username]").keyup(function () {
+            var $input =  $("input[id=reg-username]").val();
+            var isUnique = true;
+            if(validation.checkUsernameForLength($input)) {
+                $('#usernameCheck').empty();
+                _this.model.user.getUsers()
+                    .then(function (data) {
+                        data.users.forEach(function(key, value) {
+                           if(key.username == $input) {
+                                isUnique = false;
+                           }
+                        });
+                        if(!isUnique) {
+                            $('#usernameCheck').html('Username is already taken.').css({
+                                "background-color": "red",
+                                "font-weight": "bold",
+                                "color": "white"
+                            });
+                        } else {
+                            $('#usernameCheck').html('Username is available.').css({
+                                "background-color": "green",
+                                "font-weight": "bold",
+                                "color": "black"
+                            })
+                        }
+                    });
+
+            } else if ($input.length == 0) {
+                $('#usernameCheck').empty();
+            } else {
+                $('#usernameCheck').html('Username is too short.').css({
+                    "background-color": "red",
+                    "font-weight": "bold",
+                    "color": "white"
+                })
+            }
+        });
 
         $("input[id=reg-password], input[id=repeat-password]").keyup(function () {
             $('#result').empty();
@@ -329,7 +366,6 @@ app.controller = (function () {
 
     Controller.prototype.getBlogPage = function (selector, page) {
         $(selector).empty();
-
         var _this = this;
 
         app.postArticle.load(selector)
