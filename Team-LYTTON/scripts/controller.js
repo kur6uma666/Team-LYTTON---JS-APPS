@@ -590,8 +590,10 @@ app.controller = (function () {
                         Noty.error(JSON.parse(error.responseText).error);
                     });
 
-            }, function (error) {
-                Noty.error(JSON.parse(error.responseText).error);
+            }, function () {
+                var error = $('<div class="alert alert-danger" role="alert">...</div>');
+                error.text("Error showing this post or post does not exist.");
+                $(selector).append(error);
             });
     };
 
@@ -620,15 +622,22 @@ app.controller = (function () {
         this.model.tag.getPostsByTag(tag)
             .then(function (data) {
                 app.blogView.load(selector, data);
+                if(data.posts.length){
+                    _.each(data.posts, function (p) {
+                        _this.model.comment.getPostCommentsCount(p.objectId)
+                            .then(function (c) {
+                                $('article#' + p.objectId + ' .comments-count').text(c.count);
+                            }, function (error) {
+                                Noty.error(JSON.parse(error.responseText).error);
+                            });
+                    });
+                } else {
+                    var error = $('<div class="alert alert-warning" role="alert">...</div>');
+                    error.text("There is no posts with this tag.");
+                    $(selector).append(error);
+                }
 
-                _.each(data.posts, function (p) {
-                    _this.model.comment.getPostCommentsCount(p.objectId)
-                        .then(function (c) {
-                            $('article#' + p.objectId + ' .comments-count').text(c.count);
-                        }, function (error) {
-                            Noty.error(JSON.parse(error.responseText).error);
-                        });
-                });
+
             }, function (error) {
                 Noty.error(JSON.parse(error.responseText).error);
             });
