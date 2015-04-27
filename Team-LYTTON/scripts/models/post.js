@@ -130,8 +130,8 @@ app._model.post = (function () {
     };
 
     return {
-        get: function (baseUrl, ajaxRequester) {
-            return new Post(baseUrl, ajaxRequester);
+        get: function (ajaxRequester) {
+            return new Post(ajaxRequester);
         }
     }
 }());
