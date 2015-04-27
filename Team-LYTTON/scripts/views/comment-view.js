@@ -22,4 +22,3 @@ app.commentView = (function () {
         }
     }
 }());
-

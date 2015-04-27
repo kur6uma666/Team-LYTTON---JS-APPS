@@ -1,11 +1,10 @@
 var Noty = (function() {
-
     function display(type, text, time) {
         var n = noty({
             text: text,
             type: type,
             dismissQueue: true,
-            layout: 'topLeft',
+            layout: 'topCenter',
             theme: 'bootstrapTheme',
             maxVisible: 10,
             timeout: time

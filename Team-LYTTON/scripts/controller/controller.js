@@ -1,7 +1,6 @@
 var app = app || {};
 
 app.controller = (function () {
-
     function Controller(model) {
         this.model = model;
     }
@@ -244,6 +243,7 @@ app.controller = (function () {
     Controller.prototype.attachRegisterEvents = function (selector) {
         var _this = this;
         _this.attachPictureUploadEvents('#upload-file-button');
+
         $("input[id=reg-username]").keyup(function () {
             var $input =  $("input[id=reg-username]").val();
             var isUnique = true;
@@ -251,8 +251,8 @@ app.controller = (function () {
                 $('#usernameCheck').empty();
                 _this.model.user.getUsers()
                     .then(function (data) {
-                        data.users.forEach(function(key, value) {
-                           if(key.username == $input) {
+                        data.users.forEach(function(key) {
+                           if(key.username.toLowerCase() == $input.toLowerCase()) {
                                 isUnique = false;
                            }
                         });
@@ -283,44 +283,49 @@ app.controller = (function () {
         });
 
         $("input[id=reg-password], input[id=repeat-password]").keyup(function () {
-            $('#result').empty();
-            if (($("input[id=reg-password]").val()).length >= 6) {
-                var passwordStrength = validation.checkPasswordStrength($("input[id=reg-password]").val());
+            var $input = $("input[id=reg-password]").val();
+            var $resultLabel = $('#resultLabel');
+            var $result = $('#result');
+            if ($input.length >= 6) {
+                var passwordStrength = validation.checkPasswordStrength($input);
                 switch (passwordStrength) {
                     case 'weak':
-                        $('#resultLabel').show();
-                        $('#result').html(passwordStrength).css({"background-color": "red"});
+                        $resultLabel.show();
+                        $result.html(passwordStrength).css({"background-color": "red"});
                         break;
 
                     case 'medium':
-                        $('#resultLabel').show();
-                        $('#result').html(passwordStrength).css({"background-color": "deepskyblue"});
+                        $resultLabel.show();
+                        $result.html(passwordStrength).css({"background-color": "deepskyblue"});
                         break;
 
                     case 'good':
-                        $('#resultLabel').show();
-                        $('#result').html(passwordStrength).css({"background-color": "blue"});
+                        $resultLabel.show();
+                        $result.html(passwordStrength).css({"background-color": "blue"});
                         break;
 
                     case 'strong':
-                        $('#resultLabel').show();
-                        $('#result').html(passwordStrength).css({"background-color": "green"});
+                        $resultLabel.show();
+                        $result.html(passwordStrength).css({"background-color": "green"});
                         break;
 
                     case 'excellent':
-                        $('#resultLabel').show();
-                        $('#result').html(passwordStrength).css({"background-color": "greenyellow"});
+                        $resultLabel.show();
+                        $result.html(passwordStrength).css({"background-color": "greenyellow"});
                         break;
                 }
+            } else if($input.length == 0 ) {
+                $resultLabel.empty();
+                $result.hide();
             } else {
-                $('#resultLabel').hide();
-                $('#result').html('Password is too short').css({
+                $resultLabel.hide();
+                $result.html('Password is too short').css({
                     "background-color": "red",
                     "font-weight": "bold",
                     "color": "white"
                 })
             }
-        }); // pasword strength function
+        });
 
         $("input[id=repeat-password], input[id=reg-password]").keyup(function () {
             if (!validation.checkIfPasswordsMatch($("input[id=repeat-password]").val(), $("input[id=reg-password]").val())) {
@@ -332,18 +337,21 @@ app.controller = (function () {
             } else {
                 $('#passwordMatch').empty();
             }
-        }); // password match function
+        });
 
         $("input[id=reg-email]").keyup(function () {
-            var isValid = validation.checkEmail($("input[id=reg-email]").val());
+            var $input = $("input[id=reg-email]").val();
+            var isValid = validation.checkEmail($input);
             if (isValid === null) {
                 $('#checkEmail').html('This email is NOT valid').css({
                     "background-color": "red",
                     "font-weight": "bold",
                     "color": "white"
                 });
+            } else if($input.length == 0){
+                $('#checkEmail').empty();
             } else {
-                $('#checkEmail').hide();
+                $('#checkEmail').empty();
             }
         });
 
@@ -403,7 +411,7 @@ app.controller = (function () {
                             }, function (error) {
                                 Noty.error(JSON.parse(error.responseText).error);
                             });
-                    })
+                    });
 
                     _this.model.comment.getComment()
                         .then(function () {
@@ -472,7 +480,7 @@ app.controller = (function () {
             // end of bad words censorship
 
             _this.model.comment.createComment(data)
-                .then(function (commentData) {
+                .then(function () {
                     Noty.success('Comment posted successfully.');
                     _this.model.comment.getPostComments(id)
                         .then(function (commentsData) {
@@ -594,13 +602,7 @@ app.controller = (function () {
                     .then(function (comment) {
                         data.posts[0]['commentsCount'] = comment.comments.length;
                         data.comments = comment.comments;
-
-                        if(sessionStorage['logged-in']){
-                            data.logged = true;
-                        } else {
-                            data.logged = false;
-                        }
-
+                        data.logged = !!sessionStorage['logged-in'];
                         app.postView.load(selector, data)
                             .then(function(){
                                 _this.attachPostEvents('#comment-form-toggle', '#comment-form')

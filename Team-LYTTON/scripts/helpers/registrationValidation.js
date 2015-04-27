@@ -10,16 +10,12 @@ validation = {
         return userName.isLongEnough();
     },
 
-    checkUsernameForSymbols: function (userName) {
-        return userName.isAlphaNumeric();
-    },
-
     checkIfPasswordsMatch: function(password, repeatPassword) {
         return password === repeatPassword;
     },
 
     checkEmail: function(email) {
-        var regExp = /[@]+/g;
+        var regExp = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
         return (email.match(regExp));
     },
 
@@ -61,10 +57,8 @@ validation = {
             case 4:
                 return 'excellent';
                 break;
-
         }
-    } // password strength function
-
+    }
 };
 
 String.prototype.isAlphaNumeric = function() {

@@ -2,7 +2,7 @@ var app = app || {};
 app._model = app._model || {};
 
 app._model.post = (function () {
-    function Post(baseUrl, ajaxRequester) {
+    function Post(ajaxRequester) {
         this._requester = ajaxRequester;
         this._posts = {
             posts: []

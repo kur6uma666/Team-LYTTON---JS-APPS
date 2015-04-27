@@ -115,6 +115,5 @@ $.fn.pageMe = function(opts){
 
         pager.children().removeClass("active");
         pager.children().eq(page+1).addClass("active");
-
     }
 };
