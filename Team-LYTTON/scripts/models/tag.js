@@ -17,12 +17,13 @@ app._model.tag = (function(){
             'tags_lower': tag.toLowerCase()
         };
 
-        this._requester.get('classes/Post?where=' + JSON.stringify(where) + '&include=author')
+        this._requester.get('classes/Post?where=' + JSON.stringify(where) + '&include=author,headerImage')
             .then(function (data) {
                 data['results'].forEach(function (dataPost) {
                     var post = {
                         'objectId': dataPost.objectId,
                         'title': dataPost.title,
+                        'headerImage': dataPost.headerImage,
                         'content': dataPost.content,
                         'contentSummary': dataPost.contentSummary,
                         'tags': dataPost.tags,
