@@ -33,13 +33,27 @@ app.requester = (function () {
         return makeRequest('PUT', headers, url, data);
     };
 
+    Requester.prototype.postFile = function(serviceUrl, file){
+        var headers = getHeaders(),
+            url;
+
+        if(serviceUrl === 'files/'){
+            headers['Content-Type'] = file.type;
+            url = this._baseUrl + serviceUrl + file.name;
+        } else{
+            url = this._baseUrl + serviceUrl;
+        }
+
+        return makeRequest('POST', headers, url, file);
+    };
+
     function makeRequest(method, headers, url, data) {
         var defer = Q.defer();
         $.ajax({
             method: method,
             headers: headers,
             url: url,
-            contentType: 'application/json',
+            contentType : 'application/json',
             data: JSON.stringify(data),
             processData: false,
             success: function (data) {
@@ -48,6 +62,10 @@ app.requester = (function () {
             error: function (error) {
                 defer.reject(error);
             }
+        }).then(function(data){
+            console.log(data);
+        }, function(error){
+            console.log(error.responseText);
         });
 
         return defer.promise;

@@ -26,9 +26,17 @@ app._model.post = (function () {
         this.getAuthor()
             .then(function (author) {
                 data.author = author;
+                var id = data.headerImage.objectId;
+                data.headerImage = {
+                    "__type": "Pointer",
+                    "className": "HeaderPicture",
+                    "objectId": id
+                };
                 _this._requester.post('classes/Post', data)
                     .then(function(_data){
                         defer.resolve(_data);
+                    }, function(error){
+                        console.log(error.responseText);
                     });
             }, function (error) {
                 defer.reject(error);
@@ -111,6 +119,28 @@ app._model.post = (function () {
                 defer.reject(error);
             });
 
+        return defer.promise;
+    };
+
+    Post.prototype.getHeaderPicture = function(file, data){
+        var defer = Q.defer();
+        var _this = this;
+        //file['__type'] = 'File';
+        this._requester.postFile('files/', file)
+            .then(function (fileData) {
+                file['url'] = fileData['url'];
+                file['name'] = fileData['name'];
+                _this._requester.postFile('classes/HeaderPicture', file)
+                    .then(function (fileDataClass) {
+                        file['objectId'] = fileDataClass['objectId'];
+                        data['headerImage'] = file;
+                        defer.resolve(data);
+                    }, function (error) {
+                        defer.reject(error);
+                    });
+            }, function (error) {
+                defer.reject(error);
+            });
         return defer.promise;
     };
 

@@ -1,6 +1,7 @@
 var app = app || {};
 
 app.controller = (function () {
+
     function Controller(model) {
         this.model = model;
     }
@@ -126,7 +127,7 @@ app.controller = (function () {
     Controller.prototype.attachProfilePageEvents = function (selector) {
         var _this = this;
 
-        $(selector).click(function () {
+        $(selector).click(function (event) {
             var userData = {
                 username: $("input[id=username]").val(),
                 email: $("input[id=email]").val(),
@@ -140,11 +141,11 @@ app.controller = (function () {
             }
 
             _this.model.user.updateUser(sessionStorage['id'], userData)
-                .then(function () {
+                .then(function (data) {
                     sessionStorage.clear();
                     window.location.replace('#/about');
                     Noty.success('Profile edited successfully.');
-                }, function () {
+                }, function (error) {
                     Noty.error('Error saving changes. Please try again.');
                 });
         });
@@ -192,6 +193,7 @@ app.controller = (function () {
                 processData: false,
                 contentType: false,
                 success: function (data) {
+
                     var pictureData = {
                         "imageUrl": data.url,
                         "profilePicture": {
@@ -242,7 +244,6 @@ app.controller = (function () {
     Controller.prototype.attachRegisterEvents = function (selector) {
         var _this = this;
         _this.attachPictureUploadEvents('#upload-file-button');
-
         $("input[id=reg-username]").keyup(function () {
             var $input =  $("input[id=reg-username]").val();
             var isUnique = true;
@@ -250,31 +251,29 @@ app.controller = (function () {
                 $('#usernameCheck').empty();
                 _this.model.user.getUsers()
                     .then(function (data) {
-                        data.users.forEach(function(key) {
-                           if(key.username.toLowerCase() == $input.toLowerCase()) {
+                        data.users.forEach(function(key, value) {
+                           if(key.username == $input) {
                                 isUnique = false;
                            }
                         });
                         if(!isUnique) {
-                            validation.hideRegistrationButton();
                             $('#usernameCheck').html('Username is already taken.').css({
                                 "background-color": "red",
                                 "font-weight": "bold",
                                 "color": "white"
                             });
                         } else {
-                            validation.showRegistrationButton();
                             $('#usernameCheck').html('Username is available.').css({
                                 "background-color": "green",
                                 "font-weight": "bold",
-                                "color": "white"
+                                "color": "black"
                             })
                         }
                     });
 
             } else if ($input.length == 0) {
                 $('#usernameCheck').empty();
-            } else if($input) {
+            } else {
                 $('#usernameCheck').html('Username is too short.').css({
                     "background-color": "red",
                     "font-weight": "bold",
@@ -284,52 +283,44 @@ app.controller = (function () {
         });
 
         $("input[id=reg-password], input[id=repeat-password]").keyup(function () {
-            var $input = $("input[id=reg-password]").val();
-            var $resultLabel = $('#resultLabel');
-            var $result = $('#result');
-            if ($input.length >= 6) {
-                validation.showRegistrationButton();
-                var passwordStrength = validation.checkPasswordStrength($input);
+            $('#result').empty();
+            if (($("input[id=reg-password]").val()).length >= 6) {
+                var passwordStrength = validation.checkPasswordStrength($("input[id=reg-password]").val());
                 switch (passwordStrength) {
                     case 'weak':
-                        $resultLabel.show();
-                        $result.html(passwordStrength).css({"background-color": "red"});
+                        $('#resultLabel').show();
+                        $('#result').html(passwordStrength).css({"background-color": "red"});
                         break;
 
                     case 'medium':
-                        $resultLabel.show();
-                        $result.html(passwordStrength).css({"background-color": "deepskyblue"});
+                        $('#resultLabel').show();
+                        $('#result').html(passwordStrength).css({"background-color": "deepskyblue"});
                         break;
 
                     case 'good':
-                        $resultLabel.show();
-                        $result.html(passwordStrength).css({"background-color": "blue"});
+                        $('#resultLabel').show();
+                        $('#result').html(passwordStrength).css({"background-color": "blue"});
                         break;
 
                     case 'strong':
-                        $resultLabel.show();
-                        $result.html(passwordStrength).css({"background-color": "green"});
+                        $('#resultLabel').show();
+                        $('#result').html(passwordStrength).css({"background-color": "green"});
                         break;
 
                     case 'excellent':
-                        $resultLabel.show();
-                        $result.html(passwordStrength).css({"background-color": "greenyellow"});
+                        $('#resultLabel').show();
+                        $('#result').html(passwordStrength).css({"background-color": "greenyellow"});
                         break;
                 }
-            } else if($input.length == 0 ) {
-                $resultLabel.empty();
-                $result.hide();
-                validation.hideRegistrationButton()
             } else {
-                $resultLabel.hide();
-                $result.html('Password is too short').css({
+                $('#resultLabel').hide();
+                $('#result').html('Password is too short').css({
                     "background-color": "red",
                     "font-weight": "bold",
                     "color": "white"
                 })
-                validation.hideRegistrationButton();
             }
-        });
+        }); // pasword strength function
 
         $("input[id=repeat-password], input[id=reg-password]").keyup(function () {
             if (!validation.checkIfPasswordsMatch($("input[id=repeat-password]").val(), $("input[id=reg-password]").val())) {
@@ -338,52 +329,21 @@ app.controller = (function () {
                     "font-weight": "bold",
                     "color": "white"
                 });
-                validation.hideRegistrationButton();
             } else {
                 $('#passwordMatch').empty();
-                validation.showRegistrationButton();
             }
-        });
+        }); // password match function
 
         $("input[id=reg-email]").keyup(function () {
-            var $input = $("input[id=reg-email]").val();
-            var isValid = validation.checkEmail($input);
-            if($input.length == 0) {
-                validation.hideRegistrationButton();
-                $('#checkEmail').empty();
-            } else if(isValid === null) {
-                validation.hideRegistrationButton();
+            var isValid = validation.checkEmail($("input[id=reg-email]").val());
+            if (isValid === null) {
                 $('#checkEmail').html('This email is NOT valid').css({
                     "background-color": "red",
                     "font-weight": "bold",
                     "color": "white"
                 });
             } else {
-                var isUnique = true;
-                _this.model.user.getUsers()
-                    .then(function (data) {
-                        data.users.forEach(function(key) {
-                            if(key.email.toLowerCase() == $input.toLowerCase()) {
-                                isUnique = false;
-                            }
-                        });
-
-                        if(!isUnique) {
-                            validation.hideRegistrationButton();
-                            $('#checkEmail').html('This email is already taken!').css({
-                                "background-color": "red",
-                                "font-weight": "bold",
-                                "color": "white"
-                            });
-                        } else {
-                            validation.showRegistrationButton();
-                            $('#checkEmail').html('This email is available!').css({
-                                "background-color": "green",
-                                "font-weight": "bold",
-                                "color": "white"
-                            });
-                        }
-                    });
+                $('#checkEmail').hide();
             }
         });
 
@@ -443,7 +403,7 @@ app.controller = (function () {
                             }, function (error) {
                                 Noty.error(JSON.parse(error.responseText).error);
                             });
-                    });
+                    })
 
                     _this.model.comment.getComment()
                         .then(function () {
@@ -512,7 +472,7 @@ app.controller = (function () {
             // end of bad words censorship
 
             _this.model.comment.createComment(data)
-                .then(function () {
+                .then(function (commentData) {
                     Noty.success('Comment posted successfully.');
                     _this.model.comment.getPostComments(id)
                         .then(function (commentsData) {
@@ -568,7 +528,7 @@ app.controller = (function () {
 
         $(selector).click(function () {
             var uniqueTags =
-                _.uniq($("input[id=tags]").val().split(/\s+/))
+                _.uniq($("input[id=tags]").val().trim().split(/\s*,\s*/))
                     .filter(function (tag) {
                         return tag !== "";
                     });
@@ -586,9 +546,7 @@ app.controller = (function () {
                 })
             };
 
-            $('#post-form')[0].reset();
-
-			if(file){
+            if(file){
                 _this.model.post.getHeaderPicture(file, _data)
                     .then(function(fileData){
                         _this.model.post.createPost(fileData)
@@ -602,9 +560,9 @@ app.controller = (function () {
                                     }, function (error) {
                                         Noty.error(JSON.parse(error.responseText).error);
                                     })
-                            }, function (error) {
+                        }, function (error) {
                                 Noty.error(JSON.parse(error.responseText).error);
-                            })
+                        })
                     })
             } else{
                 _this.model.post.createPost(_data)
@@ -662,7 +620,13 @@ app.controller = (function () {
                     .then(function (comment) {
                         data.posts[0]['commentsCount'] = comment.comments.length;
                         data.comments = comment.comments;
-                        data.logged = !!sessionStorage['logged-in'];
+
+                        if(sessionStorage['logged-in']){
+                            data.logged = true;
+                        } else {
+                            data.logged = false;
+                        }
+
                         app.postView.load(selector, data)
                             .then(function(){
                                 _this.attachPostEvents('#comment-form-toggle', '#comment-form')
