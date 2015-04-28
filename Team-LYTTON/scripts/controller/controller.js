@@ -58,7 +58,7 @@ app.controller = (function () {
         var _this = this;
         $(selector).click(function () {
             var username = ($("input[id=login-username]").val());
-            var password = ($("input[id=login-password]").val());
+            var password = (CryptoJS.SHA256($("input[id=login-password]").val())).toString();
 
             _this.model.user.logIn(username, password)
                 .then(function (data) {
@@ -106,7 +106,6 @@ app.controller = (function () {
                         $("#gender").val(data.gender);
                         _this.model.user.getProfilePicture(userId)
                             .then(function(picture){
-                                console.log(picture);
                                 if(picture.profilePicture.results.length > 0){
                                     $('.picture-preview').attr('src', picture.profilePicture.results[0].imageUrl);
                                 } else {
@@ -223,7 +222,7 @@ app.controller = (function () {
                                         };
                                         _this.model.user.updateUser(sessionStorage['id'],userData)
                                             .then(function(user){
-                                                console.log(user);
+
                                             }, function(error){
                                                 console.log(error.responseText);
                                             });
@@ -405,10 +404,11 @@ app.controller = (function () {
         });
 
         $(selector).click(function () {
+            var password = (CryptoJS.SHA256($("input[id=reg-password]").val())).toString();
             var userRegData = {
                 username: $("input[id=reg-username]").val(),
-                password: $("input[id=reg-password]").val(),
-                passwordRepeat: $("input[id=repeat-password]").val(),
+                password: password,
+                passwordRepeat: password,
                 email: $("input[id=reg-email]").val()
             };
             _this.model.user.register(userRegData)
