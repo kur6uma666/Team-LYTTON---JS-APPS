@@ -133,7 +133,7 @@ app._model.post = (function () {
                 var data = {
                     url: fileData.url,
                     name: fileData.name
-                }
+                };
                 _this._requester.post('classes/HeaderPicture', data)
                     .then(function(headerImage){
                         defer.resolve(headerImage);

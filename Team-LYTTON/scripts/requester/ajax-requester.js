@@ -34,11 +34,10 @@ app.requester = (function () {
     };
 
     Requester.prototype.postFile = function(serviceUrl, file){
-        var headers = getHeaders(),
-            url;
-
+        var headers = getHeaders();
             headers['Content-Type'] = file.type;
-            url = this._baseUrl + serviceUrl + file.name;
+
+        var url = this._baseUrl + serviceUrl + file.name;
 
         return uploadFile('POST', headers, url, file);
     };
