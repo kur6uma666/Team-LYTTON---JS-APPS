@@ -236,6 +236,29 @@ input[readonly] {
     border-color: #C0B6B6;
 }
 
+.user-info{
+    background-color: #e6e6e6;
+    padding: 3%;
+    margin: 2%;
+}
+
+.user-info > h2{
+    margin-top: 0;
+    text-align: center;
+}
+
+.user-info > div{
+    vertical-align: top;
+    padding: 5%;
+    display: inline-block;
+}
+.user-info .profile-pic{
+    padding: 0;
+    margin: 0;
+    width: 350px;
+    height: 250px;
+}​
+
 
 .noty_type_error{
     background: #ff574f;

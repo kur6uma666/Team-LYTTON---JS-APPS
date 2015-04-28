@@ -213,6 +213,19 @@ app.controller = (function () {
                             _this.model.user.getProfilePicture(sessionStorage['id'])
                                 .then(function(picture){
                                     Noty.success('Upload Successful');
+                                    var userData = {
+                                        profilePicture : {
+                                            __type: "Pointer",
+                                            className: "Picture",
+                                            objectId: picture.profilePicture.results[0].objectId
+                                        }
+                                    };
+                                    _this.model.user.updateUser(sessionStorage['id'],userData)
+                                        .then(function(user){
+                                           console.log(user);
+                                        }, function(error){
+                                            console.log(error.responseText);
+                                        });
                                     $('.picture-preview').attr('src', picture.profilePicture.results[0].imageUrl);
                                 }, function(response){
                                     Noty.error(JSON.parse(response.responseText).error);
@@ -705,9 +718,10 @@ app.controller = (function () {
 
     Controller.prototype.getUserPage = function (id, selector) {
         //$(selector).empty();
-
+        var _this = this;
         this.model.user.getUserById(id)
             .then(function (data) {
+
                 app.userView.load(selector, data);
             }, function (error) {
                 Noty.error(JSON.parse(error.responseText).error);

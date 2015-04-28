@@ -69,7 +69,7 @@ app._model.user = (function () {
 
     User.prototype.getUserById = function(id){
         var defer = Q.defer();
-        this._requester.get('users/'+ id)
+        this._requester.get('users/'+ id + '?include=profilePicture')
             .then(function (data) {
                 defer.resolve(data);
             }, function (error) {
