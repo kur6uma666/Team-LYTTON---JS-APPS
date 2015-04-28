@@ -20,7 +20,7 @@ ul {
     list-style: none;
 }
 
-.post ul {
+.post .comments {
     padding: 0 40px;
 }
 
@@ -298,6 +298,10 @@ input[readonly] {
         transform: scale(.7);
         right: .2%;
         bottom: .2%;
+    }
+
+    .post .comments {
+        padding: 0 1%;
     }
 }
 
