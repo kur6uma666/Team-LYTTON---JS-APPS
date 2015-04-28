@@ -75,5 +75,5 @@ String.prototype.isAlphaNumeric = function() {
 };
 
 String.prototype.isLongEnough = function () {
-    return this.length >= 6;
+    return this.length >= 5;
 };

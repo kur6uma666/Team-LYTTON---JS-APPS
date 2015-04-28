@@ -106,7 +106,6 @@ app.controller = (function () {
                         $("#gender").val(data.gender);
                         _this.model.user.getProfilePicture(userId)
                             .then(function(picture){
-                                console.log(picture);
                                 if(picture.profilePicture.results.length > 0){
                                     $('.picture-preview').attr('src', picture.profilePicture.results[0].imageUrl);
                                 } else {
@@ -223,7 +222,6 @@ app.controller = (function () {
                                         };
                                         _this.model.user.updateUser(sessionStorage['id'],userData)
                                             .then(function(user){
-                                                console.log(user);
                                             }, function(error){
                                                 console.log(error.responseText);
                                             });
@@ -527,27 +525,30 @@ app.controller = (function () {
             });
             data.content = currentWords.join(' ');
             // end of bad words censorship
-
-            _this.model.comment.createComment(data)
-                .then(function () {
-                    Noty.success('Comment posted successfully.');
-                    _this.model.comment.getPostComments(id)
-                        .then(function (commentsData) {
-                            $(commentsSelector).empty();
-                            $('#comment-form')[0].reset();
-                            app.commentView.load(commentsSelector, commentsData);
-                        }, function (error) {
+            if(data.content.length >= 10) {
+                _this.model.comment.createComment(data)
+                    .then(function () {
+                        Noty.success('Comment posted successfully.');
+                        _this.model.comment.getPostComments(id)
+                            .then(function (commentsData) {
+                                $(commentsSelector).empty();
+                                $('#comment-form')[0].reset();
+                                app.commentView.load(commentsSelector, commentsData);
+                            }, function (error) {
+                                Noty.error(JSON.parse(error.responseText).error);
+                            });
+                    }, function (error) {
+                        var errorCode = JSON.parse(error.responseText).code;
+                        if (errorCode === 119) {
+                            Noty.error("Only users can leave a comment.");
+                        } else {
+                            console.log(error);
                             Noty.error(JSON.parse(error.responseText).error);
-                        });
-                }, function (error) {
-                    var errorCode = JSON.parse(error.responseText).code;
-                    if(errorCode === 119){
-                        Noty.error("Only users can leave a comment.");
-                    } else {
-                        console.log(error);
-                        Noty.error(JSON.parse(error.responseText).error);
-                    }
-                });
+                        }
+                    });
+            } else {
+                Noty.error('Your comment is not long enough.');
+            }
 
             return false;
         });
