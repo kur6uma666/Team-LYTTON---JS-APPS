@@ -195,8 +195,8 @@ input[readonly] {
     line-height: 2em;
 }
 #about-logo{
-    position: relative;
-    left: 37%;
+    margin: 0 auto;
+    max-width: 99%;
     width: 250px ;
     height: 125px;
     background: url("../resources/logoLytton-blue.png");
@@ -244,7 +244,7 @@ input[readonly] {
 
 .user-info > h2{
     margin-top: 0;
-    text-align: center;
+    margin-left: 60%;
 }
 
 .user-info > div{
@@ -259,11 +259,10 @@ input[readonly] {
     height: 250px;
 }​
 
-
-.noty_type_error{
-    background: #ff574f;
-    color: white;
-}
+ .noty_type_error{
+     background: #ff574f;
+     color: white;
+ }
 
 .noty_type_success {
     /*#dff0d8*/
@@ -281,9 +280,38 @@ input[readonly] {
     margin-bottom: 10px;
 }
 
+.login {
+    margin-left: 20%;
+}
+
 @media screen and (max-width: 768px) {
     #wrapper, #sidebar {
         width: 100%;
         padding: 1%;
     }
+
+    .login {
+        margin-left: 0;
+    }
+
+    #up-to-top {
+        transform: scale(.7);
+        right: .2%;
+        bottom: .2%;
+    }
+}
+
+#up-to-top {
+    display: none;
+    background: transparent;
+    position: fixed;
+    right: .5%;
+    bottom: .5%;
+    box-sizing: border-box;
+    opacity: 0.6;
+}
+
+#up-to-top:hover {
+    opacity: 1;
+    transition: opacity .2s ease-in-out;
 }

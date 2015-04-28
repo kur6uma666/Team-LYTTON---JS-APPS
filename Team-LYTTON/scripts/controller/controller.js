@@ -20,7 +20,33 @@ app.controller = (function () {
                     _this.attachSearchEvents('#search');
                 });
         }
+
+        this.attachUpToTopEvents();
     };
+
+    Controller.prototype.attachUpToTopEvents = function(){
+        //Show up-to-top button
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 100) {
+                $('#up-to-top').fadeIn();
+            } else {
+                $('#up-to-top').fadeOut();
+            }
+
+            return false;
+        });
+
+        $("html, body").bind("scroll mousedown DOMMouseScroll mousewheel keyup", function(){
+            $('html, body').stop();
+        });
+
+        //Animate move to top
+        $(document).on('click', '#up-to-top a', function (e) {
+            $('html, body').animate({ scrollTop: 0 }, 800);
+
+            return false;
+        });
+    }
 
     Controller.prototype.attachSearchEvents = function (selector) {
         $(selector).click(function () {
