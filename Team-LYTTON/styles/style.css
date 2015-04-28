@@ -127,6 +127,7 @@ header .navbar a:hover {
 .header-logo:hover  #header-logo-img{
     background: url('../resources/logoLytton-grey.png');
     background-size: 70px 30px;
+    transition: background .3s ease-in-out;
 }
 
 header .navbar-inverse .navbar-nav>.active>a {
@@ -205,6 +206,7 @@ input[readonly] {
 #about-logo:hover{
     background: url("../resources/logoLytton-grey.png");
     background-size: 250px 125px;
+    transition: background .3s ease-in-out;
 }
 /* validation css */
 #result{
