@@ -303,45 +303,47 @@ app.controller = (function () {
             var $resultLabel = $('#resultLabel');
             var $result = $('#result');
             if ($input.length >= 6) {
-                validation.showRegistrationButton();
                 var passwordStrength = validation.checkPasswordStrength($input);
                 switch (passwordStrength) {
                     case 'weak':
                         $resultLabel.show();
+                        $result.show();
                         $result.html(passwordStrength).css({"background-color": "red"});
                         break;
 
                     case 'medium':
                         $resultLabel.show();
+                        $result.show();
                         $result.html(passwordStrength).css({"background-color": "deepskyblue"});
                         break;
 
                     case 'good':
                         $resultLabel.show();
+                        $result.show();
                         $result.html(passwordStrength).css({"background-color": "blue"});
                         break;
 
                     case 'strong':
                         $resultLabel.show();
+                        $result.show();
                         $result.html(passwordStrength).css({"background-color": "green"});
                         break;
 
                     case 'excellent':
                         $resultLabel.show();
+                        $result.show();
                         $result.html(passwordStrength).css({"background-color": "greenyellow"});
                         break;
                 }
             } else if($input.length == 0 ) {
-                $resultLabel.empty();
-                $result.hide();
-                validation.hideRegistrationButton()
-            } else {
                 $resultLabel.hide();
+                $result.hide();
+            } else {
                 $result.html('Password is too short').css({
                     "background-color": "red",
                     "font-weight": "bold",
                     "color": "white"
-                })
+                });
                 validation.hideRegistrationButton();
             }
         });
@@ -356,7 +358,6 @@ app.controller = (function () {
                 validation.hideRegistrationButton();
             } else {
                 $('#passwordMatch').empty();
-                validation.showRegistrationButton();
             }
         });
 
@@ -364,7 +365,6 @@ app.controller = (function () {
             var $input = $("input[id=reg-email]").val();
             var isValid = validation.checkEmail($input);
             if($input.length == 0) {
-                validation.hideRegistrationButton();
                 $('#checkEmail').empty();
             } else if(isValid === null) {
                 validation.hideRegistrationButton();
