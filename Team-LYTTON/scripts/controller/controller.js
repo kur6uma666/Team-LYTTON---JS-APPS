@@ -430,7 +430,7 @@ app.controller = (function () {
         }
 
         function loadPosts(){
-            _this.model.post.getPosts('classes/Post?include=author&order=-createdAt')
+            _this.model.post.getPosts('classes/Post?include=author,headerImage&order=-createdAt')
                 .then(function (data) {
                     $('<section id="posts">').appendTo(selector).hide();
                     var postsCount = Object.keys(data.posts).length;
@@ -589,28 +589,26 @@ app.controller = (function () {
             $('#post-form')[0].reset();
 
 			if(file){
-                _this.model.post.getHeaderPicture(file, _data)
-                    .then(function(fileData){
-                        _this.model.post.createPost(fileData)
-                            .then(function () {
-                                $('#posts').empty();
-                                _this.model.post.getPosts('classes/Post?include=author&order=-createdAt&limit=5&skip=0')
-                                    .then(function (data) {
-                                        Noty.success('Article posted successfully');
-                                        app.blogView.load('#posts', data);
-                                        window.location.replace('#/blog');
-                                    }, function (error) {
-                                        Noty.error(JSON.parse(error.responseText).error);
-                                    })
-                            }, function (error) {
-                                Noty.error(JSON.parse(error.responseText).error);
-                            })
+                _this.model.post.uploadHeader(file, _data)
+                    .then(function(headerPicture){
+                        _data.headerImage = {
+                            "__type": "Pointer",
+                            "className": "HeaderPicture",
+                            "objectId": headerPicture.objectId
+                        };
+                        createPost();
                     })
             } else{
+                createPost();
+            }
+
+            file = undefined;
+
+            function createPost(){
                 _this.model.post.createPost(_data)
                     .then(function () {
                         $('#posts').empty();
-                        _this.model.post.getPosts('classes/Post?include=author&order=-createdAt&limit=5&skip=0')
+                        _this.model.post.getPosts('classes/Post?include=author,headerImage&order=-createdAt&limit=5&skip=0')
                             .then(function (data) {
                                 Noty.success('Article posted successfully');
                                 app.blogView.load('#posts', data);

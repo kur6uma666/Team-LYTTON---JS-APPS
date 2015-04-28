@@ -26,12 +26,12 @@ app._model.post = (function () {
         this.getAuthor()
             .then(function (author) {
                 data.author = author;
-                var id = data.headerImage.objectId;
-                data.headerImage = {
-                    "__type": "Pointer",
-                    "className": "HeaderPicture",
-                    "objectId": id
-                };
+               // var id = data.headerImage.objectId;
+                //data.headerImage = {
+                //    "__type": "Pointer",
+                //    "className": "HeaderPicture",
+                //    "objectId": id
+                //};
                 _this._requester.post('classes/Post', data)
                     .then(function(_data){
                         defer.resolve(_data);
@@ -56,6 +56,7 @@ app._model.post = (function () {
                         'objectId': dataPost.objectId,
                         'title': dataPost.title,
                         'content': dataPost.content,
+                        'headerImage': dataPost.headerImage,
                         'contentSummary': dataPost.contentSummary,
                         'tags': dataPost.tags,
                         'visitsCount': dataPost.visitsCount,
@@ -64,9 +65,9 @@ app._model.post = (function () {
                         'createdAt': new Date(dataPost.createdAt).toLocaleString()
                     };
 
-                    if(dataPost.headerImage){
-                        post.image = dataPost.headerImage.url;
-                    }
+                    //if(dataPost.headerImage){
+                    //    post.image = dataPost.headerImage.url;
+                    //}
                     _this._posts['posts'].push(post);
                 });
 
@@ -102,6 +103,7 @@ app._model.post = (function () {
                 var post = {
                     'objectId': dataPost.objectId,
                     'title': dataPost.title,
+                    'headerImage': dataPost.headerImage,
                     'content': dataPost.content,
                     'tags': dataPost.tags,
                     'author': dataPost.author,
@@ -109,9 +111,9 @@ app._model.post = (function () {
                     'createdAt': dataPost.createdAt
                 };
 
-                if(dataPost.headerImage){
-                    post.image = dataPost.headerImage.url;
-                }
+                //if(dataPost.headerImage){
+                //    post.image = dataPost.headerImage.url;
+                //}
                 _this._posts['posts'].push(post);
 
                 defer.resolve(_this._posts);
@@ -122,22 +124,23 @@ app._model.post = (function () {
         return defer.promise;
     };
 
-    Post.prototype.getHeaderPicture = function(file, data){
+    Post.prototype.uploadHeader = function(file){
         var defer = Q.defer();
         var _this = this;
-        //file['__type'] = 'File';
+
         this._requester.postFile('files/', file)
             .then(function (fileData) {
-                file['url'] = fileData['url'];
-                file['name'] = fileData['name'];
-                _this._requester.postFile('classes/HeaderPicture', file)
-                    .then(function (fileDataClass) {
-                        file['objectId'] = fileDataClass['objectId'];
-                        data['headerImage'] = file;
-                        defer.resolve(data);
-                    }, function (error) {
+                var data = {
+                    url: fileData.url,
+                    name: fileData.name
+                }
+                _this._requester.post('classes/HeaderPicture', data)
+                    .then(function(headerImage){
+                        defer.resolve(headerImage);
+                    }, function(error){
                         defer.reject(error);
                     });
+
             }, function (error) {
                 defer.reject(error);
             });

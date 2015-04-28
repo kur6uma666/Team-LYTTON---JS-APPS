@@ -37,14 +37,10 @@ app.requester = (function () {
         var headers = getHeaders(),
             url;
 
-        if(serviceUrl === 'files/'){
             headers['Content-Type'] = file.type;
             url = this._baseUrl + serviceUrl + file.name;
-        } else{
-            url = this._baseUrl + serviceUrl;
-        }
 
-        return makeRequest('POST', headers, url, file);
+        return uploadFile('POST', headers, url, file);
     };
 
     function makeRequest(method, headers, url, data) {
@@ -53,8 +49,27 @@ app.requester = (function () {
             method: method,
             headers: headers,
             url: url,
-            contentType : 'application/json',
+            //contentType : 'application/json',
             data: JSON.stringify(data),
+            processData: false,
+            success: function (data) {
+                defer.resolve(data);
+            },
+            error: function (error) {
+                defer.reject(error);
+            }
+        });
+
+        return defer.promise;
+    }
+
+    function uploadFile(method, headers, url, file) {
+        var defer = Q.defer();
+        $.ajax({
+            method: method,
+            headers: headers,
+            url: url,
+            data: file,
             processData: false,
             success: function (data) {
                 defer.resolve(data);
