@@ -249,12 +249,15 @@ input[readonly] {
     color: #3C763C;
 }
 
+.header-image {
+    max-width: 100%;
+    max-height: 300px;
+}
+
 
 @media screen and (max-width: 768px) {
     #wrapper, #sidebar {
         width: 100%;
         padding: 1%;
     }
-
-
 }

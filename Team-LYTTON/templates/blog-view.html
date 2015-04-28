@@ -4,7 +4,9 @@
             <h2><a href="#/post/{{objectId}}">{{title}}</a></h2>
             <p>posted by <span class="glyphicon glyphicon-user"></span><span class="author"><a href="#/user/{{authorId}}"> {{author}}</a></span> at <span class="glyphicon glyphicon-calendar"></span> <time>{{createdAt}}</time></p>
             {{#if headerImage}}
-                <img class="header-image" src="{{headerImage.url}}" alt="headerImage">
+                <div class="col-xs-12 col-md-12">
+                    <img class="header-image" src="{{headerImage.url}}" alt="headerImage">
+                </div>
             {{/if}}
             <p class="post-content">{{contentSummary}}</p>
             <p class="post-details-container">
