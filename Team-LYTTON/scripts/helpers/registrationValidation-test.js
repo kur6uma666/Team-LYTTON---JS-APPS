@@ -40,18 +40,18 @@ describe('#registrationValidation', function () {
     });
 
     /* checkUsernameForLength function test */
-    it('if a string is 6 chars long return true', function () {
+    it('if a string is 5 chars long return true', function () {
+        var actual = validation.checkUsernameForLength('12345');
+        var expected = true;
+        expect(actual).to.equal(expected);
+    });
+    it('if a string is more than 5 chars long return true', function () {
         var actual = validation.checkUsernameForLength('123456');
         var expected = true;
         expect(actual).to.equal(expected);
     });
-    it('if a string is more than 6 chars long return true', function () {
-        var actual = validation.checkUsernameForLength('1234567');
-        var expected = true;
-        expect(actual).to.equal(expected);
-    });
-    it('if a string is less than 6 chars long return false', function () {
-        var actual = validation.checkUsernameForLength('12345');
+    it('if a string is less than 5 chars long return false', function () {
+        var actual = validation.checkUsernameForLength('1234');
         var expected = false;
         expect(actual).to.equal(expected);
     });
