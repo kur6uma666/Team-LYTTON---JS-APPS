@@ -562,7 +562,7 @@ app.controller = (function () {
 
         $(selector).click(function () {
             var uniqueTags =
-                _.uniq($("input[id=tags]").val().trim().split(/\s*,\s*/))
+                _.uniq($("input[id=tags]").val().split(/\s+/))
                     .filter(function (tag) {
                         return tag !== "";
                     });
@@ -579,6 +579,8 @@ app.controller = (function () {
                     return _.isString(tag) ? tag.toLowerCase() : tag;
                 })
             };
+
+            $('#post-form')[0].reset();
 
             _this.model.post.createPost(_data)
                 .then(function () {
