@@ -7,7 +7,7 @@ app.pagingView = (function(){
         $.get('templates/paging.html', function(template) {
             var temp = Handlebars.compile(template);
             var html = temp(data);
-            $(selector).append(html);
+            $(selector).html(html);
         }).done(function(data) {
             deffer.resolve(data);
         }).fail(function (error) {

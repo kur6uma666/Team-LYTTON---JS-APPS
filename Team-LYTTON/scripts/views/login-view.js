@@ -1,13 +1,13 @@
 var app = app || {};
 
 app.loginView = (function(){
-    function LoginView(selector, data) {
+    function LoginView(selector) {
         var deffer = Q.defer();
 
         $.get('templates/login.html', function(template) {
-            var output = Mustache.render(template);
-            $(selector).html(output);
-
+            var temp = Handlebars.compile(template);
+            var html = temp();
+            $(selector).html(html);
         }).done(function(data) {
             deffer.resolve(data);
         }).fail(function (error) {

@@ -7,7 +7,7 @@ app.sidebarView = (function(){
         $.get('templates/sidebar.html', function (template) {
             var temp = Handlebars.compile(template);
             var html = temp(data);
-            $(selector).append(html);
+            $(selector).html(html);
         }).done(function(_data) {
             deffer.resolve(_data);
         }).fail(function(error) {

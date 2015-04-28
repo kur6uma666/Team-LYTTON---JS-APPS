@@ -8,8 +8,7 @@ app.userView = (function(){
             data.createdAt = new Date(data.createdAt).toLocaleString();
             var temp = Handlebars.compile(template);
             var html = temp(data);
-            $(selector).append(html);
-
+            $(selector).html(html);
         }).done(function(data) {
             deffer.resolve(data);
         }).fail(function (error) {

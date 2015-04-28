@@ -5,8 +5,9 @@ app.aboutView = (function(){
         var deffer = Q.defer();
 
         $.get('templates/about.html', function(template) {
-            var output = Mustache.render(template);
-            $(selector).html(output);
+            var temp = Handlebars.compile(template);
+            var html = temp(data);
+            $(selector).html(html);
         }).done(function(data) {
             deffer.resolve(data);
         }).fail(function(error) {

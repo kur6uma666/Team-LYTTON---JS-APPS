@@ -5,9 +5,9 @@ app.registerView = (function(){
         var defer = Q.defer();
 
         $.get('templates/register.html', function(template) {
-            var output = Mustache.render(template);
-            $(selector).html(output);
-
+            var temp = Handlebars.compile(template);
+            var html = temp();
+            $(selector).html(html);
         }).done(function(data) {
             defer.resolve(data);
         }).fail(function (error) {

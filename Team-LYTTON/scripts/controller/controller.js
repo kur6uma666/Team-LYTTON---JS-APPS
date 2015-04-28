@@ -6,6 +6,7 @@ app.controller = (function () {
     }
 
     Controller.prototype.loadMenu = function (selector) {
+        //$(selector).empty();
         var _this = this;
         if (sessionStorage['logged-in']) {
             app.userMenuView.load(selector)
@@ -43,6 +44,7 @@ app.controller = (function () {
 
     Controller.prototype.getLoginPage = function (selector) {
         var _this = this;
+        $(selector).empty();
         app.loginView.load(selector)
             .then(function () {
                 _this.attachLoginEvents('#login-btn');
@@ -624,15 +626,16 @@ app.controller = (function () {
     };
 
     Controller.prototype.getAboutPage = function (selector) {
+        $(selector).empty();
         app.aboutView.load(selector);
     };
 
     Controller.prototype.getSidebar = function (selector, tagsFunction, tagsClassName, tagsLimit) {
-        $(selector).empty();
+        //$(selector).empty();
 
         this.model.sidebar.getLatestPosts()
             .then(function (data) {
-                app.sidebarView.load(selector, data);
+                app.sidebarView.load('#latestPosts', data);
             }, function (error) {
                 Noty.error(JSON.parse(error.responseText).error);
             });
@@ -644,7 +647,7 @@ app.controller = (function () {
 
         this.model.sidebar.getMostPopularTags(tagsFunction, data)
             .then(function (data) {
-                app.sidebarView.load(selector, data);
+                app.sidebarView.load('#mostPopularTags', data);
             }, function (error) {
                 Noty.error(JSON.parse(error.responseText).error);
             });
@@ -700,7 +703,7 @@ app.controller = (function () {
     };
 
     Controller.prototype.getUserPage = function (id, selector) {
-        $(selector).empty();
+        //$(selector).empty();
 
         this.model.user.getUserById(id)
             .then(function (data) {
@@ -711,7 +714,7 @@ app.controller = (function () {
     };
 
     Controller.prototype.getTagPage = function (tag, selector) {
-        $(selector).empty();
+        //$(selector).empty();
         var _this = this;
 
         this.model.tag.getPostsByTag(tag)

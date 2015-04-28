@@ -7,7 +7,7 @@ app.commentView = (function () {
         $.get('templates/comment-view.html', function (template) {
             var temp = Handlebars.compile(template);
             var html = temp(data);
-            $(selector).append(html);
+            $(selector).html(html);
         }).success(function (data) {
             defer.resolve(data);
         }).error(function (error) {
