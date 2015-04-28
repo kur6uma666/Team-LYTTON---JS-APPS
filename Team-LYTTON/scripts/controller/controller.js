@@ -493,7 +493,7 @@ app.controller = (function () {
             });
             var badWords = [];
             var currentWords = data.content.split(' ');
-            $.getJSON('scripts/lang.json', function (data) {
+            $.getJSON('scripts/helpers/lang.json', function (data) {
                 $.each(data['words'], function (key, value) {
                     badWords.push(value);
                 });
