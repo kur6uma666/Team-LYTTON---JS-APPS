@@ -597,7 +597,7 @@ app.controller = (function () {
                 title: $("input[id=title]").val(),
                 content: content,
                 contentSummary: content.length > 300 ? content.substring(0, 300) + '...'  : content,
-                visitsCount: 1,
+                visitsCount: 0,
                 tags: uniqueTags,
                 tags_lower: _.map(uniqueTags, function (tag) {
                     return _.isString(tag) ? tag.toLowerCase() : tag;
