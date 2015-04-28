@@ -714,7 +714,7 @@ app.controller = (function () {
     };
 
     Controller.prototype.getTagPage = function (tag, selector) {
-        //$(selector).empty();
+        $(selector).empty();
         var _this = this;
 
         this.model.tag.getPostsByTag(tag)
