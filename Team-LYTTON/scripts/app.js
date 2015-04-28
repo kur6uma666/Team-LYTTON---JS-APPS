@@ -9,7 +9,7 @@ var app = app || {};
         var selector = '#wrapper';
         var menuSelector = 'nav';
         var sidebarSelector = '#sidebar';
-        
+
         this.get('#/about', function () {
             initLoad();
             controller.getAboutPage(selector);
