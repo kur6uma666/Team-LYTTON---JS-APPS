@@ -614,7 +614,8 @@ app.controller = (function () {
                             .then(function (data) {
                                 Noty.success('Article posted successfully');
                                 app.blogView.load('#posts', data);
-                                window.location.replace('#/blog');
+                                _this.getSidebar('#sidebar', 'mostPopularTags', 'Post', 5);
+                                //window.location.replace('#/blog');
                             }, function (error) {
                                 Noty.error(JSON.parse(error.responseText).error);
                             })
