@@ -97,7 +97,7 @@ app._model.post = (function () {
         var _this = this;
         this._posts['posts'].length = 0;
 
-        this._requester.get('classes/Post/' + id + '?include=author')
+        this._requester.get('classes/Post/' + id + '?include=author,headerImage')
             .then(function (dataPost) {
                 var post = {
                     'objectId': dataPost.objectId,

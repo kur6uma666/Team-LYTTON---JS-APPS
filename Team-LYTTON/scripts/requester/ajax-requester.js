@@ -62,10 +62,6 @@ app.requester = (function () {
             error: function (error) {
                 defer.reject(error);
             }
-        }).then(function(data){
-            console.log(data);
-        }, function(error){
-            console.log(error.responseText);
         });
 
         return defer.promise;
