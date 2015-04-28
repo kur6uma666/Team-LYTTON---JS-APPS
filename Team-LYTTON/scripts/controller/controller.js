@@ -180,64 +180,66 @@ app.controller = (function () {
         });
 
         $(selector).click(function () {
-            var serverUrl = 'https://api.parse.com/1/files/' + file.name;
+            if (file) {
+                var serverUrl = 'https://api.parse.com/1/files/' + file.name;
 
-            $.ajax({
-                method: "POST",
-                headers: {
-                    'X-Parse-Application-Id': 'gBxtJ8j1z5sRZhOgtAstvprePygEIvYTxY4VNQOY',
-                    'X-Parse-REST-API-Key': 'CLU5dIerpE1k9zX06HiR3RxJQA3Vob2NgJarCl4z',
-                    'Content-Type': file.type
-                },
-                url: serverUrl,
-                data: file,
-                processData: false,
-                contentType: false,
-                success: function (data) {
-                    var pictureData = {
-                        "imageUrl": data.url,
-                        "profilePicture": {
-                            "name": data.name,
-                            "__type": "File"
-                        },
-                        "username": sessionStorage['username'],
-                        "user": {
-                            "__type": "Pointer",
-                            "className": "_User",
-                            "objectId": sessionStorage['id']
-                        }
-                    };
+                $.ajax({
+                    method: "POST",
+                    headers: {
+                        'X-Parse-Application-Id': 'gBxtJ8j1z5sRZhOgtAstvprePygEIvYTxY4VNQOY',
+                        'X-Parse-REST-API-Key': 'CLU5dIerpE1k9zX06HiR3RxJQA3Vob2NgJarCl4z',
+                        'Content-Type': file.type
+                    },
+                    url: serverUrl,
+                    data: file,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        var pictureData = {
+                            "imageUrl": data.url,
+                            "profilePicture": {
+                                "name": data.name,
+                                "__type": "File"
+                            },
+                            "username": sessionStorage['username'],
+                            "user": {
+                                "__type": "Pointer",
+                                "className": "_User",
+                                "objectId": sessionStorage['id']
+                            }
+                        };
 
-                    _this.model.user.uploadProfilePicture(pictureData)
-                        .then(function(pictureData){
-                            _this.model.user.getProfilePicture(sessionStorage['id'])
-                                .then(function(picture){
-                                    Noty.success('Upload Successful');
-                                    var userData = {
-                                        profilePicture : {
-                                            __type: "Pointer",
-                                            className: "Picture",
-                                            objectId: picture.profilePicture.results[0].objectId
-                                        }
-                                    };
-                                    _this.model.user.updateUser(sessionStorage['id'],userData)
-                                        .then(function(user){
-                                           console.log(user);
-                                        }, function(error){
-                                            console.log(error.responseText);
-                                        });
-                                    $('.picture-preview').attr('src', picture.profilePicture.results[0].imageUrl);
-                                }, function(response){
-                                    Noty.error(JSON.parse(response.responseText).error);
-                                });
-                        }, function(error){
-                            Noty.error(JSON.parse(error.responseText).error);
-                        });
-                },
-                error: function (err) {
-                    Noty.error(JSON.parse(err.responseText).error);
-                }
-            });
+                        _this.model.user.uploadProfilePicture(pictureData)
+                            .then(function(pictureData){
+                                _this.model.user.getProfilePicture(sessionStorage['id'])
+                                    .then(function(picture){
+                                        Noty.success('Upload Successful');
+                                        var userData = {
+                                            profilePicture : {
+                                                __type: "Pointer",
+                                                className: "Picture",
+                                                objectId: picture.profilePicture.results[0].objectId
+                                            }
+                                        };
+                                        _this.model.user.updateUser(sessionStorage['id'],userData)
+                                            .then(function(user){
+                                                console.log(user);
+                                            }, function(error){
+                                                console.log(error.responseText);
+                                            });
+                                        $('.picture-preview').attr('src', picture.profilePicture.results[0].imageUrl);
+                                    }, function(response){
+                                        Noty.error(JSON.parse(response.responseText).error);
+                                    });
+                            }, function(error){
+                                Noty.error(JSON.parse(error.responseText).error);
+                            });
+                    },
+                    error: function (err) {
+                        Noty.error(JSON.parse(err.responseText).error);
+                    }
+                });
+            }
         });
     };
 
