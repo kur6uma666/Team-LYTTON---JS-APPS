@@ -2,7 +2,7 @@ var app = app || {};
 app._model = app._model || {};
 
 app._model.user = (function () {
-    function User(baseUrl, ajaxRequester) {
+    function User(ajaxRequester) {
         this._requester = ajaxRequester;
         this._profilePicture = {
             profilePicture: []
@@ -160,8 +160,8 @@ app._model.user = (function () {
     };
 
     return {
-        get: function (baseUrl, ajaxRequester) {
-            return new User(baseUrl, ajaxRequester);
+        get: function (ajaxRequester) {
+            return new User(ajaxRequester);
         }
     }
 }());

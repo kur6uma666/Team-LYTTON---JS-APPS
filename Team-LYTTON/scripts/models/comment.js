@@ -2,7 +2,7 @@ var app = app || {};
 app._model = app._model || {};
 
 app._model.comment = (function () {
-    function Comment(baseUrl, ajaxRequster) {
+    function Comment(ajaxRequster) {
         this._requester = ajaxRequster;
         this._comments = {
             comments: []
@@ -102,8 +102,8 @@ app._model.comment = (function () {
     };
 
     return {
-        get: function (baseUrl, ajaxRequester) {
-            return new Comment(baseUrl, ajaxRequester);
+        get: function (ajaxRequester) {
+            return new Comment(ajaxRequester);
         }
     }
 })();

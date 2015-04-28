@@ -2,7 +2,7 @@ var app = app || {};
 (function () {
     var baseURL = 'https://api.parse.com/1/';
     var ajaxRequester = app.requester.get(baseURL);
-    var models = app.model.get(baseURL, ajaxRequester);
+    var models = app.model.get(ajaxRequester);
     var controller = app.controller.get(models);
 
     app.router = Sammy(function () {
