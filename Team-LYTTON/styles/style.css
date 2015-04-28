@@ -277,6 +277,9 @@ input[readonly] {
     max-height: 300px;
 }
 
+.login-field {
+    margin-bottom: 10px;
+}
 
 @media screen and (max-width: 768px) {
     #wrapper, #sidebar {
