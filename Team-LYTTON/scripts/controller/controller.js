@@ -404,7 +404,7 @@ app.controller = (function () {
                 _this.model.user.getUsers()
                     .then(function (data) {
                         data.users.forEach(function(key) {
-                            if(key.email.toLowerCase() == $input.toLowerCase()) {
+                            if(key.email && key.email.toLowerCase() == $input.toLowerCase()) {
                                 isUnique = false;
                             }
                         });
