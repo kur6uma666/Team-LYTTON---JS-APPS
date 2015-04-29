@@ -1,32 +1,28 @@
 {{#if latestPosts}}
-    <section id="latestPosts">
-        <div class="panel panel-info col-lg-12 col-sm-12">
-            <div class="panel-heading"><h4>Latest posts:</h4></div>
-            {{#each latestPosts}}
-                <div class="panel-body"><a href="#/post/{{objectId}}">{{title}}</a></div>
-            {{/each}}
-        </div>
-    </section>
+    <div class="panel panel-info col-lg-12 col-sm-12">
+        <div class="panel-heading"><h4>Latest posts:</h4></div>
+        {{#each latestPosts}}
+            <div class="panel-body"><a href="#/post/{{objectId}}">{{title}} <spann class="date">{{createdAt}}</spann></a></div>
+        {{/each}}
+    </div>
 {{/if}}
 
 {{#if mostPopularTags}}
-    <section id="mostPopularTags">
-        <div class="panel panel-info col-lg-12 col-sm-12">
-            <div class="panel-heading">
-                <h4>Most popular tags:</h4>
-            </div>
-            <ul class="list-group">
-                {{#each mostPopularTags}}
-                    {{#each this}}
-                        <li class="list-group-item">
-                            <a href="#/tag/{{@key}}">
-                                <span class="badge">{{this}}</span>
-                                <span class="popular-tag">{{@key}}</span>
-                            </a>
-                        </li>
-                    {{/each}}
-                {{/each}}
-            </ul>
+    <div class="panel panel-info col-lg-12 col-sm-12">
+        <div class="panel-heading">
+            <h4>Most popular tags:</h4>
         </div>
-    </section>
+        <ul class="list-group">
+            {{#each mostPopularTags}}
+                {{#each this}}
+                    <li class="list-group-item">
+                        <a href="#/tag/{{@key}}">
+                            <span class="badge">{{this}}</span>
+                            <span class="popular-tag">{{@key}}</span>
+                        </a>
+                    </li>
+                {{/each}}
+            {{/each}}
+        </ul>
+    </div>
 {{/if}}

@@ -5,7 +5,6 @@ app.userView = (function(){
         var deffer = Q.defer();
 
         $.get('templates/user.html', function(template) {
-            data.createdAt = new Date(data.createdAt).toLocaleString();
             var temp = Handlebars.compile(template);
             var html = temp(data);
             $(selector).html(html);

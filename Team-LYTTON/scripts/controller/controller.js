@@ -750,7 +750,6 @@ app.controller = (function () {
         var _this = this;
         this.model.user.getUserById(id)
             .then(function (data) {
-
                 app.userView.load(selector, data);
             }, function (error) {
                 Noty.error(JSON.parse(error.responseText).error);

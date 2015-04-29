@@ -24,7 +24,8 @@ app._model.sidebar = (function () {
                         'objectId': dataPost.objectId,
                         'title': dataPost.title.length > 25 ?
                                  dataPost.title.substring(0, 25) + '...' :
-                                 dataPost.title
+                                 dataPost.title,
+                        'createdAt': formatDate(dataPost.createdAt)
                     };
                     _this._latestPosts['latestPosts'].push(post);
                 });
@@ -51,6 +52,15 @@ app._model.sidebar = (function () {
 
         return defer.promise;
     };
+
+    function formatDate(isoString) {
+        var timestamp = new Date(Date.parse(isoString)),
+            months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            hours = timestamp.getHours() > 9 ? timestamp.getHours() : '0' + timestamp.getHours(),
+            minutes = timestamp.getMinutes() > 9 ? timestamp.getMinutes() : '0' + timestamp.getMinutes();
+
+        return timestamp.getDate() + '-' + months[timestamp.getMonth()] + '-' + timestamp.getFullYear();
+    }
 
     return {
         get: function (ajaxRequester) {

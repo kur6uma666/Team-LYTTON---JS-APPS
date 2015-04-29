@@ -69,7 +69,7 @@ app._model.comment = (function () {
         this._requester.get('classes/Comment?order=-createdAt&include=post,author&where=' + JSON.stringify(where))
             .then( function(data) {
                 _.each(data['results'], function(dataComment){
-
+                    dataComment['createdAt'] = formatDate(dataComment['createdAt']);
                     _this._comments['comments'].push(dataComment);
                 });
                 defer.resolve(_this._comments);
@@ -100,6 +100,16 @@ app._model.comment = (function () {
 
         return defer.promise;
     };
+
+    function formatDate(isoString) {
+        var timestamp = new Date(Date.parse(isoString)),
+            months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            hours = timestamp.getHours() > 9 ? timestamp.getHours() : '0' + timestamp.getHours(),
+            minutes = timestamp.getMinutes() > 9 ? timestamp.getMinutes() : '0' + timestamp.getMinutes();
+
+        return timestamp.getDate() + '-' + months[timestamp.getMonth()] + '-' + timestamp.getFullYear()
+            + ' ' + hours  + ':' + minutes;
+    }
 
     return {
         get: function (ajaxRequester) {

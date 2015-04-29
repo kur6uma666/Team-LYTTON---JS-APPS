@@ -68,7 +68,7 @@ footer {
 }
 
 .popular-tag {
-    font-size: 1.3em;
+    font-size: 1.2em;
 }
 
 #sidebar .nav-pills li {
@@ -77,6 +77,14 @@ footer {
 
 #sidebar #mostPopularTags li {
     border: none;
+}
+
+#latestPosts .panel-body {
+    font-size: 1.1em;
+}
+
+#latestPosts .date {
+    color: #808080;
 }
 
 /* Header */

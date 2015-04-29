@@ -62,7 +62,8 @@ app._model.post = (function () {
                         'visitsCount': dataPost.visitsCount,
                         'author': dataPost.author.username,
                         'authorId': dataPost.author.objectId,
-                        'createdAt': new Date(dataPost.createdAt).toLocaleString()
+                        'createdAt': formatDate(dataPost.createdAt)
+                        //'createdAt': new Date(dataPost.createdAt).toLocaleString()
                     };
 
                     //if(dataPost.headerImage){
@@ -108,7 +109,7 @@ app._model.post = (function () {
                     'tags': dataPost.tags,
                     'author': dataPost.author,
                     'visitsCount': dataPost.visitsCount,
-                    'createdAt': dataPost.createdAt
+                    'createdAt': formatDate(dataPost.createdAt)
                 };
 
                 //if(dataPost.headerImage){
@@ -161,6 +162,16 @@ app._model.post = (function () {
                 defer.reject(error);
             });
     };
+
+    function formatDate(isoString) {
+        var timestamp = new Date(Date.parse(isoString)),
+            months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            hours = timestamp.getHours() > 9 ? timestamp.getHours() : '0' + timestamp.getHours(),
+            minutes = timestamp.getMinutes() > 9 ? timestamp.getMinutes() : '0' + timestamp.getMinutes();
+
+        return timestamp.getDate() + '-' + months[timestamp.getMonth()] + '-' + timestamp.getFullYear()
+            + ' ' + hours  + ':' + minutes;
+    }
 
     return {
         get: function (ajaxRequester) {
